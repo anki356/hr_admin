@@ -10,10 +10,10 @@ import { useEffect } from 'react'
 const Navbar = (props) => {
 
   // Used for navigation
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   // Token validation 
-  // const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token')
 
   const sidebarHandler = () => {
     props.onSideberBtn(true)

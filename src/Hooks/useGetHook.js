@@ -1,7 +1,7 @@
 import React,{ useEffect, useState } from "react";
 import axios from 'axios'
 
-const useGetHook=(url)=>{
+const useGetHook=(url,date)=>{
     const [data,setData]=useState([])
     const [loading,setLoading]=useState(false)
     const [error,setError]=useState(null)
@@ -17,7 +17,7 @@ setData(response.data)
     setLoading(false)
 })
 
-},[url])
+},[date])
 return {data,loading,error}
 }
 export default useGetHook
