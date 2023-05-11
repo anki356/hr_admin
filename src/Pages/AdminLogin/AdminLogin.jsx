@@ -5,7 +5,10 @@ import eye_img from '../../assets/eye.png'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 const AdminLogin = () => {
+
     const [viewPassword, setViewPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
+
     const navigate = useNavigate()
     // UserName validation
     const [enteredUsername, setEnteredUsername] = useState('')
@@ -37,38 +40,65 @@ const AdminLogin = () => {
 
     const isformValid = !UserNameInputIsInValid && !PasswordInputIsInValid
 
-    const formSubmissionHandler = (e) => {
+    const formSubmissionHandler = async (e) => {
         e.preventDefault();
+        setLoading(true)
+        try {
+            const response = fetch('http://127.0.0.1:4000/api/auth/login', {
+                method: "POST",
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify({
+                    username: enteredUsername,
+                    password: enteredPassoword
+                })
+            })
 
-        console.log({
-            username : enteredUsername,
-            password:enteredPassoword
-        })
-        axios.post('http://127.0.0.1:3000/api/auth/login',{
-            username:enteredUsername,
-            password:enteredPassoword
-          }).then((response)=>{
-            console.log(response.data)
-           localStorage.setItem("token",response.data.token)
-           if(response.data.token){
-            alert('Welcome Sir')
-               navigate("/")
-           }
-          })
-       
-       
-        setTimeout(() => {
-            navigate('/')
-        }, 500);
+            const result = (await response).json()
+            if (result) {
+                localStorage.setItem("token", result.data.token)
+                if (result.data.token) {
+                    alert('Welcome Sir')
+                    setTimeout(() => {
+                        navigate('/')
+                    }, 500);
+                }
 
-        //  Reset All States
-        setEnteredUsername('')
-        setEnteredPassword('')
-        setEnteredUsernameTocuhed(false)
-        setPasswordTouched(false)
+                //  Reset All States
+                setLoading(false)
+
+                setEnteredUsername('')
+                setEnteredPassword('')
+                setEnteredUsernameTocuhed(false)
+                setPasswordTouched(false)
+            }
+        } catch (error) {
+            console.log(error)
+
+            setLoading(false)
+
+            setEnteredUsername('')
+            setEnteredPassword('')
+            setEnteredUsernameTocuhed(true)
+            setPasswordTouched(true)
+        }
+
+        // axios.post('http://127.0.0.1:4000/api/auth/login', {
+        //     username: enteredUsername,
+        //     password: enteredPassoword
+        // }).then((response) => {
+        //     console.log(response.data)
+        //     localStorage.setItem("token", response.data.token)
+        //     if (response.data.token) {
+        //         alert('Welcome Sir')
+        //         setTimeout(() => {
+        //             navigate('/')
+        //         }, 500);
+        //     }
+        // })
 
     }
-
 
     return (
         <div className={classes.container}>
@@ -87,7 +117,7 @@ const AdminLogin = () => {
                     {<p className={`${classes.alert} ${PasswordInputIsInValid === true ? classes.invalid_p : ''}`}>Enter correct details!</p>}
                     <img className={classes.eye} src={eye_img} onClick={() => setViewPassword(!viewPassword)} alt="" />
                 </div>
-                <button type='submit' disabled={!isformValid} className={classes.login_btn}>Login</button>
+                <button type='submit' disabled={!isformValid || loading === true} className={classes.login_btn}>{loading === true ? 'Loading...' : "Login"}</button>
             </form>
         </div>
     )
