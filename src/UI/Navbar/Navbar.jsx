@@ -44,9 +44,9 @@ const Navbar = (props) => {
   }
 
   useEffect(()=>{
-    // if (!token) {
-    //   navigate('/admin_login')
-    // }
+    if (!token) {
+      navigate('/admin_login')
+    }
   },[])
 
   return (
