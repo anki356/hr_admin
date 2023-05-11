@@ -3,7 +3,7 @@ import classes from './AdminLogin.module.css'
 import Logo from '../../assets/logo.png'
 import eye_img from '../../assets/eye.png'
 import { useNavigate } from 'react-router-dom'
-
+import axios from 'axios'
 const AdminLogin = () => {
     const [viewPassword, setViewPassword] = useState(false)
     const navigate = useNavigate()
@@ -44,9 +44,19 @@ const AdminLogin = () => {
             username : enteredUsername,
             password:enteredPassoword
         })
-
-        alert('Welcome Sir')
-
+        axios.post('http://127.0.0.1:3000/api/auth/login',{
+            username:enteredUsername,
+            password:enteredPassoword
+          }).then((response)=>{
+            console.log(response.data)
+           localStorage.setItem("token",response.data.token)
+           if(response.data.token){
+            alert('Welcome Sir')
+               navigate("/")
+           }
+          })
+       
+       
         setTimeout(() => {
             navigate('/')
         }, 500);
