@@ -4,9 +4,16 @@ import Mag from '../../assets/mag.png'
 import I1 from '../../assets/clock.png'
 import I2 from '../../assets/data.png'
 import Bell from '../../assets/noti.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const Navbar = (props) => {
+
+  // Used for navigation
+  const navigate = useNavigate()
+
+  // Token validation 
+  const token = localStorage.getItem('token')
 
   const sidebarHandler = () => {
     props.onSideberBtn(true)
@@ -35,6 +42,12 @@ const Navbar = (props) => {
     }
 
   }
+
+  useEffect(()=>{
+    // if (!token) {
+    //   navigate('/admin_login')
+    // }
+  },[])
 
   return (
     <nav className={classes.navbar}>
