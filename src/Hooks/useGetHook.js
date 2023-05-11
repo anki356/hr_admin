@@ -1,19 +1,22 @@
 import React,{ useEffect, useState } from "react";
 import axios from 'axios'
 const useGetHook=(url)=>{
-    const [data,setData]=useState(null)
+    const [data,setData]=useState([])
     const [loading,setLoading]=useState(false)
     const [error,setError]=useState(null)
-useEffect((url)=>{
+useEffect(()=>{
     setLoading(true)
-axios.get(url).then((response)=>{
+    let token=localStorage.getItem('token')
+    const headers={"Authorization":"Bearer "+token}
+axios.get(url,{headers}).then((response)=>{
 setData(response.data)
 }).catch((err)=>{
     setError(err)
 }).finally(()=>{
     setLoading(false)
 })
-return {data,loading,error}
+
 },[url])
+return {data,loading,error}
 }
 export default useGetHook
