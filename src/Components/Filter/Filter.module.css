@@ -74,6 +74,10 @@
   display: none;
 }
 
+.dp_inp input{
+  width: 100% !important;
+}
+
 @media screen and (max-width: 1000px) {
   .filter_box {
     justify-content: space-between;

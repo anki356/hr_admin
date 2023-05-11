@@ -3,9 +3,15 @@ import mag from '../../assets/search2.png'
 import vec from '../../assets/vector9.png'
 import { useState } from 'react'
 import MainTable from '../MainTable/MainTable'
+
+// Importing Datepicker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 const Filter = (props) => {
 
   const [View, setView] = useState(false)
+  const [startDate, setStartDate] = useState(new Date());
 
   const tableData = props.data.map((element) => (
     {
@@ -65,10 +71,12 @@ const Filter = (props) => {
       </div>
 
 
-      <div className={classes.input_div} style={{ marginRight: '0' }}>
+      <div className={`${classes.input_div} ${classes.dp_inp}`} style={{ marginRight: '0' }}>
         <label htmlFor="date">Date</label>
-        <input id='date' type="date" />
-        <img src={vec} className={classes.img2} alt="" />
+         {/* <input id='date' type="date" />
+        <img src={vec} className={classes.img2} alt="" /> */}
+         <DatePicker  selected={startDate} onChange={(date) => setStartDate(date)} />
+         <img src={vec} className={classes.img2} alt="" />
       </div>
 
 
