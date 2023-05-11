@@ -3,16 +3,31 @@ import mag from '../../assets/search2.png'
 import vec from '../../assets/vector9.png'
 import { useState } from 'react'
 import MainTable from '../MainTable/MainTable'
-
+import { useEffect } from 'react'
 // Importing Datepicker
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import axios from 'axios'
 const Filter = (props) => {
 
   const [View, setView] = useState(false)
   const [startDate, setStartDate] = useState(new Date());
-
+  const[designationOptions,setDesignationOptions]=useState([])
+  const[selectedDesignation,setSelectedDesignation]=useState('')
+  const filterByDesignation=async(e)=>{
+    setSelectedDesignation(e.target.value)
+    props.changeByDesignation(e.target.value)
+    }
+    useEffect(() => {
+      const fetching=async()=>{
+        const token=localStorage.getItem('token')
+        const headers={"Authorization":"Bearer "+token}
+        axios.get("http://localhost:9000/api/getRoles",{headers}).then((response)=>{
+          setDesignationOptions(response.data)
+        })
+      }
+      fetching()
+  }, [])
   const tableData = props.data.map((element) => (
     {
       name: element.name,
@@ -27,7 +42,9 @@ const Filter = (props) => {
   ]
 
   const [state, setstate] = useState('')
-
+  useEffect(()=>{
+    props.changeDate(startDate)
+        },[startDate])
   const handleChange = (e) => {
     setView(true)
     const results = tableData.filter(post => {
@@ -61,12 +78,14 @@ const Filter = (props) => {
 
       <div className={classes.input_div}>
         <label htmlFor="Designation">Designation</label>
-        <select id="Designation">
-          <option defaultValue>Select one</option>
-          <option value="1">New Delhi</option>
-          <option value="2">Istanbul</option>
-          <option value="3">Jakarta</option>
-        </select>
+        <select
+            value={selectedDesignation}
+            onChange={filterByDesignation}
+            id="Designation"
+            >
+              <option defaultValue="All Designation"></option>
+            {designationOptions&&designationOptions.map((value) => <option key={value.id} value={value.role_name} >{value.role_name}</option>)}
+            </select>
         <img src={vec} className={classes.img2} alt="" />
       </div>
 
