@@ -2,7 +2,6 @@ import React,{useState,useEffect} from 'react';
 import './entrypage.css';
 import Form from 'react-bootstrap/Form';
 import Pagination from 'react-bootstrap/Pagination';
-
 import { useNavigate } from 'react-router-dom';
 
 const Entrypage = (props) => {
@@ -35,6 +34,7 @@ props.selectEntries(selectedOption)
                     </Form.Select>
                 </Form.Group>
             </Form>
+            
             <Pagination>
                 <Pagination.Prev />
                 <Pagination.Item  active={page==='1'} key={1} onClick={(e)=>setPage(e.target.text)}>{1}</Pagination.Item>

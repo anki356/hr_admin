@@ -149,7 +149,7 @@ const MainTable = (props) => {
                     </tbody>
                 </table>
             </div>
-            <input
+            {/* <input
                 id='entries'
                 className={props.Inp === false ? classes.none : classes.table_input}
                 type="number"
@@ -158,7 +158,7 @@ const MainTable = (props) => {
                 max={tableData.length}
                 onChange={(e) => { setRows(e.target.value) }} />
 
-            <label className={classes.input_entries} htmlFor="entries">Entries</label>
+            <label className={classes.input_entries} htmlFor="entries">Entries</label> */}
         </div>
     )
 }
