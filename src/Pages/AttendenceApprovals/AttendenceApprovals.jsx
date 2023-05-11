@@ -150,12 +150,24 @@ const AttendenceApprovals = () => {
     
   }
 // if(!loading){
-
+  const selectByStore=(data)=>{
+   
+    setEmployeeFilter((prevState)=>{
+    return {...prevState,store_name:data}
+    })
+    
+  }
+  const selectByFloor=async(data) =>{
+ 
+    setEmployeeFilter((prevState)=>{
+      return {...prevState,floor_name:data}
+      })
+}
   return (
     <React.Fragment>
       <Heading heading={'Attendance Approvals'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'}  />
+      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}  />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation}/>
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} />
       <Entrypage selectEntries={selectEntries} selectPage={selectPage}/>

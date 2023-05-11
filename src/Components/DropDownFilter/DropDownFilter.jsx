@@ -35,15 +35,22 @@ const DropDownFilter = (props) => {
     const listFloors = (floors) => {
       setFloors(floors)
     }
-    fetchStores({ url: 'http://localhost:4000/api/getStores' }, listStores)
-    fetchFloors({ url: 'http://localhost:4000/api/getFloors' }, listFloors)
+    fetchStores({ url: 'http://localhost:9000/api/getStores' }, listStores)
+    fetchFloors({ url: 'http://localhost:9000/api/getFloors' }, listFloors)
   }, [])
-
+const selectByStore=(data)=>{
+setSelectedStore(data)
+props.selectByStore(data)
+}
+const selectByFloor=(data)=>{
+  setSelectedFloor(data)
+  props.selectByFloor(data)
+  }
   return (
     <div style={props.mb ? { marginBottom: '0px' } : {}} className={classes.DropDownFilter}>
       <div className={classes.DropDownFilter_left}>
-        <SelectTag data={stores} selectedVal={setSelectedStore} title={props.title2} img={Img} />
-        <SelectTag data={floors} title={props.title1} selectedVal={setSelectedFloor} img={Img} />
+        <SelectTag data={floors} title={props.title1} selectedVal={selectByFloor} img={Img}  />
+        <SelectTag data={stores} selectedVal={selectByStore} title={props.title2} img={Img} />
       </div>
 
       {
