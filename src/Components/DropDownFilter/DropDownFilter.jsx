@@ -49,8 +49,13 @@ const selectByFloor=(data)=>{
   return (
     <div style={props.mb ? { marginBottom: '0px' } : {}} className={classes.DropDownFilter}>
       <div className={classes.DropDownFilter_left}>
+<<<<<<< HEAD
         <SelectTag data={floors} title={props.title1} selectedVal={selectByFloor} img={Img}  />
         <SelectTag data={stores} selectedVal={selectByStore} title={props.title2} img={Img} />
+=======
+        <SelectTag data={floors} title={props.title1} selectedVal={setSelectedFloor} img={Img} />
+        <SelectTag data={stores} selectedVal={setSelectedStore} title={props.title2} img={Img} />
+>>>>>>> ef0888092700df5a557fd17406df901364edce8b
       </div>
 
       {
