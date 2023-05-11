@@ -1,0 +1,35 @@
+/* Tile */
+.tile {
+    position: absolute;
+    display: flex;
+    align-items: baseline;
+    left: 15px;
+    bottom: -73px;
+}
+  .tile_color_div {
+    width: 10px;
+    height: 35px;
+    display: block;
+    margin-right: 10px;
+    background: var(--bg);
+    border-radius: var(--br);
+  }
+  .tile span {
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--bg);
+  }
+  
+  .green_tile .tile_color_div{
+      background: #07C503;
+  }
+  
+  .green_tile span{
+      color: #07C503;
+  }
+
+  @media screen and (max-width:700px) {
+    .tile{
+      display: none;
+    }
+  }

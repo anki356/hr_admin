@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+:root {
+  --bg: #96503f;
+  --br: 4px;
+}
+
+.main_container {
+  padding: 20px;
+}
+
+.active {
+  background: #c58779;
+}
+
+/* Universal (UNI) Styling */
+
+.uni_container {
+  padding: 20px 0;
+}
+
+.uni_heading {
+  color: var(--bg);
+  margin-bottom: 20px;
+}
+
+
+@media screen and (max-width: 1000px) {
+}

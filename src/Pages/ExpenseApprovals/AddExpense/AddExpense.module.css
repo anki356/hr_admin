@@ -1,0 +1,18 @@
+.inner_container {
+  display: flex;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.add_expense_textarea {
+  min-width: 100%;
+  border: 1px solid #dcd8d8;
+  border-radius: var(--br);
+  padding: 20px;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  outline: none;
+}
