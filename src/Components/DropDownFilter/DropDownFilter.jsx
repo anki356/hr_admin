@@ -42,8 +42,8 @@ const DropDownFilter = (props) => {
   return (
     <div style={props.mb ? { marginBottom: '0px' } : {}} className={classes.DropDownFilter}>
       <div className={classes.DropDownFilter_left}>
-        <SelectTag data={stores} selectedVal={setSelectedStore} title={props.title2} img={Img} />
         <SelectTag data={floors} title={props.title1} selectedVal={setSelectedFloor} img={Img} />
+        <SelectTag data={stores} selectedVal={setSelectedStore} title={props.title2} img={Img} />
       </div>
 
       {
