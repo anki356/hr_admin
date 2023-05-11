@@ -44,7 +44,7 @@ const AdminLogin = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const response = fetch('http://127.0.0.1:4000/api/auth/login', {
+            const response = await fetch('http://127.0.0.1:4000/api/auth/login', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
@@ -54,17 +54,10 @@ const AdminLogin = () => {
                     password: enteredPassoword
                 })
             })
-
-            const result = (await response).json()
-            if (result) {
-                localStorage.setItem("token", result.data.token)
-                if (result.data.token) {
-                    alert('Welcome Sir')
-                    setTimeout(() => {
-                        navigate('/')
-                    }, 500);
-                }
-
+            const result = await response.json()
+            if (result.token) {
+                localStorage.setItem("token", result.token)
+                alert('Welcome Sir')
                 //  Reset All States
                 setLoading(false)
 
@@ -72,6 +65,10 @@ const AdminLogin = () => {
                 setEnteredPassword('')
                 setEnteredUsernameTocuhed(false)
                 setPasswordTouched(false)
+
+                setTimeout(() => {
+                    navigate('/')
+                }, 500);
             }
         } catch (error) {
             console.log(error)
@@ -92,9 +89,9 @@ const AdminLogin = () => {
         //     localStorage.setItem("token", response.data.token)
         //     if (response.data.token) {
         //         alert('Welcome Sir')
-        //         setTimeout(() => {
-        //             navigate('/')
-        //         }, 500);
+        //         // setTimeout(() => {
+        //         //     navigate('/')
+        //         // }, 500);
         //     }
         // })
 
