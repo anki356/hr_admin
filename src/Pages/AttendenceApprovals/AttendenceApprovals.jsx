@@ -7,6 +7,8 @@ import Filter from '../../Components/Filter/Filter'
 import useGetHook from '../../Hooks/useGetHook'
 import moment from 'moment/moment'
 import MainTable from '../../Components/MainTable/MainTable'
+
+import Entrypage from '../../components/entrypage/Entrypage';
 import axios from 'axios'
 const AttendenceApprovals = () => {
   const url="http://localhost:9000/"
@@ -98,6 +100,12 @@ const AttendenceApprovals = () => {
             setData(response.data)
         })
   },[date,limit,offset,employeeFilter])
+  const selectEntries=(data)=>{
+    setLimit(data)
+        }
+        const selectPage=(data)=>{
+            setOffset((data-1)*limit)
+        }
   const TileData = [
     {
       title: 'Total Expense',
@@ -150,6 +158,7 @@ const AttendenceApprovals = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'}  />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation}/>
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} />
+      <Entrypage selectEntries={selectEntries} selectPage={selectPage}/>
     </React.Fragment>
   )
 }
