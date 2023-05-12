@@ -17,7 +17,7 @@ props.uploadFile(photo)
 
 const {getRootProps, getInputProps, isDragActive} = useDropzone({
   accept: {
-    'image/*': ['.jpeg']
+    'image/jpeg': ['.jpeg']
   },onDrop
 
   

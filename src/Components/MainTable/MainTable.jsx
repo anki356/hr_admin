@@ -9,7 +9,7 @@ const MainTable = (props) => {
 
     const tableHeadings = props.headings
     const tableData = props.data
-    const newData = tableData.slice(0, rows)
+    const newData = tableData
 
     const clickHandler = (element) => {
         props.func([true, element])
@@ -119,7 +119,7 @@ const MainTable = (props) => {
                     <tbody>
 
 
-                        {newData.map((val, index) => (
+                        {tableData.map((val, index) => (
                             <tr key={index}>
                                 {props.keys.map((element, index) => (
                                     <td key={index}

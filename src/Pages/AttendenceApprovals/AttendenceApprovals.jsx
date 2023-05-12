@@ -13,7 +13,7 @@ import useHttp from '../../Hooks/use-http'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination/Pagination'
 const AttendenceApprovals = () => {
-  const url="http://localhost:4000/"
+  const url="http://localhost:9000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
  const [data,setData]=useState([])
@@ -164,10 +164,13 @@ const AttendenceApprovals = () => {
     setLimit(data)
         }
         const selectPage=(data)=>{
+          console.log(data)
             setOffset((data-1)*limit)
         }
   
   const changeDate=(data)=>{
+    setLimit(10)
+    setOffset(0)
     setDate(data)
 }
   // Table Headings, Data and Keys
@@ -211,6 +214,7 @@ const AttendenceApprovals = () => {
       return {...prevState,floor_name:data}
       })
 }
+
   return (
     <React.Fragment>
       <Heading heading={'Attendance Approvals'} />
@@ -219,7 +223,7 @@ const AttendenceApprovals = () => {
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} />
       {/* <Entrypage selectEntries={selectEntries} selectPage={selectPage}/> */}
-      <Pagination />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }

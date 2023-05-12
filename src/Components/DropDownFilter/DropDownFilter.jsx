@@ -35,8 +35,8 @@ const DropDownFilter = (props) => {
     const listFloors = (floors) => {
       setFloors(floors)
     }
-    fetchStores({ url: 'http://localhost:4000/api/getStores' }, listStores)
-    fetchFloors({ url: 'http://localhost:4000/api/getFloors' }, listFloors)
+    fetchStores({ url: 'http://localhost:9000/api/getStores' }, listStores)
+    fetchFloors({ url: 'http://localhost:9000/api/getFloors' }, listFloors)
   }, [])
 const selectByStore=(data)=>{
 setSelectedStore(data)
