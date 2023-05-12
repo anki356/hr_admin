@@ -45,7 +45,7 @@ import Correction from './Pages/AttendenceCorrection/Correction/Correction';
 import HierarchyPage from './Pages/HierarchyPage/HierarchyPage';
 import Grade from './Pages/Grade/Grade';
 import AdminLogin from './Pages/AdminLogin/AdminLogin';
-
+import AllAttendence from "./Pages/AllAttendence/AllAttendence";
 // We have to diffrentiate between Login page and other Pages, so we are using useLocation
 
 const App = () => {
@@ -65,8 +65,8 @@ const App = () => {
           <main className='main_container'>
             <Routes>
 
-
               <Route exact path="/" element={<AttendenceApprovals />} />
+              <Route exact path='/all_attendence' element={<AllAttendence/>}  />
               <Route exact path='/attendence_history' element={<AttendenceHistory />} />
               <Route exact path='/attendence_approval/:attendance_id/:employee_id' element={<AttendenceApproval />} />
 
