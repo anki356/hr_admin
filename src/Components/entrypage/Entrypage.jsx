@@ -3,6 +3,8 @@ import './entrypage.css';
 import Form from 'react-bootstrap/Form';
 import Pagination from 'react-bootstrap/Pagination';
 import { useNavigate } from 'react-router-dom';
+// ../node_modules/bootstrap/dist/css/bootstrap.min.css
+// import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 const Entrypage = (props) => {
 
