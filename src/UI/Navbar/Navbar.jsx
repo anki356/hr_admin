@@ -6,14 +6,16 @@ import I2 from '../../assets/data.png'
 import Bell from '../../assets/noti.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import Cookies from 'universal-cookie'
 
 const Navbar = (props) => {
 
   // Used for navigation
   const navigate = useNavigate()
+  const cookies = new Cookies()
 
   // Token validation 
-  const token = localStorage.getItem('token')
+  const token = cookies.get('token')
 
   const sidebarHandler = () => {
     props.onSideberBtn(true)

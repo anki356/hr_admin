@@ -4,16 +4,15 @@ import Heading from '../../Components/Heading/Heading'
 import TileContainer from '../../UI/TileContainer/TileContainer'
 import DropDownFilter from '../../Components/DropDownFilter/DropDownFilter'
 import Filter from '../../Components/Filter/Filter'
-import useGetHook from '../../Hooks/useGetHook'
 import moment from 'moment/moment'
 import MainTable from '../../Components/MainTable/MainTable'
-import Entrypage from '../../components/entrypage/Entrypage';
-
 import useHttp from '../../Hooks/use-http'
 import axios from 'axios'
 import Pagination from '../../Components/Pagination/Pagination'
+import Cookies from 'universal-cookie'
+
 const AttendenceApprovals = () => {
-  const url="http://localhost:9000/"
+  const url="http://localhost:4000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
  const [data,setData]=useState([])
@@ -30,10 +29,7 @@ const AttendenceApprovals = () => {
   const [TileData ,setTileData]=useState([])
   // let {data,loading,error}=useGetHook(url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'", from_date_format)
   useEffect(()=>{
-    let token=localStorage.getItem('token')
-    // if(token===null){
-    // navigate('/login')
-    // }
+    const token = cookies.get('token')
     const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     const listAttendance = (attendance) => {
@@ -42,25 +38,25 @@ const AttendenceApprovals = () => {
     fetchPendingAttendance({ url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listAttendance)
     from_date=moment(date)
     axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Present'",{headers}).then((response)=>{
-        const todayPresent=response.data[0].count_id
+        const todayPresent=response.data[0]?.count_id
         from_date=moment(date).subtract(1,'d')
         axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Present'",{headers}).then((response)=>{
-          const yesterdayPresent=response.data[0].count_id
+          const yesterdayPresent=response.data[0]?.count_id
           from_date=moment(date)
           axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Absent'",{headers}).then((response)=>{
-            const todayAbsent=response.data[0].count_id
+            const todayAbsent=response.data[0]?.count_id
             from_date=moment(date).subtract(1,'d')
             axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Absent'",{headers}).then((response)=>{  
-              const yesterdayAbsent=response.data[0].count_id
+              const yesterdayAbsent=response.data[0]?.count_id
               from_date=moment(date)
               axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='On Leave'",{headers}).then((response)=>{
-            const todayLeave=response.data[0].count_id
+            const todayLeave=response.data[0]?.count_id
             from_date=moment(date).subtract(1,'d')
             axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='On Leave'",{headers}).then((response)=>{  
-              const yesterdayLeave=response.data[0].count_id
+              const yesterdayLeave=response.data[0]?.count_id
               let from_date_out=moment()
     axios.get("http://localhost:9000/api/getTotalOutSessions?from_date="+from_date_out.format("YYYY-MM-DD")+"&to_date="+from_date_out.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{ 
-           let totalOut= response.data[0].count_id 
+           let totalOut= response.data[0]?.count_id 
         setTileData([{
           title:"Total Present",
           value:todayPresent,

@@ -26,7 +26,6 @@ const[empId,setEmpId]=useState(null)
 const { sendRequest: fetchEmployee } = useHttp()
 useEffect(()=>{
   const url="http://localhost:9000/"
-  let token=localStorage.getItem('token')
   // if(token===null){
   // navigate('/login')
   // }

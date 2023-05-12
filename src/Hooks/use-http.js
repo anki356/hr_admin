@@ -1,11 +1,12 @@
 import { useState, useCallback } from 'react';
-
+import Cookies from 'universal-cookie'
 
 const useHttp = () => {
+  const cookies = new Cookies()
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  let token=localStorage?.getItem('token')
+  let token=cookies?.get('token')
 
   const sendRequest = useCallback(async (requestConfig, applyData) => {
     setIsLoading(true);
