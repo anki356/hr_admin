@@ -8,8 +8,11 @@ import { useEffect } from 'react'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios'
+import Cookies from 'universal-cookie'
+
 const Filter = (props) => {
 
+  const cookies = new Cookies();
   const [View, setView] = useState(false)
   const [startDate, setStartDate] = useState(new Date());
   const[designationOptions,setDesignationOptions]=useState([])
@@ -20,7 +23,7 @@ const Filter = (props) => {
     }
     useEffect(() => {
       const fetching=async()=>{
-        const token=localStorage.getItem('token')
+        const token = cookies.get('token')
         const headers={"Authorization":"Bearer "+token}
         axios.get("http://localhost:9000/api/getRoles",{headers}).then((response)=>{
           setDesignationOptions(response.data)

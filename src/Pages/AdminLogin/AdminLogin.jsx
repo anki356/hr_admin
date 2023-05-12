@@ -1,15 +1,18 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import classes from './AdminLogin.module.css'
 import Logo from '../../assets/logo.png'
 import eye_img from '../../assets/eye.png'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import Cookies from 'universal-cookie'
+import jwtDecode from 'jwt-decode'
+
 const AdminLogin = () => {
 
     const [viewPassword, setViewPassword] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const navigate = useNavigate()
+
     // UserName validation
     const [enteredUsername, setEnteredUsername] = useState('')
     const [enteredUsernameTouched, setEnteredUsernameTocuhed] = useState(false)
@@ -38,6 +41,8 @@ const AdminLogin = () => {
 
     // On Form Submission
 
+    const cookies = new Cookies();
+
     const isformValid = !UserNameInputIsInValid && !PasswordInputIsInValid
 
     const formSubmissionHandler = async (e) => {
@@ -56,7 +61,16 @@ const AdminLogin = () => {
             })
             const result = await response.json()
             if (result.token) {
-                localStorage.setItem("token", result.token)
+
+                const decode = jwtDecode(result.token)
+
+                console.log(decode);
+
+                cookies.set('token',result.token,{
+                    expires: new Date(decode.exp * 1000)
+                })
+
+                // 4000.setItem("token", result.token)
                 alert('Welcome Sir')
                 //  Reset All States
                 setLoading(false)
@@ -80,22 +94,14 @@ const AdminLogin = () => {
             setEnteredUsernameTocuhed(true)
             setPasswordTouched(true)
         }
-
-        // axios.post('http://127.0.0.1:4000/api/auth/login', {
-        //     username: enteredUsername,
-        //     password: enteredPassoword
-        // }).then((response) => {
-        //     console.log(response.data)
-        //     localStorage.setItem("token", response.data.token)
-        //     if (response.data.token) {
-        //         alert('Welcome Sir')
-        //         // setTimeout(() => {
-        //         //     navigate('/')
-        //         // }, 500);
-        //     }
-        // })
-
     }
+
+
+    useEffect(()=>{
+        if (cookies.get('token')) {
+            navigate('/')
+        }
+    },[])
 
     return (
         <div className={classes.container}>

@@ -1,14 +1,15 @@
 import classes from './SelectTag.module.css'
 import Img from '../../assets/vector9.png'
-import { useState } from 'react'
 
 
 const SelectTag = (props) => {
+
     const valHandler = (e) => {
         props.selectedVal(e.target.value)
     }
 
     const optionData = props.data;
+    console.log('optionData', optionData);
 
     return (
         <div className={classes.select_div}>
