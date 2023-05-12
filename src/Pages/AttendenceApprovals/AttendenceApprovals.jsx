@@ -12,7 +12,7 @@ import Pagination from '../../Components/Pagination/Pagination'
 import Cookies from 'universal-cookie'
 
 const AttendenceApprovals = () => {
-  const url="http://localhost:4000/"
+  const url="http://localhost:9000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
  const [data,setData]=useState([])
@@ -35,7 +35,7 @@ const AttendenceApprovals = () => {
     const listAttendance = (attendance) => {
       setData(attendance)
     }
-    fetchPendingAttendance({ url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listAttendance)
+    fetchPendingAttendance({ url: url+"api/getAttendanceCorrectionRequests?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&type='By Mistake'" }, listAttendance)
     from_date=moment(date)
     axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Present'",{headers}).then((response)=>{
         const todayPresent=response.data[0]?.count_id
@@ -132,7 +132,7 @@ const AttendenceApprovals = () => {
     // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     
-  let getString=url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
+  let getString=url+"api/getAttendanceCorrectionRequests?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&type='By Mistake'"
     if(employeeFilter.employee_query!=''){
       getString+="&employee_query="+employeeFilter.employee_query
 }

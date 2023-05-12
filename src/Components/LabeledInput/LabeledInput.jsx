@@ -1,7 +1,6 @@
 import classes from './LabeledInput.module.css'
 import vec from '../../assets/vector9.png'
 import { useState } from 'react';
-import TimePicker from 'react-time-picker';
 
 const LabeledInput = (props) => {
   const [time, setTime] = useState(null)

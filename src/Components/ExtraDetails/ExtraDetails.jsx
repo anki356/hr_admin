@@ -1,24 +1,27 @@
 import classes from './ExtraDetails.module.css'
 import ExtraDetailsDiv from './ExtraDetailsDiv'
+import React,{useState,useEffect} from 'react'
 
+import axios from 'axios'
 const ExtraDetails = (props) => {
+  
 
   const div_data = [
     {
       title: 'Category',
-      value: 'Lunch'
+      value: props?.data[0]?.category_name
     },
     {
       title: 'Time',
-      value: '01:00 PM'
+      value: props?.data[0]?.date.split("T")[1].substring(0,8)
     },
     {
       title: 'Date',
-      value: '15/08/22'
+      value: props?.data[0]?.date.split("T")[0].split("-").reverse().join("/")
     },
     {
       title: 'Expense',
-      value: '₹50'
+      value: '₹'+props?.data[0]?.amount
     }
   ]
   return (
@@ -33,7 +36,7 @@ const ExtraDetails = (props) => {
         <div className={classes.inner_container_second}>
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
           <div>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore excepturi, porro nobis similique amet tenetur? Quod dolore, itaque deleniti ut ratione obcaecati ex quia necessitatibus explicabo nisi atque delectus possimus voluptas rem fugit error eum?
+           {props?.data[0]?.notes}
           </div>
         </div>
         {props.status &&
