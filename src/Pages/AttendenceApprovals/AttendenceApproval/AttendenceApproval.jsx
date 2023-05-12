@@ -19,7 +19,7 @@ const AttendenceApproval = () => {
     time: '',
     date: ''
   })
-
+const navigate=useNavigate()
   const [date,setDate]=useState('')
   
 const [attendanceID,setAttendanceID]=useState('')
@@ -40,7 +40,6 @@ useEffect(()=>{
   // }
   const headers={"Authorization":"Bearer "+token}
   const listEmployee = (employeeData) => {
-    console.log("Here",employeeData.employeesResult)
     setEmployeeData([{
       title:"Name",
       value:employeeData.employeesResult[0].name
@@ -106,29 +105,38 @@ value:employeeData.employeesResult[0].floor_name
 
 }
 function cancelRequests(){
-  const token=localStorage.getItem('token')
+  const url="http://localhost:9000/"
+ 
   const headers={"Authorization":"Bearer "+token}
-  axios.patch("http://localhost:3000/api/rejectAttendance/"+attendanceID,{"approval_status":"Rejected"},{headers})
-   navigate("/") 
+  axios.patch(url+"api/rejectAttendance/"+attendanceID,{"approval_status":"Rejected"},{headers}).then((response)=>{
+    if(response){
+      navigate("/") 
+    }
+  })
+  
   
 }
 async function approveRequests(){
   //   const dateSet=date
   // const dateTime=dateSet+"T"+time
   // setDate(dateTime)
-   
-  const token=localStorage.getItem('token')
+  const url="http://localhost:9000/" 
+ 
   const headers={"Authorization":"Bearer "+token}
-  axios.patch("http://localhost:3000/api/updateAttendance/"+attendanceID,{...formData},{headers})
-   navigate("/") 
+  axios.patch(url+"api/updateAttendance/"+attendanceID,{...formData},{headers}).then((response)=>{
+    if(response){
+      navigate("/") 
+    }
+  })
+   
   
   }
-function timeSet(e){
-  let  time=e.target.value
+function InputValHanlder(e){
+  let  time=e
 console.log(time)
   setFormData((prevState)=>{
     return{
-      ...prevState,date_time:date.split("-").reverse().join("-")+"T"+time
+      ...prevState,date_time:date+" "+time
     }
   }) 
 }
@@ -138,8 +146,8 @@ console.log(date)
       <Heading heading={'Attendence Approval'} />
       <DetailsDivContainer data={employee_data} />
       <DragAndDrop uploadFile={uploadFile} />
-      <LabeledInputContainer date={date} timeInput={timeSet} func={InputValHanlder} />
-      <BottomButtonContainer cancel={'Reject'} approve={'Approve Attendence'} cancelRequests={cancelRequests} approveRequests={approveRequests} />
+      <LabeledInputContainer date={date}  func={InputValHanlder} />
+      <BottomButtonContainer func={true} cancel={'Reject'} approve={'Approve Attendence'} cancelRequests={cancelRequests} approveRequests={approveRequests} />
     </React.Fragment>
   )
 }

@@ -10,8 +10,9 @@ const BottomButtonContainer = (props) => {
 
   return (
     <div className={classes.btn_container}>
-      <button className={classes.cancel} onClick={props.func === true ? props.func1  : backHandler}>{props.cancel}</button>
-      <button className={classes.accept} onClick={props.func === true ? props.func2  : ''}>{props.approve}</button>
+      
+      <button className={classes.cancel} onClick={props.func === true ? props.cancelRequests  : backHandler}>{props.cancel}</button>
+      <button className={classes.accept} onClick={props.func === true ? props.approveRequests  : ''}>{props.approve}</button>
     </div>
   )
 }
