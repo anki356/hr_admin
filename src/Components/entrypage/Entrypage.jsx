@@ -19,6 +19,7 @@ const Entrypage = (props) => {
     useEffect(() => {
         props.selectPage(page)
     }, [page])
+    
     return (
         <div className="attend-paginatn">
             <Form>

@@ -12,23 +12,22 @@ const Pagination = () => {
 
     const backPageHandler = () => {
         if (isActive === 1) {
-         return    setActive(1)
+            return setActive(1)
         }
-            setActive((isActive) => { return isActive - 1 })
+        setActive((isActive) => { return isActive - 1 })
     }
 
     const nextPageHandler = () => {
         if (isActive === no_of_pages) {
-          return  setActive(no_of_pages)
+            return setActive(no_of_pages)
         }
         setActive((isActive) => { return isActive + 1 })
     }
 
-    let BtnArray = [] ;
+    let BtnArray = [];
 
     for (let index = 1; index <= no_of_pages; index++) {
-        let val = <button onClick={() => { setActive(index) }} className={`${classes.pagination_page_btn} ${isActive === index ? classes.active : ''}`}>{index}</button> ;
-
+        let val = <button onClick={() => { setActive(index) }} className={`${classes.pagination_page_btn} ${isActive === index ? classes.active : ''}`}>{index}</button>;
         BtnArray.push(val)
     }
 
@@ -51,7 +50,7 @@ const Pagination = () => {
             </div>
             <div className={classes.pagination_container}>
                 <button onClick={backPageHandler} className={classes.pagination_nav_btn}><img src={leftarrow} alt="Left Arrow" /></button>
-                {BtnArray.map((element,index)=>(
+                {BtnArray.map((element, index) => (
                     element
                 ))}
                 <button onClick={nextPageHandler} className={classes.pagination_nav_btn}><img src={rightarrow} alt="Right Arrow" /></button>
