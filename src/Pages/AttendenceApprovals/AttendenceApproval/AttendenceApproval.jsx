@@ -9,10 +9,12 @@ import { useNavigate,useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
 import axios from 'axios'
 import moment from 'moment'
+
+import Cookies from 'universal-cookie'
 const AttendenceApproval = () => {
 
   const [date,setDate]=useState('')
-  
+  const cookies = new Cookies(); 
 const [attendanceID,setAttendanceID]=useState('')
 const [formData,setFormData]=useState({"download":null,
 "status":"Present",
@@ -29,6 +31,7 @@ useEffect(()=>{
   // if(token===null){
   // navigate('/login')
   // }
+  const token = cookies.get('token')
   const headers={"Authorization":"Bearer "+token}
   const listEmployee = (employeeData) => {
     console.log("Here",employeeData.employeesResult)
@@ -97,7 +100,7 @@ function uploadFile(photo){
 
 }
 function cancelRequests(){
-  const token=localStorage.getItem('token')
+  const token = cookies.get('token')
   const headers={"Authorization":"Bearer "+token}
   axios.patch("http://localhost:3000/api/rejectAttendance/"+attendanceID,{"approval_status":"Rejected"},{headers})
    navigate("/") 
@@ -108,14 +111,14 @@ async function approveRequests(){
   // const dateTime=dateSet+"T"+time
   // setDate(dateTime)
    
-  const token=localStorage.getItem('token')
+  const token = cookies.get('token')
   const headers={"Authorization":"Bearer "+token}
   axios.patch("http://localhost:3000/api/updateAttendance/"+attendanceID,{...formData},{headers})
    navigate("/") 
   
   }
-function timeSet(e){
-  let  time=e.target.value
+function timeSet(data){
+  let  time=data
 console.log(time)
   setFormData((prevState)=>{
     return{

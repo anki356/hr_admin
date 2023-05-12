@@ -12,7 +12,7 @@ import Pagination from '../../Components/Pagination/Pagination'
 import Cookies from 'universal-cookie'
 
 const AttendenceApprovals = () => {
-  const url="http://localhost:4000/"
+  const url="http://localhost:9000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
  const [data,setData]=useState([])
@@ -24,7 +24,7 @@ const AttendenceApprovals = () => {
     role_name:"",
     store_name:""
   })
-  
+  const cookies = new Cookies();
   const { sendRequest: fetchPendingAttendance } = useHttp()
   const [TileData ,setTileData]=useState([])
   // let {data,loading,error}=useGetHook(url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'", from_date_format)
