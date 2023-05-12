@@ -21,7 +21,7 @@ const DropDownFilter = (props) => {
   }
 
   // Used for making an object
-  console.log(sumUp);
+  // console.log(sumUp);
 
 
   const { sendRequest: fetchStores } = useHttp()

@@ -1,20 +1,27 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
 import DragAndDrop from '../../../Components/DragAndDrop/DragAndDrop'
 import Heading from '../../../Components/Heading/Heading'
 import LabeledInputContainer from '../../../Components/LabeledInputContainer/LabeledInputContainer'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import classes from './AttendenceApproval.module.css'
-import { useNavigate,useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
 import axios from 'axios'
 import moment from 'moment'
 
 import Cookies from 'universal-cookie'
 const AttendenceApproval = () => {
+  const cookies = new Cookies()
+  const token = cookies.get('token')
+
+  const [inputVals, setValhandler] = useState({
+    time: '',
+    date: ''
+  })
 
   const [date,setDate]=useState('')
-  const cookies = new Cookies(); 
+  
 const [attendanceID,setAttendanceID]=useState('')
 const [formData,setFormData]=useState({"download":null,
 "status":"Present",
@@ -31,7 +38,6 @@ useEffect(()=>{
   // if(token===null){
   // navigate('/login')
   // }
-  const token = cookies.get('token')
   const headers={"Authorization":"Bearer "+token}
   const listEmployee = (employeeData) => {
     console.log("Here",employeeData.employeesResult)
@@ -48,59 +54,59 @@ value:employeeData.employeesResult[0].role_name
       title:'Floor Name',
 value:employeeData.employeesResult[0].floor_name
 
-    },{
-      title:'Gender',
-value:employeeData.employeesResult[0].gender
+      }, {
+        title: 'Gender',
+        value: employeeData.employeesResult[0].gender
 
-    },{
-      title:'Store name',
-      value:employeeData.employeesResult[0].store_name
-    },{
-      title:'Store Department',
-      value:employeeData.employeesResult[0].store_department_name
-    }])
-    setEmpId(employeeData.employeesResult[0].empID)
-    
-  }
-  fetchEmployee({ url: url+"api/getEmployeeDetails?id="+employee_id }, listEmployee)
-  axios.get(url+"api/getAttendanceCorrectionDatabyAttendanceID?attendance_id="+attendance_id,{headers}).then((response)=>{
-    let from_date=moment(response.data[0].date_time.split("T")[0])
+      }, {
+        title: 'Store name',
+        value: employeeData.employeesResult[0].store_name
+      }, {
+        title: 'Store Department',
+        value: employeeData.employeesResult[0].store_department_name
+      }])
+      setEmpId(employeeData.employeesResult[0].empID)
 
-    setDate(response.data[0].date_time.split("T")[0])
-    
-    setAttendanceID(response.data[0].attendance_id)
-  })
-  
-   
+    }
+    fetchEmployee({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployee)
+    axios.get(url + "api/getAttendanceCorrectionDatabyAttendanceID?attendance_id=" + attendance_id, { headers }).then((response) => {
+      let from_date = moment(response.data[0].date_time.split("T")[0])
 
-},[])
-function uploadFile(photo){
-  if(photo.length>0){
+      setDate(response.data[0].date_time.split("T")[0])
 
-    axios({
-      method: 'get',
-      url: photo[0].preview, 
-      responseType: 'blob'
-  }).then(function(response){
-       var reader = new FileReader();
-       reader.readAsDataURL(response.data); 
-       reader.onloadend = function() {
-           var base64data = reader.result;
-           setFormData((prevState)=>{
-            return{
-              ...prevState,download:base64data
+      setAttendanceID(response.data[0].attendance_id)
+    })
+
+
+
+  }, [])
+  function uploadFile(photo) {
+    if (photo.length > 0) {
+
+      axios({
+        method: 'get',
+        url: photo[0].preview,
+        responseType: 'blob'
+      }).then(function (response) {
+        var reader = new FileReader();
+        reader.readAsDataURL(response.data);
+        reader.onloadend = function () {
+          var base64data = reader.result;
+          setFormData((prevState) => {
+            return {
+              ...prevState, download: base64data
             }
-          }) 
-       }
-  
-  })
-  }
-     
-    
+          })
+        }
+
+      })
+    }
+
+
 
 }
 function cancelRequests(){
-  const token = cookies.get('token')
+  const token=localStorage.getItem('token')
   const headers={"Authorization":"Bearer "+token}
   axios.patch("http://localhost:3000/api/rejectAttendance/"+attendanceID,{"approval_status":"Rejected"},{headers})
    navigate("/") 
@@ -111,14 +117,14 @@ async function approveRequests(){
   // const dateTime=dateSet+"T"+time
   // setDate(dateTime)
    
-  const token = cookies.get('token')
+  const token=localStorage.getItem('token')
   const headers={"Authorization":"Bearer "+token}
   axios.patch("http://localhost:3000/api/updateAttendance/"+attendanceID,{...formData},{headers})
    navigate("/") 
   
   }
-function timeSet(data){
-  let  time=data
+function timeSet(e){
+  let  time=e.target.value
 console.log(time)
   setFormData((prevState)=>{
     return{
@@ -132,7 +138,7 @@ console.log(date)
       <Heading heading={'Attendence Approval'} />
       <DetailsDivContainer data={employee_data} />
       <DragAndDrop uploadFile={uploadFile} />
-      <LabeledInputContainer date={date} timeInput={timeSet}/>
+      <LabeledInputContainer date={date} timeInput={timeSet} func={InputValHanlder} />
       <BottomButtonContainer cancel={'Reject'} approve={'Approve Attendence'} cancelRequests={cancelRequests} approveRequests={approveRequests} />
     </React.Fragment>
   )
