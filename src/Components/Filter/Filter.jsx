@@ -30,8 +30,8 @@ const Filter = (props) => {
   }, [])
   const tableData = props.data.map((element) => (
     {
-      name: element.name,
-      id: element.id,
+      employee_name: element.employee_name,
+      empID: element.empID,
       image: element.image
     }
   ))
@@ -49,7 +49,7 @@ const Filter = (props) => {
     setView(true)
     const results = tableData.filter(post => {
       if (e.target.value === " ") return tableData
-      return post.name.toLowerCase().includes(e.target.value.toLowerCase())
+      return post.employee_name.toLowerCase().includes(e.target.value.toLowerCase())||post.empID.includes(e.target.value)
     })
     setstate({
       query: e.target.value,
@@ -63,16 +63,19 @@ const Filter = (props) => {
       setView(false)
     }, 1000);
   }
-
+function changeByEmployee(){
+  setView(false)
+  props.changeByEmployee(state.query)
+}
   return (
 
     <div className={classes.filter_box}>
       <form  className={classes.input_div}>
         <label htmlFor="Employees">Employees</label>
         <input value={state.query} onChange={handleChange} type="text" id='Employees' placeholder='Emp ID , Employee Name..' />
-        <img className={classes.img1} src={mag} alt="" />
+        <img className={classes.img1} src={mag} alt="" onClick={(e)=>changeByEmployee()} />
         <div className={`${classes.search_table} ${View === true ? classes.visible : ''}`}>
-          <MainTable Inp={false} Btn={false} headings={tableHeadings} data={state.list === undefined ? tableData : state.list} keys={['name', 'id']} />
+          <MainTable Inp={false} Btn={false} headings={tableHeadings} data={state.list === undefined ? tableData : state.list} keys={['employee_name', 'empID']} />
         </div>
       </form>
 

@@ -7,8 +7,9 @@ import Filter from '../../Components/Filter/Filter'
 import useGetHook from '../../Hooks/useGetHook'
 import moment from 'moment/moment'
 import MainTable from '../../Components/MainTable/MainTable'
-
 import Entrypage from '../../components/entrypage/Entrypage';
+
+import useHttp from '../../Hooks/use-http'
 import axios from 'axios'
 const AttendenceApprovals = () => {
   const url="http://localhost:9000/"
@@ -23,19 +24,25 @@ const AttendenceApprovals = () => {
     role_name:"",
     store_name:""
   })
+  
+  const { sendRequest: fetchPendingAttendance } = useHttp()
+ 
   // let {data,loading,error}=useGetHook(url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'", from_date_format)
   useEffect(()=>{
-    let token=localStorage.getItem('token')
-    if(token===null){
-    navigate('/login')
+    // let token=localStorage.getItem('token')
+    // if(token===null){
+    // navigate('/login')
+    // }
+    // const headers={"Authorization":"Bearer "+token}
+    let from_date=moment(date)
+    const listAttendance = (attendance) => {
+      setData(attendance)
     }
-    const headers={"Authorization":"Bearer "+token}
-    let from_date=moment()
-    
-  axios.get(url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'",{headers}).then((response)=>{
+    fetchPendingAttendance({ url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listAttendance)
+  // axios.get(,{headers}).then((response)=>{
    
-            setData(response.data)
-        })
+  //           setData(response.data)
+  //       })
        
 //   from_date=moment()
 //   axios.get("http://localhost:3000/api/getTotalApprovals?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{
@@ -72,11 +79,11 @@ const AttendenceApprovals = () => {
 
   },[])
   useEffect(()=>{
-    let token=localStorage.getItem('token')
-    if(token===null){
-    navigate('/login')
-    }
-    const headers={"Authorization":"Bearer "+token}
+    // let token=localStorage.getItem('token')
+    // if(token===null){
+    // navigate('/login')
+    // }
+    // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     
   let getString=url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
@@ -93,12 +100,15 @@ const AttendenceApprovals = () => {
         getString+="&store_name="+employeeFilter.store_name
       }
         
+      const listAttendance = (attendance) => {
+        setData(attendance)
+      }
+      fetchPendingAttendance({ url: getString }, listAttendance) 
       
       
-      
-      axios.get(getString,{headers}).then((response)=>{
-            setData(response.data)
-        })
+      // axios.get(getString,{headers}).then((response)=>{
+      //       setData(response.data)
+      //   })
   },[date,limit,offset,employeeFilter])
   const selectEntries=(data)=>{
     setLimit(data)
@@ -142,6 +152,15 @@ const AttendenceApprovals = () => {
   const tableKeys = [
     'employee_name','empID','status','floor_name'
   ]
+  const changeByEmployee=(data)=>{
+      
+    // if(data.charAt(0)!=='1')
+    //  {
+      
+      setEmployeeFilter((prevState)=>{
+        return {...prevState,employee_query:data}
+        })
+      }
   const changeByDesignation=(data)=>{
    
     setEmployeeFilter((prevState)=>{
@@ -168,7 +187,7 @@ const AttendenceApprovals = () => {
       <Heading heading={'Attendance Approvals'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}  />
-      <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation}/>
+      <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} />
       <Entrypage selectEntries={selectEntries} selectPage={selectPage}/>
     </React.Fragment>
