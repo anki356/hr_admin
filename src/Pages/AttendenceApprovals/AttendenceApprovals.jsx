@@ -11,8 +11,9 @@ import Entrypage from '../../components/entrypage/Entrypage';
 
 import useHttp from '../../Hooks/use-http'
 import axios from 'axios'
+import Pagination from '../../Components/Pagination/Pagination'
 const AttendenceApprovals = () => {
-  const url="http://localhost:9000/"
+  const url="http://localhost:4000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
  const [data,setData]=useState([])
@@ -217,7 +218,8 @@ const AttendenceApprovals = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}  />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} />
-      <Entrypage selectEntries={selectEntries} selectPage={selectPage}/>
+      {/* <Entrypage selectEntries={selectEntries} selectPage={selectPage}/> */}
+      <Pagination />
     </React.Fragment>
   )
 }
