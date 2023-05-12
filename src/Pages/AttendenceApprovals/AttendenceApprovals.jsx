@@ -26,20 +26,69 @@ const AttendenceApprovals = () => {
   })
   
   const { sendRequest: fetchPendingAttendance } = useHttp()
- 
+  const [TileData ,setTileData]=useState([])
   // let {data,loading,error}=useGetHook(url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'", from_date_format)
   useEffect(()=>{
-    // let token=localStorage.getItem('token')
+    let token=localStorage.getItem('token')
     // if(token===null){
     // navigate('/login')
     // }
-    // const headers={"Authorization":"Bearer "+token}
+    const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     const listAttendance = (attendance) => {
       setData(attendance)
     }
     fetchPendingAttendance({ url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listAttendance)
-  // axios.get(,{headers}).then((response)=>{
+    from_date=moment(date)
+    axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Present'",{headers}).then((response)=>{
+        const todayPresent=response.data[0].count_id
+        from_date=moment(date).subtract(1,'d')
+        axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Present'",{headers}).then((response)=>{
+          const yesterdayPresent=response.data[0].count_id
+          from_date=moment(date)
+          axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Absent'",{headers}).then((response)=>{
+            const todayAbsent=response.data[0].count_id
+            from_date=moment(date).subtract(1,'d')
+            axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='Absent'",{headers}).then((response)=>{  
+              const yesterdayAbsent=response.data[0].count_id
+              from_date=moment(date)
+              axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='On Leave'",{headers}).then((response)=>{
+            const todayLeave=response.data[0].count_id
+            from_date=moment(date).subtract(1,'d')
+            axios.get("http://localhost:9000/api/getTotal?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&status='On Leave'",{headers}).then((response)=>{  
+              const yesterdayLeave=response.data[0].count_id
+              let from_date_out=moment()
+    axios.get("http://localhost:9000/api/getTotalOutSessions?from_date="+from_date_out.format("YYYY-MM-DD")+"&to_date="+from_date_out.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{ 
+           let totalOut= response.data[0].count_id 
+        setTileData([{
+          title:"Total Present",
+          value:todayPresent,
+          num:todayPresent-yesterdayPresent,
+          para:"Day"
+        },{
+          title:"Total Absent",
+          value:todayAbsent,
+          num:todayAbsent-yesterdayAbsent,
+          para:"Day"
+        },{
+          title:"Total On Leave",
+          value:todayLeave,
+          num:todayLeave-yesterdayLeave,
+          para:"Day"
+        },{
+          title:"Total Outs",
+          value:totalOut,
+          para:"Hour"
+        }])
+      })
+    })
+  })
+  })
+    })
+    })
+      })
+  console.log(TileData)
+    // axios.get(,{headers}).then((response)=>{
    
   //           setData(response.data)
   //       })
@@ -116,28 +165,7 @@ const AttendenceApprovals = () => {
         const selectPage=(data)=>{
             setOffset((data-1)*limit)
         }
-  const TileData = [
-    {
-      title: 'Total Expense',
-      value: '₹5000',
-      num: 15
-    },
-    {
-      title: 'Pending Approvals',
-      value: 42,
-      num: 23
-    },
-    {
-      title: 'On Leave',
-      value: 50,
-      num: 10
-    },
-    {
-      title: 'Out From Store',
-      value: 104,
-      num: -23
-    }
-  ]
+  
   const changeDate=(data)=>{
     setDate(data)
 }

@@ -44,7 +44,7 @@ const AdminLogin = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const response = await fetch('http://127.0.0.1:4000/api/auth/login', {
+            const response = await fetch('http://127.0.0.1:9000/api/auth/login', {
                 method: "POST",
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8'
