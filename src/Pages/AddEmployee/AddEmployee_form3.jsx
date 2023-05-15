@@ -9,10 +9,10 @@ const AddEmployee_form3 = () => {
       <LabeledInput cls={'wd50'} img={false} title={'Mode Of Pay'} id={'mod_of_pay'} />
       <LabeledInput cls={'wd50'} img={false} title={'PAN No.'} id={'pan_no'} />
       <LabeledInput cls={'wd50'} img={false} title={'Fine Management'} id={'fine_management'} />
-      <LabeledInput cls={'wd50'} img={false} title={'Bank Name'} id={'bank_name'} />
-      <LabeledInput cls={'wd50'} img={false} title={'Branch'} id={'branch'} />
-      <LabeledInput cls={'wd50'} img={false} title={'IFSC Code'} id={'ifsc_code'} />
-      <LabeledInput cls={'wd50'} img={false} title={'Account No.'} id={'account_no'} />
+      <LabeledInput cls={'wd50'} img={false} title={'Bank Name'} id={'bank_name'} func2={(data)=>props.changeBankName(data)}  />
+      <LabeledInput cls={'wd50'} img={false} title={'Branch'} id={'branch'} func2={(data)=>props.changeBranch(data)} />
+      <LabeledInput cls={'wd50'} img={false} title={'IFSC Code'} id={'ifsc_code'} func2={(data)=>props.changeIFSC(data)}/>
+      <LabeledInput cls={'wd50'} img={false} title={'Account No.'} id={'account_no'} func2={(data)=>props.changeAcountNo(data)} />
       <div className={classes.af}>
         <h5>Attach File</h5>
         <div>

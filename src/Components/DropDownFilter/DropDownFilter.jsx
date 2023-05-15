@@ -10,11 +10,11 @@ const DropDownFilter = (props) => {
   // These for fetching data from api
   const [stores, setStores] = useState([])
   const [floors, setFloors] = useState([])
-
+  const [categories,setCategories]=useState([])
   // These for selected value from select tag
   const [selectedFloor, setSelectedFloor] = useState('')
   const [selectedStore, setSelectedStore] = useState('')
-
+const [selectedCategory,setSelectedCategory]=useState('')
   const sumUp = {
     store: selectedStore,
     floor: selectedFloor
@@ -26,7 +26,7 @@ const DropDownFilter = (props) => {
 
   const { sendRequest: fetchStores } = useHttp()
   const { sendRequest: fetchFloors } = useHttp()
-
+const {sendRequest:fetchCategories}=useHttp()
 
   useEffect(() => {
     const listStores = (stores) => {
@@ -35,8 +35,12 @@ const DropDownFilter = (props) => {
     const listFloors = (floors) => {
       setFloors(floors)
     }
+    const listCategories = (Categories) => {
+      setCategories(Categories)
+    }
     fetchStores({ url: 'http://localhost:9000/api/getStores' }, listStores)
     fetchFloors({ url: 'http://localhost:9000/api/getFloors' }, listFloors)
+    fetchCategories({ url: 'http://localhost:9000/api/getCategories'},listCategories)
   }, [])
 const selectByStore=(data)=>{
 setSelectedStore(data)
@@ -45,6 +49,10 @@ props.selectByStore(data)
 const selectByFloor=(data)=>{
   setSelectedFloor(data)
   props.selectByFloor(data)
+  }
+const selectByCategory=(data)=>{
+  setSelectedCategory(data)
+  props.selectByCategory(data)
   }
   return (
     <div style={props.mb ? { marginBottom: '0px' } : {}} className={classes.DropDownFilter}>
@@ -66,7 +74,7 @@ const selectByFloor=(data)=>{
       }
       {
         props.d3 &&
-        <SelectTag title={props.title3} img={Img} />
+        <SelectTag selectedVal={selectByCategory} title={props.title3} img={Img}  data={categories}/>
       }
       
     </div>

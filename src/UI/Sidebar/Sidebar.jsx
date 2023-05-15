@@ -25,9 +25,7 @@ const Sidebar = (props) => {
         <li>
           <NavLink onClick={() => { props.onSideberBtn() }} to={'/expense_approvals'} className={classes.sidebar_a}><img src={Check} alt="" />Expense Approvals</NavLink>
         </li>
-        <li>
-          <NavLink onClick={() => { props.onSideberBtn() }} to={'/attendence_corrections'} className={classes.sidebar_a}><img src={Clock} alt="" />Attendance Corrections</NavLink>
-        </li>
+        
         <li>
           <NavLink onClick={() => { props.onSideberBtn() }} to={'/employee_details'} className={classes.sidebar_a}><img src={Wallet} alt="" />Employee Details</NavLink>
         </li>

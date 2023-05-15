@@ -84,7 +84,7 @@ const App = () => {
 
               <Route exact path="/employee_details" element={<EmployeeDetails />} />
               <Route exact path="/add_employee" element={<AddEmployee />} />
-              <Route exact path="/employee_profile" element={<EmployeeProfile />} />
+              <Route exact path="/employee_profile/:id" element={<EmployeeProfile />} />
 
 
 

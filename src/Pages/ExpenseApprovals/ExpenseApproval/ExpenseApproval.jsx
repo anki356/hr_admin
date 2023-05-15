@@ -139,7 +139,7 @@ const[empId,setEmpId]=useState(null)
             <ExtraDetails status={'Pending'} data={expenseData} employee_id={employee_id}/>
             <h3 className='uni_heading'>Expense History</h3>
             <MainTable headings={tableHeadings} keys={tableKeys} data={expenseHistoryData} height={true} />
-            <BottomButtonContainer func={true} cancel={'Reject'} approve={'Approve Expense'} cancelRequests={cancelRequests} approveRequests={approveRequests} />
+            <BottomButtonContainer func={true} cancel={'Reject'} approve={'Approve Expense'} cancelRequests={cancelRequests} func2={approveRequests} />
         </React.Fragment>
     )
 }

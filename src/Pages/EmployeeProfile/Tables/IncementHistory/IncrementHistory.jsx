@@ -1,50 +1,29 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import MainTable from '../../../../Components/MainTable/MainTable'
-
-const IncrementHistory = () => {
-
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+const IncrementHistory = (props) => {
+    const cookies = new Cookies();
+    // const url="http://localhost:9000/"
+    const [data,setData]=useState([])
+useEffect(()=>{
+    const token = cookies.get('token')
+    const headers={"Authorization":"Bearer "+token}
+    setData(props.data)
+// axios.get(url+"api/getSalaryIncrement",{headers}).then((response)=>{
+// setData(response.data)
+// })
+},[])
     const tableHeading = [
         { heading: 'Salary' },
         { heading: 'Increment' },
         { heading: 'Date of Increment' },
-        { heading: 'Approved' },
+        { heading: 'Status' },
     ]
 
-    const tableKeys = ['salary', 'increment' , 'date' , 'approved']
+    const tableKeys = ['base_salary', 'increment' , 'date' , 'Status']
 
-    const data = [
-        {
-            salary: 10000,
-            date: '13/04/2022',
-            increment:'12%',
-            approved:"Done"
-        },
-        {
-            salary: 12000,
-            date: '13/04/2022',
-            increment:'15%',
-            approved:" "
-        },
-        {
-            salary: 10000,
-            date: '13/04/2022',
-            increment:'22%',
-            approved:"Done"
-        },
-        {
-            salary: 12000,
-            date: '13/04/2022',
-            increment:'15%',
-            approved:" "
-        },
-        {
-            salary: 10000,
-            date: '13/04/2022',
-            increment:'22%',
-            approved:"Done"
-        },
-    ]
-
+    console.log(data)
 
     return (
         <React.Fragment>

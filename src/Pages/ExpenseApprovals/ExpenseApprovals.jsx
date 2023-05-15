@@ -9,7 +9,7 @@ import useHttp from '../../Hooks/use-http'
 import axios from 'axios'
 import moment from 'moment/moment'
 import MainTable from '../../Components/MainTable/MainTable'
-
+import Pagination from '../../Components/Pagination/Pagination'
 const ExpenseApprovals = () => {
   const url="http://localhost:9000/"
   const [Data,setData]=useState([])
@@ -28,7 +28,8 @@ const ExpenseApprovals = () => {
     employee_query:'',
     floor_name:"",
     role_name:"",
-    store_name:""
+    store_name:"",
+    category_name:""
   })
   const cookies = new Cookies();
   const { sendRequest: fetchExpenses } = useHttp()
@@ -50,10 +51,10 @@ const ExpenseApprovals = () => {
       responseTwo.data[0].total= responseTwo.data[0].total===null?0:responseTwo.data[0].total
         setTotalExpenseNum(responseOne.data[0].total-responseTwo.data[0].total)
         from_date=moment()
-    axios.get("http://localhost:9000/api/getTotalEmployees?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseThird)=>{
+    axios.get("http://localhost:9000/api/getTotalEmployeesExpending?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseThird)=>{
     setTotalEmpGranted(responseThird.data[0].total)
     from_date=moment().subtract(1,'d')
-    axios.get("http://localhost:9000/api/getTotalEmployees?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseFourth)=>{
+    axios.get("http://localhost:9000/api/getTotalEmployeesExpending?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseFourth)=>{
         setTotalEmpGrantedNum(responseThird.data[0].total-responseFourth.data[0].total)
         from_date=moment()
         axios.get("http://localhost:9000/api/getPendingExpenses?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseFifth)=>{
@@ -117,6 +118,9 @@ const ExpenseApprovals = () => {
       if(employeeFilter.store_name!=''){
         getString+="&store_name="+employeeFilter.store_name
       }
+      if(employeeFilter.category_name!=''){
+        getString+="&category_name="+employeeFilter.category_name
+      }
         
       const listExpenses = (expenses) => {
         setData(expenses)
@@ -173,6 +177,12 @@ const ExpenseApprovals = () => {
       return {...prevState,floor_name:data}
       })
 }
+  const selectCategory=async(data) =>{
+ 
+    setEmployeeFilter((prevState)=>{
+      return {...prevState,category_name:data}
+      })
+}
   
 
   // Table Headings, Data and Keys
@@ -192,11 +202,16 @@ const ExpenseApprovals = () => {
     <React.Fragment>
       <Heading heading={'Expense Approvals'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} d3={true} title3={'Expense Type'} selectByFloor={selectByFloor}  selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Store'} d3={true} title3={'Expense Type'} selectByCategory={selectCategory} selectByFloor={selectByFloor}  selectByStore={selectByStore} />
       <Filter data={Data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk3={true} link2={'/expense_details'} link1={'/expense_approval'} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }
+// else if(error!==null &loading){
+  <React.Fragment>
+    <h1>Loading</h1>
+    </React.Fragment>
 
 export default ExpenseApprovals

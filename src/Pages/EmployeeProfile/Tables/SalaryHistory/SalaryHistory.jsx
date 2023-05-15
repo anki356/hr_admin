@@ -1,7 +1,8 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import MainTable from '../../../../Components/MainTable/MainTable'
-
-const SalaryHistory = () => {
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+const SalaryHistory = (props) => {
 
     const tableHeading = [
         { heading: 'Salary Month' },
@@ -11,46 +12,23 @@ const SalaryHistory = () => {
         { heading: 'Salary Slip' },
     ]
 
-    const tableKeys = ['salary_month','emp_id','salary', 'status' ]
-
-    const data = [
-        {
-            salary_month:'Janurary',
-            emp_id:"1244567",
-            salary: 10000,
-            status:'Approved',
-            approved:"Done"
-        },
-        {
-            salary_month:'Janurary',
-            emp_id:"1244567",
-            salary: 10000,
-            status:'Approved',
-            approved:"Done"
-        },
-        {
-            salary_month:'Janurary',
-            emp_id:"1244567",
-            salary: 10000,
-            status:'Approved',
-            approved:"Done"
-        },
-        {
-            salary_month:'Janurary',
-            emp_id:"1244567",
-            salary: 10000,
-            status:'Approved',
-            approved:"Done"
-        },
-        {
-            salary_month:'Janurary',
-            emp_id:"1244567",
-            salary: 10000,
-            status:'Approved',
-            approved:"Done"
-        },
-    ]
-
+    const tableKeys = ['month','empID','net_payable_salary', 'status' ]
+    const monthArray=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+    const cookies = new Cookies();
+    // const url="http://localhost:9000/"
+    const [data,setData]=useState([])
+useEffect(()=>{
+    const token = cookies.get('token')
+    const headers={"Authorization":"Bearer "+token}
+    let data=props.data
+    data.month=monthArray[data.month]
+    setData(data)
+// axios.get(url+"api/getSalaryIncrement",{headers}).then((response)=>{
+// setData(response.data)
+// })
+},[])
+  
+console.log(data)
 
     return (
         <React.Fragment>

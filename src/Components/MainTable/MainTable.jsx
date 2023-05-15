@@ -5,7 +5,7 @@ import HoverableTableActions from '../HoverableTableActions/HoverableTableAction
 
 const MainTable = (props) => {
 
-    const [rows, setRows] = useState(5)
+    // const [rows, setRows] = useState(5)
 
     const tableHeadings = props.headings
     const tableData = props.data
@@ -140,7 +140,7 @@ const MainTable = (props) => {
                                 {
                                     props.Lnk2 === true ?
                                         <td>
-                                            <Link to={props.link1} className={classes.Lnk2}>View</Link>
+                                            <Link to={props.link1+"/"+val.id} className={classes.Lnk2}>View</Link>
                                         </td> : null
                                 }
                                 {
