@@ -76,6 +76,10 @@ const selectByCategory=(data)=>{
         props.d3 &&
         <SelectTag selectedVal={selectByCategory} title={props.title3} img={Img}  data={categories}/>
       }
+      {
+        props.d4 &&
+        <SelectTag selectedVal={selectByMonth} title={props.title4} img={Img}  data={months}/>
+      }
       
     </div>
   )
