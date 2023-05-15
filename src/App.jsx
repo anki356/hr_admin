@@ -67,7 +67,7 @@ const App = () => {
 
               <Route exact path="/" element={<AttendenceApprovals />} />
               <Route exact path='/all_attendence' element={<AllAttendence/>}  />
-              <Route exact path='/attendence_history' element={<AttendenceHistory />} />
+              <Route exact path='/attendence_history/:id' element={<AttendenceHistory />} />
               <Route exact path='/attendence_approval/:attendance_id/:employee_id' element={<AttendenceApproval />} />
 
               <Route exact path="/attendence_corrections" element={<AttendenceCorrection />} />
