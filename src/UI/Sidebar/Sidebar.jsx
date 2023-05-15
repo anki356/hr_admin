@@ -20,6 +20,9 @@ const Sidebar = (props) => {
 
       <ul className={classes.sidebar_ul}>
         <li>
+          <NavLink onClick={() => { props.onSideberBtn() }} to={'/all_attendence'} className={classes.sidebar_a} ><img src={Attendence} alt="" /> All Attendance</NavLink>
+        </li>
+        <li>
           <NavLink onClick={() => { props.onSideberBtn() }} to={'/'} className={classes.sidebar_a} ><img src={Attendence} alt="" /> Attendance Approvals</NavLink>
         </li>
         <li>
