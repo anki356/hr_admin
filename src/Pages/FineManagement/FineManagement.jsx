@@ -134,7 +134,7 @@ const FineManagement = () => {
   useEffect(() => {
     let from_date = moment(date)
 
-    let getString = url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
+    let getString = url + "api/getFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
     if (employeeFilter.employee_query != '') {
       getString += "&employee_query=" + employeeFilter.employee_query
     }
