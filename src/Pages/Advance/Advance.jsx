@@ -58,11 +58,14 @@ const Advance = () => {
    let from_date_out=moment()
       axios.get("http://localhost:9000/api/getTotalOutSessions?from_date="+from_date_out.format("YYYY-MM-DD")+"&to_date="+from_date_out.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseSixth)=>{ 
              let totalOut= responseSixth.data[0]?.count_id 
+             response.data[0].amount=response.data[0].amount===null?0:response.data[0].amount
+             responseOne.data[0].amount=responseOne.data[0].amount===null?0:responseOne.data[0].amount
+
            setTileData( [
               {
                 title: 'Total Advance ',
-                value:  response.data[0].amount!==null?response.data[0].amount:0,
-                num:response.data[0].amount!==null&&responseOne.data[0].amount? response.data[0].amount-responseOne.data[0].amount:0
+                value:  response.data[0].amount,
+                num:response.data[0].amount-responseOne.data[0].amount
               },
               {
                 title: 'Total Emp Granted',
