@@ -120,7 +120,7 @@ const MainTable = (props) => {
                     <tbody>
 
 
-                        {tableData.map((val, index) => (
+                        {tableData&&tableData.map((val, index) => (
                             <tr key={index}>
                                 {props.keys.map((element, index) => (
                                     <td key={index}
