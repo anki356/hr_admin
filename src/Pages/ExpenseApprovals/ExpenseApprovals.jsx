@@ -127,10 +127,6 @@ const ExpenseApprovals = () => {
       }
       fetchExpenses({ url: getString }, listExpenses) 
       
-      
-      // axios.get(getString,{headers}).then((response)=>{
-      //       setData(response.data)
-      //   })
   },[date,limit,offset,employeeFilter])
   const selectEntries=(data)=>{
     setLimit(data)
@@ -200,7 +196,7 @@ const ExpenseApprovals = () => {
 
   return (
     <React.Fragment>
-      <Heading heading={'Expense Approvals'} />
+      <Heading Btn={'Expense'} Btn_link={'/add_expense'} heading={'Expense Approvals'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} d3={true} title3={'Expense Type'} selectByCategory={selectCategory} selectByFloor={selectByFloor}  selectByStore={selectByStore} />
       <Filter data={Data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>

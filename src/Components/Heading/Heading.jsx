@@ -10,7 +10,7 @@ const Heading = (props) => {
         <div className={classes.breadcrumb}>Dashboard / Attendence</div>
       </div>
       {props.Btn &&
-      <Link to={props.Btn_link}><button className={classes.heading_btn}>Add Role</button></Link>}
+      <Link to={props.Btn_link}><button className={classes.heading_btn}>Add {props.Btn}</button></Link>}
     </div>
   )
 }
