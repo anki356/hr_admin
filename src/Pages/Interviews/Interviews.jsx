@@ -12,6 +12,7 @@ import Data from './data'
 import MainTable from '../../Components/MainTable/MainTable'
 import InterviewModal from '../../Components/AllModals/InterviewModal'
 import { useState } from 'react'
+import InterviewFilter from '../../Components/InterviewFilter/InterviewFilter'
 
 const Interviews = () => {
   const url = "http://localhost:9000/"
@@ -29,29 +30,6 @@ const Interviews = () => {
   const cookies = new Cookies();
   const { sendRequest: fetchInterview } = useHttp()
   const [TileData, setTileData] = useState([])
-  // Here is our data for tile in the page
-  // const TileData = [
-  //   {
-  //     title: 'Total Expense',
-  //     value: '₹5000',
-  //     num: 15
-  //   },
-  //   {
-  //     title: 'Pending Approvals',
-  //     value: 42,
-  //     num: 23
-  //   },
-  //   {
-  //     title: 'On Leave',
-  //     value: 50,
-  //     num: 10
-  //   },
-  //   {
-  //     title: 'Out From Store',
-  //     value: 104,
-  //     num: -23
-  //   }
-  // ]
   useEffect(() => {
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token }
@@ -122,11 +100,6 @@ const Interviews = () => {
     })
   }, [])
   useEffect(() => {
-    // let token=localStorage.getItem('token')
-    // if(token===null){
-    // navigate('/login')
-    // }
-    // const headers={"Authorization":"Bearer "+token}
     let from_date = moment(date)
 
     let getString = url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
@@ -152,10 +125,6 @@ const Interviews = () => {
     }
     fetchInterview({ url: getString }, listInterview)
 
-
-    // axios.get(getString,{headers}).then((response)=>{
-    //       setData(response.data)
-    //   })
   }, [date, limit, offset, employeeFilter])
   const selectByStore = (data) => {
 
@@ -192,13 +161,6 @@ const Interviews = () => {
     })
 
   }
-  const selectEntries = (data) => {
-    setLimit(data)
-  }
-  const selectPage = (data) => {
-    console.log(data)
-    setOffset((data - 1) * limit)
-  }
 
   // Table Headings, Data and Keys
   const tableHeadings = [
@@ -224,10 +186,9 @@ const Interviews = () => {
 
   return (
     <React.Fragment>
-      <Heading heading={'Interviews'} />
+      <Heading heading={'Interviews'} Btn={'Interview'} Btn_link={'/add_interview'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter Btn='Add Interview' Lnk='/add_interview' title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
-      <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
+      <InterviewFilter data={Data} data2={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} App_Btn={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
       <InterviewModal value={newval} setval={setNewVal} Obj={obj} />
     </React.Fragment>
