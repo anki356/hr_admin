@@ -28,6 +28,14 @@
       color: #07C503;
   }
 
+  .tile_color_present{
+    background: #19e719;
+  }
+  .tile_color_absent{
+    background: red;
+  }
+
+
   @media screen and (max-width:700px) {
     .tile{
       display: none;

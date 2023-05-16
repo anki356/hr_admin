@@ -6,10 +6,25 @@ import classes from './FullCal.module.css'
 
 const FullCal = (props) => {
 
+  const renderTileColor = (event) => {
+    console.log('your log', event);
+    switch (event.backgroundColor) {
+      case 'Present':
+        return classes.tile_color_present 
+      case 'Absent':
+        return classes.tile_color_absent
+      default:
+        return 'none'
+    }
+  }
+
+
+
+
   function renderEventContent(eventInfo) {
     return (
       <div className={`eventdiv ${classes.tile}`}>
-        <div className={classes.tile_color_div}></div>
+        <div className={`${classes.tile_color_div} ${renderTileColor(eventInfo)}`}></div>
         <span>{eventInfo.event.title}</span>
       </div>
     )

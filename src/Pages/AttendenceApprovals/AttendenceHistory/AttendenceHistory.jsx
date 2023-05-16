@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Heading from '../../../Components/Heading/Heading'
 import classes from './AttendenceHistory.module.css'
 import ExtraDetailsDiv from '../../../Components/ExtraDetails/ExtraDetailsDiv'
@@ -16,7 +16,7 @@ import useHttp from '../../../Hooks/use-http'
 import Cookies from 'universal-cookie'
 import moment from 'moment'
 const Tile = ({ date, view }) => {
-  
+
   const CurrentDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getUTCFullYear()}`
   switch (date.getDay()) {
     case 0:
@@ -40,38 +40,39 @@ const Tile = ({ date, view }) => {
 
 
 const AttendenceHistory = () => {
-  const url="http://localhost:9000/"
+  const url = "http://localhost:9000/"
   const cookies = new Cookies();
-const [div_data,setDivData]=useState([])
-const { sendRequest: fetchEmployeeDetails } = useHttp()
-const { sendRequest: fetchAttendance } = useHttp()
-const { sendRequest: fetchFine } = useHttp()
+  const [div_data, setDivData] = useState([])
+  const { sendRequest: fetchEmployeeDetails } = useHttp()
+  const { sendRequest: fetchAttendance } = useHttp()
+  const { sendRequest: fetchFine } = useHttp()
 
-const navigate=useNavigate()
-const [attendanceData,setAttendanceData]=useState([])
-const[no_of_working,setNOOfWorking]=useState([])
-const[totalFine,setTotalFine]=useState(0)
-const {id}=useParams()
-useEffect(()=>{
-  const getTotalFine= (fineDetails) => {
-    
-    if(fineDetails[0].amount!==null){
-      setTotalFine(fineDetails[0].amount)
+  const navigate = useNavigate()
+  const [attendanceData, setAttendanceData] = useState([])
+  const [no_of_working, setNOOfWorking] = useState([])
+  const [totalFine, setTotalFine] = useState(0)
+  const { id } = useParams()
+
+  useEffect(() => {
+    const getTotalFine = (fineDetails) => {
+
+      if (fineDetails[0].amount !== null) {
+        setTotalFine(fineDetails[0].amount)
+      }
     }
-  }
-  const listEmployeeDetails= (employeeDetails) => {
-    setDivData([{
-      title:"Name",
-      value:employeeDetails.employeesResult[0].name
-    },{
-title:'SuperVisor Name',
-value:employeeDetails.headEmployeesResult[0]?.head_employee_name
-    },{
-      title:'Designation',
-value:employeeDetails.employeesResult[0].role_name
-    },{
-      title:'Floor Name',
-value:employeeDetails.employeesResult[0].floor_name
+    const listEmployeeDetails = (employeeDetails) => {
+      setDivData([{
+        title: "Name",
+        value: employeeDetails.employeesResult[0].name
+      }, {
+        title: 'SuperVisor Name',
+        value: employeeDetails.headEmployeesResult[0]?.head_employee_name
+      }, {
+        title: 'Designation',
+        value: employeeDetails.employeesResult[0].role_name
+      }, {
+        title: 'Floor Name',
+        value: employeeDetails.employeesResult[0].floor_name
 
       }, {
         title: 'Gender',
@@ -84,32 +85,34 @@ value:employeeDetails.employeesResult[0].floor_name
         title: 'Store Department',
         value: employeeDetails.employeesResult[0].store_department_name
       }])
-  }
-  fetchEmployeeDetails({ url: url+"api/getEmployeeDetails?id="+id }, listEmployeeDetails)
-  const listAttendance= (attendance) => {
-setAttendanceData(attendance)
-  }
-let from_date=moment().startOf('month')
-let end_date=moment().endOf('month')
-  fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.add(1,'d').format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
-
-  let countPrsent=0
-  let countAbsent=0
-  attendanceData.forEach((data)=>{
-    if(data.status='Present'){
-      countPrsent++
     }
-    else{
-      countAbsent++
+    fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + id }, listEmployeeDetails)
+    const listAttendance = (attendance) => {
+      setAttendanceData(attendance)
     }
-  })
+    let from_date = moment().startOf('month')
+    let end_date = moment().endOf('month')
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + id }, listAttendance)
 
-  setNOOfWorking(countPrsent)
-  end_date=moment().endOf('month')
-  fetchFine({url:url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.add(1,'d').format("YYYY-MM-DD")+"&employee_id="+id},getTotalFine)
-},[])
- 
-console.log(div_data);
+    let countPrsent = 0
+    let countAbsent = 0
+
+    attendanceData.forEach((data) => {
+      if (data.status = 'Present') {
+        countPrsent++
+      }
+      else {
+        countAbsent++
+      }
+    })
+
+    setNOOfWorking(countPrsent)
+    end_date = moment().endOf('month')
+    fetchFine({ url: url + "api/getTotalFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + id }, getTotalFine)
+  }, [])
+
+  console.log(div_data);
+
   const tableHeadings = [
     { heading: 'Date' },
     { heading: 'Day' },
@@ -135,7 +138,8 @@ console.log(div_data);
     setMonth(e.target.value)
     setNewDate(new Date(e.target.value))
   }
-console.log(totalFine)
+
+
   const calData = [
     {
       p: 'No. Of Working',
@@ -161,8 +165,17 @@ console.log(totalFine)
       p: 'Total Off',
       h1: '03',
       bg: '#80A4FF'
-    },
+    }
   ]
+
+
+  const ArrData2 = attendanceData.map(element => {
+    return {
+      title:element.status,
+      backgroundColor:element.status,
+      date:element.datetime
+    }
+  })
 
   return (
     <React.Fragment>
@@ -172,11 +185,11 @@ console.log(totalFine)
       </div>
       <div className={classes.calender_container}>
         <div className={classes.actual_calender}>
-        <FullCal />
+          <FullCal event={ArrData2} />
         </div>
       </div>
       <CalendarBottomDiv data={calData} />
-      <br /> 
+      <br />
       <h3 className='uni_heading'>Salary History</h3>
       <DropDownFilter title1={'Select Month'} title2={'Store'} />
       <MainTable headings={tableHeadings} keys={tableKeys} data={data} height={true} />
