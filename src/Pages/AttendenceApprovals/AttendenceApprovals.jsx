@@ -181,10 +181,6 @@ const AttendenceApprovals = () => {
     'employee_name', 'empID', 'status', 'floor_name'
   ]
   const changeByEmployee = (data) => {
-
-    // if(data.charAt(0)!=='1')
-    //  {
-
     setEmployeeFilter((prevState) => {
       return { ...prevState, employee_query: data }
     })
