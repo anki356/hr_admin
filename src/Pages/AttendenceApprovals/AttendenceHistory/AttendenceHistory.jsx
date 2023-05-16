@@ -176,6 +176,16 @@ console.log(totalFine)
     },
   ]
 
+  const ArrData = attendanceData.map((element,index)=>{
+    return {
+      title:element.status,
+      date:element.datetime,
+      backgroundColor:element.status
+    }
+  })
+
+  console.log(ArrData);
+
   return (
     <React.Fragment>
       <Heading heading={'Attendence History'} />
@@ -184,7 +194,7 @@ console.log(totalFine)
       </div>
       <div className={classes.calender_container}>
         <div className={classes.actual_calender}>
-        <FullCal />
+        <FullCal event={ArrData} />
         </div>
       </div>
       <CalendarBottomDiv data={calData} />

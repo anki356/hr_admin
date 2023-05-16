@@ -29,10 +29,13 @@
   }
 
   .tile_color_present{
-    background: #19e719;
+    background: #19e719 !important;
   }
   .tile_color_absent{
-    background: red;
+    background: red !important;
+  }
+  .tile_color_pending{
+    background:rgb(255, 226, 71) !important;
   }
 
 
