@@ -9,7 +9,6 @@ import axios from 'axios'
 import Pagination from '../../Components/Pagination/Pagination'
 import Cookies from 'universal-cookie'
 // Data for Table
-import Data from './data'
 import MainTable from '../../Components/MainTable/MainTable'
 import AddLoanModal from '../../Components/AllModals/AddLoanModal'
 
