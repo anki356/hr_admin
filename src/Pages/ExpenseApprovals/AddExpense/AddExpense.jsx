@@ -5,6 +5,7 @@ import Heading from '../../../Components/Heading/Heading'
 import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import classes from './AddExpense.module.css'
+import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 
 const AddExpense = () => {
 
@@ -45,6 +46,7 @@ const AddExpense = () => {
     return (
         <React.Fragment>
             <Heading heading={'Add Expense'} />
+            <ExpenseSearchBar />
             <DetailsDivContainer data={employee_data} />
             <div className='uni_container'>
                 <div className={classes.inner_container}>
