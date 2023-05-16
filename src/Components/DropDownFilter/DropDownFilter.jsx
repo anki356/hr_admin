@@ -10,23 +10,21 @@ const DropDownFilter = (props) => {
   // These for fetching data from api
   const [stores, setStores] = useState([])
   const [floors, setFloors] = useState([])
-  const [categories,setCategories]=useState([])
+  const [categories, setCategories] = useState([])
   // These for selected value from select tag
   const [selectedFloor, setSelectedFloor] = useState('')
   const [selectedStore, setSelectedStore] = useState('')
-const [selectedCategory,setSelectedCategory]=useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+
+
   const sumUp = {
     store: selectedStore,
     floor: selectedFloor
   }
 
-  // Used for making an object
-  // console.log(sumUp);
-
-
   const { sendRequest: fetchStores } = useHttp()
   const { sendRequest: fetchFloors } = useHttp()
-const {sendRequest:fetchCategories}=useHttp()
+  const { sendRequest: fetchCategories } = useHttp()
 
   useEffect(() => {
     const listStores = (stores) => {
@@ -40,29 +38,25 @@ const {sendRequest:fetchCategories}=useHttp()
     }
     fetchStores({ url: 'http://localhost:9000/api/getStores' }, listStores)
     fetchFloors({ url: 'http://localhost:9000/api/getFloors' }, listFloors)
-    fetchCategories({ url: 'http://localhost:9000/api/getCategories'},listCategories)
+    fetchCategories({ url: 'http://localhost:9000/api/getCategories' }, listCategories)
   }, [])
-const selectByStore=(data)=>{
-setSelectedStore(data)
-props.selectByStore(data)
-}
-const selectByFloor=(data)=>{
-  setSelectedFloor(data)
-  props.selectByFloor(data)
+  const selectByStore = (data) => {
+    setSelectedStore(data)
+    props.selectByStore(data)
   }
-const selectByCategory=(data)=>{
-  setSelectedCategory(data)
-  props.selectByCategory(data)
+  const selectByFloor = (data) => {
+    setSelectedFloor(data)
+    props.selectByFloor(data)
+  }
+  const selectByCategory = (data) => {
+    setSelectedCategory(data)
+    props.selectByCategory(data)
   }
   return (
     <div style={props.mb ? { marginBottom: '0px' } : {}} className={classes.DropDownFilter}>
       <div className={classes.DropDownFilter_left}>
-
-        <SelectTag data={floors} title={props.title1} selectedVal={selectByFloor} img={Img}  />
+        <SelectTag data={floors} title={props.title1} selectedVal={selectByFloor} img={Img} />
         <SelectTag data={stores} selectedVal={selectByStore} title={props.title2} img={Img} />
-
-        
-
       </div>
 
       {
@@ -74,13 +68,13 @@ const selectByCategory=(data)=>{
       }
       {
         props.d3 &&
-        <SelectTag selectedVal={selectByCategory} title={props.title3} img={Img}  data={categories}/>
+        <SelectTag selectedVal={selectByCategory} title={props.title3} img={Img} data={categories} />
       }
       {
         props.d4 &&
-        <SelectTag selectedVal={selectByMonth} title={props.title4} img={Img}  data={months}/>
+        <SelectTag selectedVal={selectByMonth} title={props.title4} img={Img} data={months} />
       }
-      
+
     </div>
   )
 }

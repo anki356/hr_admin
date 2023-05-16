@@ -8,8 +8,11 @@ const SelectTag = (props) => {
         props.selectedVal(e.target.value)
     }
 
+    const callParentFunction = (e) => {
+        props.parentFunc(e.target.value)
+    }
+
     const optionData = props.data;
-    console.log('optionData', optionData);
 
     return (
         <div className={classes.select_div}>
@@ -21,11 +24,19 @@ const SelectTag = (props) => {
                         <option key={index} value={val.name}>{val.name}</option>
                     ))}
                 </select> :
-                <select className={classes.select}>
-                    <option defaultValue>{props.title}</option>
-                    <option value="">New Delhi</option>
-                    <option value="">Istanbul</option>
-                    <option value="">Jakarta</option>
+                <select onChange={callParentFunction} className={classes.select}>
+                    <option selected value='1'>Janaury</option>
+                    <option value='2'>February</option>
+                    <option value='3'>March</option>
+                    <option value='4'>April</option>
+                    <option value='5'>May</option>
+                    <option value='6'>June</option>
+                    <option value='7'>July</option>
+                    <option value='8'>August</option>
+                    <option value='9'>September</option>
+                    <option value='10'>October</option>
+                    <option value='11'>November</option>
+                    <option value='12'>December</option>
                 </select>
             }
             <img src={Img} className={classes.down_arrow} alt="down_arrow" />

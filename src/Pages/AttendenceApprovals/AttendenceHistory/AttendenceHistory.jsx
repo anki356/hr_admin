@@ -15,6 +15,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
 import Cookies from 'universal-cookie'
 import moment from 'moment'
+import SelectTag from '../../../Components/SelectTag/SelectTag'
+import Img from '../../../assets/shop.png'
 const Tile = ({ date, view }) => {
   
   const CurrentDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getUTCFullYear()}`
@@ -184,7 +186,9 @@ console.log(totalFine)
     }
   })
 
-  console.log(ArrData);
+  const selectMonthFunc = (data) => {
+    console.log(data)
+  }
 
   return (
     <React.Fragment>
@@ -200,7 +204,7 @@ console.log(totalFine)
       <CalendarBottomDiv data={calData} />
       <br /> 
       <h3 className='uni_heading'>Salary History</h3>
-      <DropDownFilter title4={'Select Month'}  />
+      <div className={classes.month_filter}><SelectTag parentFunc={selectMonthFunc} title1={'Select Month'} img={Img} /></div>
       <MainTable headings={tableHeadings} keys={tableKeys} data={newData} height={true} />
     </React.Fragment>
   )

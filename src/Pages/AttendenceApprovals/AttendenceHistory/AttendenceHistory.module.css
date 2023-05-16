@@ -51,6 +51,10 @@
   /* overflow-x: scroll; */
 }
 
+.month_filter{
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width:750px){
   .actual_calender{
     overflow-x: scroll;
