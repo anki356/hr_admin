@@ -1,11 +1,15 @@
-import React from 'react'
+import React,{useState} from 'react'
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
 import Heading from '../../../Components/Heading/Heading'
 import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import classes from './AddInterview.module.css'
 
 const AddInterview = () => {
-
+const [name,setName]=useState([])
+const[father_name,setfatherName]=useState([])
+const[designation,setDesignation]=useState([])
+const[hired_by,setHiredBy]=useState([])
+const[reference,setReference]=useState([])
     const inputs = [
         {
             title: 'Name',

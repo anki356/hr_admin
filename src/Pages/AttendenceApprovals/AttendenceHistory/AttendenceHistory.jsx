@@ -97,7 +97,7 @@ let end_date=moment().endOf('month')
   fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.add(1,'d').format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
 
   let countPresent=0
-  let countAbsent=0
+  var countAbsent=0
   attendanceData.forEach((data)=>{
     if(data.status==='Present'){
       countPresent++
@@ -106,7 +106,7 @@ let end_date=moment().endOf('month')
       countAbsent++
     }
   })
-
+console.log("attendanceData",attendanceData)
   setNOOfWorking(countPresent)
   setOff(countAbsent)
   end_date=moment().endOf('month')
@@ -187,7 +187,13 @@ console.log(totalFine)
   })
 
   const selectMonthFunc = (data) => {
-    console.log(data)
+    let year=new Date().getFullYear()
+    var from_date=moment([year,data-1])
+    var to_date=moment([year,data])
+    const listAttendance= (attendance) => {
+      setAttendanceData(attendance)
+        }
+    fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+to_date.format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
   }
 
   return (
@@ -203,7 +209,7 @@ console.log(totalFine)
       </div>
       <CalendarBottomDiv data={calData} />
       <br /> 
-      <h3 className='uni_heading'>Salary History</h3>
+      <h3 className='uni_heading'>Attendance History</h3>
       <div className={classes.month_filter}><SelectTag parentFunc={selectMonthFunc} title1={'Select Month'} img={Img} /></div>
       <MainTable headings={tableHeadings} keys={tableKeys} data={newData} height={true} />
     </React.Fragment>
