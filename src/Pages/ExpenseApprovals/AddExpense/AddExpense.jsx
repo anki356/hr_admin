@@ -51,10 +51,6 @@ const AddExpense = () => {
         "value": "Catlin"
     }]
 
-
-
-
-
     return (
         <React.Fragment>
             <Heading heading={'Add Expense'} />

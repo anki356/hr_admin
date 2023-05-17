@@ -9,7 +9,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from 'axios'
 import Cookies from 'universal-cookie'
-
+import SelectTag from '../SelectTag/SelectTag'
+import classes2 from './InterviewFilter.module.css'
+import Img from '../../assets/shop.png'
 const InterviewFilter = (props) => {
 
     const cookies = new Cookies();
@@ -100,14 +102,10 @@ const InterviewFilter = (props) => {
     return (
 
         <div className={classes.filter_box}>
-            <form className={classes.input_div}>
+            <div className={classes2.select_container}>
                 <label htmlFor="interviewer">Interviewer</label>
-                <input value={state2.query} onChange={handleChange2} type="text" id='interviewer' placeholder='Interviewer ID , Interviewer Name..' />
-                <img className={classes.img1} src={mag} alt="" onClick={(e) => changeByInterviewer()} />
-                <div className={`${classes.search_table} ${View2 === true ? classes.visible : ''}`}>
-                    <MainTable Inp={false} Btn={false} headings={tableHeadingsforInterviewer} data={state2.list === undefined ? tableData2 : state2.list} keys={['interviewer_name', 'interviewer_id']} />
-                </div>
-            </form>
+                <SelectTag img={Img} select_id='interviewer' title={'Interviewer'} />
+            </div>
 
             <form className={classes.input_div}>
                 <label htmlFor="interviewee">Interviewee</label>
