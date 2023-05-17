@@ -16,3 +16,19 @@
   line-height: 20px;
   outline: none;
 }
+
+.add_expense_seleecct_container {
+  width: 33%;
+  padding-right: 30px;
+}
+.add_expense_seleecct_container label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #96503f;
+  display: block;
+}
+.add_expense_seleecct_container > div,
+.add_expense_seleecct_container > div select {
+  width: 100% !important;
+}

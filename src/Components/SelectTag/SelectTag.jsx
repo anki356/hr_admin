@@ -18,13 +18,13 @@ const SelectTag = (props) => {
         <div className={classes.select_div}>
             <img src={props.img} className={classes.select_img} alt="" />
             {optionData ?
-                <select className={classes.select} onChange={valHandler}>
-                    <option value={''} defaultValue>{props.title}</option>
+                <select className={classes.select} onChange={valHandler} id={props.select_id ? props.select_id :''}>
+                    <option defaultValue>{props.title}</option>
                     {optionData.map((val, index) => (
                         <option key={index} value={val.name}>{val.name}</option>
                     ))}
                 </select> :
-                <select onChange={callParentFunction} className={classes.select}>
+                <select onChange={callParentFunction} className={classes.select} id={props.select_id ? props.select_id :''}>
                     <option selected value='1'>Janaury</option>
                     <option value='2'>February</option>
                     <option value='3'>March</option>

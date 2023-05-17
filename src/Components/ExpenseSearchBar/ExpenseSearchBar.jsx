@@ -7,7 +7,7 @@ const ExpenseSearchBar = (props) => {
     const [text, setText] = useState('')
 
     const setSearchText = () => {
-        alert(text)
+        props.func(text)
         setText('')
     }
 
