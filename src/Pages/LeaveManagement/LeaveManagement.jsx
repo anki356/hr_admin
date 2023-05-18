@@ -18,6 +18,10 @@ const LeaveManagement = () => {
   const url="http://localhost:9000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
+  
+  const cookies = new Cookies();
+  const token = cookies.get('token')
+  const [SuperVisor, setSuperVisor]=useState(null)
  const [data,setData]=useState([])
   const [limit,setLimit]=useState(10)
   const [offset,setOffset]=useState(0)
@@ -27,7 +31,7 @@ const LeaveManagement = () => {
     role_name:"",
     store_name:""
   })
-  const cookies = new Cookies();
+
   const { sendRequest: fetchLeaves } = useHttp()
   
   const [TileData ,setTileData]=useState([])
@@ -153,6 +157,10 @@ axios.get(url+"api/getTotalLeaves?from_date="+from_date.format("YYYY-MM-DD")+"&t
   const [obj, setObj] = useState({})
 
   const changeModalState = ([val, element]) => {
+    const headers={"Authorization":"Bearer "+token}
+    axios.get(url+"api/getEmployeeDetails?id="+element.employee_id,{headers}).then((response)=>{
+        setSuperVisor(response.data.headEmployeesResult[0]?.head_employee_name)
+        })
     setNewVal(val)
     setObj(element)
   }
@@ -191,8 +199,8 @@ const selectEntries=(data)=>{
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable func={changeModalState}  data={data} height={true} Lnk={true} link1={'false'} link2={'/leave_approvals'} t2={'Approve'} t3={'Add Leave'} App_Btn={true} Btn={false} headings={tableHeadings} keys={tableKeys} />
-      <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} />
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage}  />
     </React.Fragment>
   )
 }
