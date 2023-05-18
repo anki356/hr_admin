@@ -39,7 +39,7 @@ const LeaveManagement = () => {
     const listLeave = (leave) => {
       setData(leave)
     }
-    fetchLeaves({ url: url+"api/getLeaves?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset }, listLeave)
+    fetchLeaves({ url: url+"api/getLeaves?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listLeave)
     from_date=moment()
     axios.get(url+"api/getTotalEmployeesOnLeave?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{
       let employeeOnLeave=response.data[0].count_id
@@ -98,7 +98,7 @@ axios.get(url+"api/getTotalLeaves?from_date="+from_date.format("YYYY-MM-DD")+"&t
     // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     
-  let getString=url+"api/getLeaves?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset
+  let getString=url+"api/getLeaves?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
     if(employeeFilter.employee_query!=''){
       getString+="&employee_query="+employeeFilter.employee_query
 }
