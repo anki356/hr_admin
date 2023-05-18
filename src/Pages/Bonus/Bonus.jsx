@@ -209,7 +209,7 @@ const Bonus = () => {
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} link2={'/bonus_approvals'} App_Btn={true} data={Data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} />
+      <MainTable func={changeModalState} Lnk={true} link1={'false'}  link2={'/bonus_approvals'} App_Btn={true} data={Data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} t2={'Approve'} />
 <Pagination selectEntries={selectEntries} selectPage={selectPage} />
 
       <AddBonusModal value={newval} setval={setNewVal} Obj={obj} />
