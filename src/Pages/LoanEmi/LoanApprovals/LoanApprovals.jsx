@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie'
 import useHttp from '../../../Hooks/use-http'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-
+ 
 const employee_data = [{
   "title": "Electrician",
   "value": "Royall"
@@ -150,10 +150,7 @@ const LoanApprovals = () => {
     }
     fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
   }, [])
-
   // console.log(data)
-
-
   const tableHeading = [{ heading: 'Documents' }]
   const tableKeys = ['document']
   function approve() {
