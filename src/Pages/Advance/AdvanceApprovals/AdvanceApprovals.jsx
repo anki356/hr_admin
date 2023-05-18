@@ -7,8 +7,24 @@ import AdditionalInfoContainer from '../../../UI/AdditionalInfoContainer/Additio
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import data from './data'
 
+import Cookies from 'universal-cookie'
+import useHttp from '../../../Hooks/use-http'
+import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios'
 const AdvanceApprovals = () => {
-
+  const url = "http://localhost:9000/"
+  const cookies = new Cookies();
+  const navigate = useNavigate()
+  const token = cookies.get('token')
+  const [data, setData] = useState([])
+  const { sendRequest: fetchEmployeeDetails } = useHttp()
+  const { sendRequest: fetchLeave } = useHttp()
+  const { id, employee_id } = useParams()
+  const [div_data, setDivData] = useState([])
+  const [leave_info, setLeaveInfo] = useState(null)
+  const [from_date, setFromDate] = useState(null)
+  const [to_date, setToDate] = useState(null)
+  const [reason, setReason] = useState(null)
   const employee_data = [{
     "title": "Electrician",
     "value": "Royall"
@@ -41,24 +57,24 @@ const AdvanceApprovals = () => {
     "value": "Catlin"
   }]
 
-  const leave_info = [
-    {
-      title: 'Date',
-      value: '31 march To 3 April 2023'
-    },
-    {
-      title: 'Days',
-      value: '4 Days'
-    },
-    {
-      title: 'Recall Head',
-      value: 'Yes'
-    },
-    {
-      title: 'Head Approval',
-      value: 'Yes'
-    }
-  ]
+  // const leave_info = [
+  //   {
+  //     title: 'Date',
+  //     value: '31 march To 3 April 2023'
+  //   },
+  //   {
+  //     title: 'Days',
+  //     value: '4 Days'
+  //   },
+  //   {
+  //     title: 'Recall Head',
+  //     value: 'Yes'
+  //   },
+  //   {
+  //     title: 'Head Approval',
+  //     value: 'Yes'
+  //   }
+  // ]
 
   const tableHeading=[{heading:'Documents'}]
   const tableKeys = ['document']

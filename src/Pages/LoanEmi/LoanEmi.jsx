@@ -35,7 +35,7 @@ const LoanEmi = () => {
       const listLoan = (loan) => {
         setData(loan)
       }
-      fetchLoan({ url: url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset }, listLoan)
+      fetchLoan({ url: url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listLoan)
       from_date=moment()
       axios.get(url+"api/getTotalLoansGranted?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{
        
@@ -94,7 +94,7 @@ const LoanEmi = () => {
     // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     
-  let getString=url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset
+  let getString=url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
     if(employeeFilter.employee_query!=''){
       getString+="&employee_query="+employeeFilter.employee_query
 }
