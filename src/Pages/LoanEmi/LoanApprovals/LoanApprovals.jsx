@@ -5,7 +5,7 @@ import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import MainTable from '../../../Components/MainTable/MainTable'
 import AdditionalInfoContainer from '../../../UI/AdditionalInfoContainer/AdditionalInfoContainer'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
-import data from './data'
+
 import Cookies from 'universal-cookie'
 import useHttp from '../../../Hooks/use-http'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -110,41 +110,45 @@ const LoanApprovals = () => {
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
-      setFromDate(leaveDetails[0].from_date)
-      setToDate(leaveDetails[0].to_date)
-      let from_date = leaveDetails[0].from_date
-      let to_date = leaveDetails[0].to_date
-      let from_day = moment(from_date).date()
-      let from_month = moment(from_date).month()
-      let year = moment(from_date).year()
-      let to_day = moment(to_date).date()
-      let to_month = moment(to_date).month()
-      let from = moment(from_date)
-      let to = moment(to_date).add(1, 'd')
-      let monthArray = ["January, February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-      setLeaveInfo([
-        {
-          title: 'Date',
-          value: monthArray[from_month - 1] + " " + from_day + " " + " to " + monthArray[to_month - 1] + " " + to_day + " " + " ," + year
-        },
-        {
-          title: 'Days',
-          value: to.diff(from, 'd')
-        },
-        {
-          title: 'Recall Head',
-          value: leaveDetails[0].recall_head === 1 ? 'Yes' : 'No'
-        },
-        {
-          title: 'Head Approval',
-          value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'No'
-        }
-      ])
-      setData([{
-        document: leaveDetails[0].document
-      }])
+     console.log(leaveDetails)
+   let  loan_emis=leaveDetails[0].loan_repayment.map((data)=>data.amount)
+     let loan_string=''
+     loan_emis.forEach((data,index)=>{
+      if(index!==loan_emis.length-1){
+        loan_string+="Rs "+data+", "
+      }
+      else{
+        loan_string+="Rs "+data
+      }
+
+     })
+     setLeaveInfo([
+      {
+        title: 'Loan Amount',
+        value: leaveDetails[0].amount
+      },
+      {
+        title: 'Tenure',
+        value: leaveDetails[0].tenure
+      },
+      {
+        title: 'Loan EMI',
+        value: loan_string
+      },
+      {
+        title: 'Recall Head',
+        value:  leaveDetails[0].recall_head===1?'Yes':'No'
+      },
+      {
+        title: 'Head Approval',
+        value:  leaveDetails[0].head_approval===1?'Yes':'NO'
+      }
+    ])
+    setData([{
+      document: leaveDetails[0].file_upload_id
+    }])
     }
-    fetchLeave({ url: url + "api/getLeave?id=" + id }, listLeave)
+    fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
   }, [])
 
   // console.log(data)
@@ -154,12 +158,10 @@ const LoanApprovals = () => {
   const tableKeys = ['document']
   function approve() {
     const headers = { "Authorization": "Bearer " + token }
-    axios.patch(url + "api/updateLeaveStatus", {
+    axios.patch(url + "api/updateLoanStatus/"+id, {
 
       "status": "Approved",
-      "from_date": from_date.split("T")[0],
-      "to_date": to_date.split("T")[0],
-      "employee_id": employee_id
+      "rejection_reason":null
 
     }, { headers }).then((response) => {
       if (response) {
@@ -173,10 +175,7 @@ const LoanApprovals = () => {
     axios.patch(url + "api/updateLoanStatus/"+id, {
 
       "status": "Rejected",
-      "from_date": from_date.split("T")[0],
-      "to_date": to_date.split("T")[0],
-      "employee_id": employee_id,
-      "reason": reason
+      "rejection_reason":reason
 
     }, { headers }).then((response) => {
       if (response) {
@@ -196,8 +195,8 @@ const LoanApprovals = () => {
         <AdditionalInfoContainer data={leave_info} />
         <LabeledInput cls={true} id={'val'} title={'Reason If Rejected'} img={false} func2={setReason} />
       </div>
-      {/* <h3 className='uni_heading'>Attached File</h3>
-      <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} /> */}
+      <h3 className='uni_heading'>Attached File</h3>
+      <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} />
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )

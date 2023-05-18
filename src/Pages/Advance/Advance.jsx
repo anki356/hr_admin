@@ -38,7 +38,7 @@ const Advance = () => {
       const listAdvance = (advance) => {
         setData(advance)
       }
-      fetchAdvance({ url: url+"api/getAdvance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset }, listAdvance)
+      fetchAdvance({ url: url+"api/getAdvances?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listAdvance)
       from_date=moment()
       axios.get(url+"api/getTotalAdvanceGranted?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{
        
@@ -100,7 +100,7 @@ const Advance = () => {
     // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
     
-  let getString=url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset
+  let getString=url+"api/getAdvances?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
     if(employeeFilter.employee_query!=''){
       getString+="&employee_query="+employeeFilter.employee_query
 }

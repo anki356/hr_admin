@@ -74,7 +74,7 @@ const App = () => {
               <Route exact path="/attendence_corrections_details" element={<CorrectionDetails />} />
               <Route exact path="/attendence_corrections_check" element={<Correction />} />
               <Route exact path="/advance" element={<Advance />} />
-              <Route exact path="/advance_approvals" element={<AdvanceApprovals />} />
+              <Route exact path="/advance_approvals/:id/:employee_id" element={<AdvanceApprovals />} />
 
               <Route exact path="/expense_approvals" element={<ExpenseApprovals />} />
               <Route exact path="/expense_approval/:id/:employee_id" element={<ExpenseApproval />} />
