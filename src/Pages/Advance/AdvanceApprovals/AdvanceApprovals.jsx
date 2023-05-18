@@ -57,30 +57,15 @@ const AdvanceApprovals = () => {
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
-      console.log('here is our leave details', leaveDetails)
-      let loan_emis = leaveDetails[0].loan_repayment.map((data) => data.amount)
-      let loan_string = ''
-      loan_emis.forEach((data, index) => {
-        if (index !== loan_emis.length - 1) {
-          loan_string += "Rs " + data + ", "
-        }
-        else {
-          loan_string += "Rs " + data
-        }
-
-      })
+      console.log('here is our advance details', leaveDetails)
       setLeaveInfo([
         {
-          title: 'Loan Amount',
+          title: 'Advance Amount',
           value: leaveDetails[0].amount
         },
         {
-          title: 'Tenure',
-          value: leaveDetails[0].tenure
-        },
-        {
-          title: 'Loan EMI',
-          value: loan_string
+          title: 'Repay',
+          value: 'Automatically deducted'
         },
         {
           title: 'Recall Head',
@@ -95,14 +80,16 @@ const AdvanceApprovals = () => {
         document: leaveDetails[0].file_upload_id
       }])
     }
-    fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
+    fetchLeave({ url: url + "api/getAdvance?id=" + id }, listLeave)
   }, [])
-  // console.log(data)
+  console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
   const tableKeys = ['document']
+
+  
   function approve() {
     const headers = { "Authorization": "Bearer " + token }
-    axios.patch(url + "api/updateLoanStatus/" + id, {
+    axios.patch(url + "api/updateAdvanceStatus/" + id, {
 
       "status": "Approved",
       "rejection_reason": null
@@ -116,7 +103,7 @@ const AdvanceApprovals = () => {
   }
   function cancel() {
     const headers = { "Authorization": "Bearer " + token }
-    axios.patch(url + "api/updateLoanStatus/" + id, {
+    axios.patch(url + "api/updateAdvanceStatus/" + id, {
 
       "status": "Rejected",
       "rejection_reason": reason
@@ -141,7 +128,7 @@ const AdvanceApprovals = () => {
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} />
-      <BottomButtonContainer cancel={'Back'} approve={'Continue'} />
+      <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )
 }

@@ -89,7 +89,7 @@ const App = () => {
 
 
               <Route exact path="/fine_management" element={<FineManagement />} />
-              <Route exact path="/fine_approvals" element={<FineApprovals />} />
+              <Route exact path="/fine_approvals/:id/:employee_id" element={<FineApprovals />} />
 
               <Route exact path="/leave_management" element={<LeaveManagement />} />
               <Route exact path="/leave_approvals/:id/:employee_id" element={<LeaveApprovals />} />
