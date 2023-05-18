@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import HoverableTableActions from '../HoverableTableActions/HoverableTableActions'
 
+import DownloadIcon from '../../assets/download.png';
 const MainTable = (props) => {
 
     // const [rows, setRows] = useState(5)
@@ -76,7 +77,22 @@ const MainTable = (props) => {
                 return <div className={classes.present}>Approved</div>
         }
     }
+    const downloadLeaveData = (data,e) => {
 
+        e.preventDefault()
+         fetch(data)
+             .then(response => {
+                 response.blob().then(blob => {
+                     let url = window.URL.createObjectURL(blob);
+                     let a = document.createElement('a');
+                     a.href = url;
+                     a.download = 'download';
+                     a.click();
+                     
+                 });
+                 
+         });
+     }
 
     // Table best divider for classes and all 
     const printData = (val, key, img) => {
@@ -97,6 +113,9 @@ const MainTable = (props) => {
                 return setFine(val)
             case 'approval':
                 return setApproval(val)
+            case 'document':
+                console.log(val)
+                return  <a href="#" onClick={(event)=>downloadLeaveData("http://localhost:9000/"+val,event)} >Download file<img src={DownloadIcon}></img></a>
             default:
                 return val
         }
@@ -134,7 +153,7 @@ const MainTable = (props) => {
                                 {
                                     props.Lnk === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!=='false'?props.link1+"/"+val.attendance_id+"/"+val.employee_id:'false'} Btn={props.App_Btn} link2={props.link2+"/"+val.employee_id} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!=='false'?props.link1+"/"+val.attendance_id+"/"+val.employee_id:'false'} Btn={props.App_Btn} link2={props.link2+"/"+val.id+"/"+val.employee_id} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
                                         </td> : null
                                 }
                                 {
