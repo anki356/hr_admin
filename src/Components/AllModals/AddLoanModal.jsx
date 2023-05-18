@@ -6,6 +6,8 @@ import InpFile from '../InpFile/InpFile'
 
 const AddLoanModal = (props) => {
 
+    const [recallValue, setRecallValue] = useState(0)
+
     const [modal, setModal] = useState(false)
 
     const closeHandler = () => {
@@ -19,6 +21,16 @@ const AddLoanModal = (props) => {
     }, [props.value, props.Obj])
 
 
+    const newFile = (data) => {
+        console.log('here is my file', data)
+    }
+
+    const recallHandler = () => {
+        if (recallValue == 1) {
+            return setRecallValue(0)
+        }
+        setRecallValue(1)
+    }
 
     return (
         <Modal wd={'470px'} isModal={modal} >
@@ -34,8 +46,8 @@ const AddLoanModal = (props) => {
                 <div className={classes.modal_data_div}>Loan <span><input type="text" /></span></div>
                 <div className={classes.modal_data_div}>Loan Tenure <span><input type="text" /></span></div>
                 <div className={classes.modal_data_div}>Approval By Head<span><input type="text" /></span></div>
-                <div className={classes.modal_data_div}>Attach File<span><InpFile /></span></div>
-                <div className={classes.modal_data_div}>Recall Head<span><input type="checkbox"  /></span></div>
+                <div className={classes.modal_data_div}>Attach File<span><InpFile fileHandler={newFile} /></span></div>
+                <div className={classes.modal_data_div}>Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
             </div>
             <div className={classes.modal_btn_container}>
                 <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>
