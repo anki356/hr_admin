@@ -61,17 +61,30 @@ const leave_info = [
     value: 'Yes'
   }
 ]
+const monthArray=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 
 const tableHeading=[{heading:'Documents'}]
 const tableKeys = ['document']
 
 
 const LoanApprovals = () => {
-
-  const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const navigate = useNavigate()
   const token = cookies.get('token')
+  const restructureLoan=(month)=>{
+   
+  
+    const headers={"Authorization":"Bearer "+token}
+    axios.post("http://localhost:9000/api/restructureLoans",{
+        loan_id:id,
+        month:month
+    },{headers}).then(()=>{
+  
+    })
+  
+  }
+  const url = "http://localhost:9000/"
+ 
   const [data, setData] = useState([])
   const { sendRequest: fetchEmployeeDetails } = useHttp()
   const { sendRequest: fetchLeave } = useHttp()
@@ -81,6 +94,9 @@ const LoanApprovals = () => {
   const [from_date, setFromDate] = useState(null)
   const [to_date, setToDate] = useState(null)
   const [reason, setReason] = useState(null)
+  const [loanEMIData, setLoanEMIData] = useState([])
+  const [loanData, setLoanData] = useState([])
+
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
       setDivData([{
@@ -110,7 +126,7 @@ const LoanApprovals = () => {
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
-     console.log(leaveDetails)
+     
    let  loan_emis=leaveDetails[0].loan_repayment.map((data)=>data.amount)
      let loan_string=''
      loan_emis.forEach((data,index)=>{
@@ -122,6 +138,16 @@ const LoanApprovals = () => {
       }
 
      })
+     leaveDetails[0].loan_repayment.forEach((data)=>{
+      if(data.status==='Paid'){
+      data.restructure=false
+      }
+      else{
+          data.restructure=true
+      }
+             })
+             setLoanEMIData(leaveDetails[0].loan_repayment)
+     setLoanData(leaveDetails)
      setLeaveInfo([
       {
         title: 'Loan Amount',
@@ -182,7 +208,13 @@ const LoanApprovals = () => {
 
 
   }
-
+  const loan_table_headings = [
+    {heading:'Loan Amount'},
+    {heading:'Month'},
+    {heading:'Status'},
+    {heading:'Restructure'},
+]
+const loan_table_keys = ['amount'  , 'month' , 'status', ]
   return (
     <React.Fragment>
       <Heading heading={'Loan Approvals'} />
@@ -194,6 +226,17 @@ const LoanApprovals = () => {
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} />
+      <div >
+                <div>Loan Amount</div>
+                <div>{loanData[0]?.amount}</div>
+                <div>Tenure</div>
+                <div>{loanData[0]?.tenure}</div>
+                <div>Approval Status</div>
+                <div>{loanData[0]?.status}</div>
+                <div>Month</div>
+                <div>{monthArray[loanEMIData[0]?.month]}</div>
+            </div>
+      <MainTable  restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData} height={true}  />
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )

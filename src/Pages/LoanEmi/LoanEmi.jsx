@@ -13,6 +13,8 @@ import MainTable from '../../Components/MainTable/MainTable'
 import AddLoanModal from '../../Components/AllModals/AddLoanModal'
 
 const LoanEmi = () => {
+  
+  const [SuperVisor, setSuperVisor]=useState(null)
   const url="http://localhost:9000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
@@ -26,6 +28,8 @@ const LoanEmi = () => {
     store_name:""
   })
   const cookies = new Cookies();
+  
+  const token = cookies.get('token')
   const { sendRequest: fetchLoan } = useHttp()
   const [TileData ,setTileData]=useState([])
   useEffect(()=>{
@@ -161,6 +165,10 @@ const LoanEmi = () => {
   const [obj,setObj] = useState({})
 
   const changeModalState = ([val , element]) => {
+    const headers={"Authorization":"Bearer "+token}
+    axios.get(url+"api/getEmployeeDetails?id="+element.employee_id,{headers}).then((response)=>{
+        setSuperVisor(response.data.headEmployeesResult[0]?.head_employee_name)
+        })
     setNewVal(val)
     setObj(element)
   }
@@ -214,7 +222,7 @@ const selectEntries=(data)=>{
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable func={changeModalState} Lnk={true} link1={'false'} link2={'/loan_approvals'} App_Btn={true} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t2={'Approve'} t3={'Add Loan'} />
-      <AddLoanModal value={newval} setval={setNewVal} Obj={obj}  />
+      <AddLoanModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )

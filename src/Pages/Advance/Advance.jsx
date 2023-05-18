@@ -29,10 +29,12 @@ const Advance = () => {
   const cookies = new Cookies();
   const { sendRequest: fetchAdvance } = useHttp()
   const [TileData ,setTileData]=useState([])
-
+  
+  const [SuperVisor, setSuperVisor]=useState(null)
+  const token = cookies.get('token')
   // Here is our data for tile in the page
   useEffect(()=>{
-    const token = cookies.get('token')
+    
       const headers={"Authorization":"Bearer "+token}
       let from_date=moment()
       const listAdvance = (advance) => {
@@ -143,6 +145,10 @@ const Advance = () => {
   const [obj,setObj] = useState({})
 
   const changeModalState = ([val , element]) => {
+    const headers={"Authorization":"Bearer "+token}
+    axios.get(url+"api/getEmployeeDetails?id="+element.employee_id,{headers}).then((response)=>{
+        setSuperVisor(response.data.headEmployeesResult[0]?.head_employee_name)
+        })
     setNewVal(val)
     setObj(element)
   }
@@ -198,7 +204,7 @@ const selectEntries=(data)=>{
       selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
       <Filter data={data} changeDate={changeDate}  changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable func={changeModalState} Lnk={true} link1={'false'} link2={'/advance_approvals'} App_Btn={true} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t2={'Approve'} t3={'Add Advance'} />
-      <AddAdvanceModal value={newval} setval={setNewVal} Obj={obj}  />
+      <AddAdvanceModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )

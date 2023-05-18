@@ -15,7 +15,10 @@ const MainTable = (props) => {
     const clickHandler = (element) => {
         props.func([true, element])
     }
-
+    const restructureLoan=(month,e)=>{
+        props.restructureLoan(month)
+       
+       }
     // Switch for data uploading
     const runSwitch = (element) => {
         switch (element) {
@@ -147,6 +150,9 @@ const MainTable = (props) => {
                                         {printData(val[element], element, val['image'])}
                                     </td>
                                 ))}
+                                {
+                                    val['restructure']=== true&&val['amount']!==0 &&index!==newData.length-1 ?<td key={index}> <a href="#" onClick={(e)=>restructureLoan(val['month'],e)}>Restructure</a> </td>: null
+                                }
                                 {
                                     props.Btn === true ? <td><button onClick={() => { clickHandler(val) }}>Out</button></td> : null
                                 }
