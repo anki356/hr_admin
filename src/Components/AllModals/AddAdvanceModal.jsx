@@ -77,7 +77,7 @@ const AddAdvanceModal = (props) => {
                 <div className={classes.modal_data_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
                 <div className={classes.modal_btn_container}>
                 <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>
-                <button type="submit" className={classes.modal_btn2}>Approve</button>
+                <button type="submit" className={classes.modal_btn2}>Add</button>
             </div>
             </form>
            
