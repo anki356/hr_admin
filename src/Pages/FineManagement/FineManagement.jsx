@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Heading from '../../Components/Heading/Heading'
 import TileContainer from '../../UI/TileContainer/TileContainer'
 import DropDownFilter from '../../Components/DropDownFilter/DropDownFilter'
@@ -11,53 +11,24 @@ import Cookies from 'universal-cookie'
 import useHttp from '../../Hooks/use-http'
 import moment from 'moment'
 import axios from 'axios'
-  // Table Headings, Data and Keys
-  const tableHeadings=[
-    {heading:'Employee Name'},
-    {heading:'Employee ID'},
-    {heading:'Floor'},
-    {heading:'Fine Date'},
-    {heading:'Fine'}
-  ]
+// Table Headings, Data and Keys
+const tableHeadings = [
+  { heading: 'Employee Name' },
+  { heading: 'Employee ID' },
+  { heading: 'Floor' },
+  { heading: 'Fine Date' },
+  { heading: 'Fine' }
+]
 
-  const tableKeys = [
-    'employee_name','empID','floor_name','date' , 'amount'
-  ]
+const tableKeys = [
+  'employee_name', 'empID', 'floor_name', 'date', 'amount'
+]
 
 const FineManagement = () => {
 
-  // Here is our data for tile in the page
-  // const TileData = [
-  //   {
-  //     title: 'Total Employee',
-  //     value: '130',
-  //     num: 2
-  //   },
-  //   {
-  //     title: 'Trails Employee',
-  //     value: 9,
-  //     num: 2
-  //   },
-  //   {
-  //     title: 'Total Depart.',
-  //     value: 8,
-  //     num: 3
-  //   },
-  //   {
-  //     title: 'Out From Store',
-  //     value: 23,
-  //     num: -12
-  //   }
-  // ]
-
   const [newval, setNewVal] = useState(false)
-  const [obj,setObj] = useState({})
-
-  const changeModalState = ([val , element]) => {
-    setNewVal(val)
-    setObj(element)
-  }
-
+  const [obj, setObj] = useState({})
+  const [SuperVisor, setSuperVisor] = useState(null)
   const url = "http://localhost:9000/"
   // Here is our data for tile in the page
   const [date, setDate] = useState(new Date())
@@ -71,10 +42,11 @@ const FineManagement = () => {
     store_name: ""
   })
   const cookies = new Cookies();
+  const token = cookies.get('token')
   const { sendRequest: fetchPendingAttendance } = useHttp()
   const [TileData, setTileData] = useState([])
-  useEffect(() => {
-  const token = cookies.get('token')
+  function OverAllData() {
+    const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token }
     let from_date = moment(date)
     const listAttendance = (attendance) => {
@@ -129,8 +101,11 @@ const FineManagement = () => {
         })
       })
     })
+  }
+  useEffect(() => {
+    OverAllData()
     console.log(TileData)
-  },[])
+  }, [])
   useEffect(() => {
     let from_date = moment(date)
 
@@ -197,6 +172,15 @@ const FineManagement = () => {
   }
 
 
+  const changeModalState = ([val, element]) => {
+    const headers = { "Authorization": "Bearer " + token }
+    axios.get(url + "api/getEmployeeDetails?id=" + element.employee_id, { headers }).then((response) => {
+      setSuperVisor(response.data.headEmployeesResult[0]?.head_employee_name)
+    })
+    setNewVal(val)
+    setObj(element)
+  }
+
 
   return (
     <React.Fragment>
@@ -205,7 +189,7 @@ const FineManagement = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk={true} link1={'false'} link2={'/fine_approvals'} App_Btn={true} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
-      <AddFineModal value={newval} setval={setNewVal} Obj={obj}  />
+      <AddFineModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
     </React.Fragment>
   )
 }

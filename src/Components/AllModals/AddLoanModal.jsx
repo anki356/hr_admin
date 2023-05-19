@@ -16,6 +16,7 @@ const AddLoanModal = (props) => {
     const [approval_head, setApprovalHead] = useState(null)
     const [recall_head, setRecallHead] = useState(false)
     const [document, setDocument] = useState(null)
+
     const [selectvalue, setSelectValue] = useState('')
 
     const closeHandler = () => {
