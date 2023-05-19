@@ -11,7 +11,7 @@ const AddFineModal = (props) => {
     const [text, setText] = useState('')
     const cookies = new Cookies()
     const token = cookies.get('token')
-const [fine,setFine] = useState('')
+    const [fine, setFine] = useState('')
 
     const closeHandler = () => {
         setModal(false)
@@ -24,9 +24,9 @@ const [fine,setFine] = useState('')
     }, [props.value, props.Obj])
 
     const formData = {
-        employee_id:props.Obj.employee_id,
-        amount:fine,
-        reason:text
+        employee_id: props.Obj.employee_id,
+        amount: fine,
+        reason: text
     }
     const reqConfig = {
         url: 'http://localhost:9000/api/addFine',
@@ -37,7 +37,7 @@ const [fine,setFine] = useState('')
         },
         body: formData
     }
-    const { isLoading , sendRequest } = useHttp()
+    const { isLoading, sendRequest } = useHttp()
 
     const formHandler = (e) => {
         e.preventDefault()
@@ -62,11 +62,11 @@ const [fine,setFine] = useState('')
                 <div className={classes.modal_data_div}>Name <span>{props.Obj.name}</span></div>
                 <div className={classes.modal_data_div}>Floor <span>{props.Obj.floor_name}</span></div>
                 <div className={classes.modal_data_div}>Floor Incharge<span>{props.SuperVisor}</span></div>
-                <div className={classes.modal_data_div}>Fine<span><input type="text" value={fine} onChange={e=>setFine(e.target.value)} /></span></div>
+                <div className={classes.modal_data_div}>Fine<span><input type="text" value={fine} onChange={e => setFine(e.target.value)} /></span></div>
                 <div className={classes.modal_data_div}>Message<span><textarea onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea></span></div>
                 <div className={classes.modal_btn_container}>
                     <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>
-                    <button type='submit' className={classes.modal_btn2} disabled={isLoading}>{isLoading ? 'Loading..' :'Send Approvals To Admin'}</button>
+                    <button type='submit' className={classes.modal_btn2} disabled={isLoading}>{isLoading ? 'Loading..' : 'Send Approvals To Admin'}</button>
                 </div>
             </form>
         </Modal>

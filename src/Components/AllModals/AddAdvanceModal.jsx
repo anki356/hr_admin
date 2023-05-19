@@ -15,13 +15,18 @@ const AddAdvanceModal = (props) => {
     const [approval_head, setApprovalHead] = useState(null)
     const [recall_head, setRecallHead] = useState(false)
     const [document, setDocument] = useState(null)
-
+const [fileLabel,setFileLabel] = useState('')
 
 
     const closeHandler = () => {
         setModal(false)
         props.setval(false)
     }
+
+    const newLabel = (data) =>{
+        setFileLabel(data.target.value)
+    }
+
     const newFile = (data) => {
         console.log('data in side modal', data[0])
         setDocument(data)
@@ -40,7 +45,7 @@ const AddAdvanceModal = (props) => {
     function approveHandler(e) {
         e.preventDefault();
 
-        console.log(document);
+        // console.log(document);
 
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
         axios.post(url + "api/addAdvance", {
@@ -52,7 +57,13 @@ const AddAdvanceModal = (props) => {
             head_approval: approval_head === 'Yes' ? 1 : 0
         }, { headers }).then((response) => {
             if (response) {
-                setModal(false)
+                setLoan('')
+                setDocument('')
+                setRecallHead('')
+                setApprovalHead('')
+                setFileLabel('')
+                closeHandler()
+                props.reloadFunc()
             }
         })
     }
@@ -72,8 +83,13 @@ const AddAdvanceModal = (props) => {
                 <div className={classes.modal_data_div}>Head Employee<span>{props.SuperVisor}</span></div>
                 <div className={classes.modal_data_div}>Advance <span><input type="text" value={loan} onInput={(e) => setLoan(e.target.value)} /></span></div>
 
-                <div className={classes.modal_data_div}>Approval By Head<span><input value={approval_head} onInput={(e) => setApprovalHead(e.target.value)} type="text" /></span></div>
-                <div className={classes.modal_data_div}>Attach File<span><InpFile fileHandler={newFile} /></span></div>
+                <div className={classes.modal_data_div}>Approval By Head<span>
+                <select onChange={e=>setApprovalHead(e.target.value)} className={classes.loan_select}>
+                        <option value='Yes'>Yes</option>
+                        <option value='No'>No</option>
+                    </select>    
+                </span></div>
+                <div className={classes.modal_data_div}>Attach File<span><InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} /></span></div>
                 <div className={classes.modal_data_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
                 <div className={classes.modal_btn_container}>
                 <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>

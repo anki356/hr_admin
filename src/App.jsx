@@ -114,7 +114,7 @@ const App = () => {
 
               <Route exact path="/roles" element={<Roles />} />
               <Route exact path="/add_roles" element={<AddRoles />} />
-              <Route exact path="/edit_roles" element={<EditRoles />} />
+              <Route exact path="/edit_roles/:id" element={<EditRoles />} />
 
 
               <Route exact path="/salary_summary" element={<SalarySummary />} />

@@ -20,4 +20,5 @@
 }
 .label > span:last-child {
     padding: 0;
+    padding-left: 7px;
 }

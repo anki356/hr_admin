@@ -54,7 +54,7 @@ const EditRoles = () => {
                     </select>
                 </div>
             </div>
-            <BottomButtonContainer cancel='Back' approve='Delete Role' />
+            {/* <BottomButtonContainer cancel='Back' approve='Delete Role' /> */}
         </React.Fragment>
     )
 }

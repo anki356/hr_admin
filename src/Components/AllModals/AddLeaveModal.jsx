@@ -12,9 +12,10 @@ const AddLeaveModal = (props) => {
     const [modal, setModal] = useState(false)
     const [from_date, setFromDate] = useState(null)
     const [to_date, setToDate] = useState(null)
-    const [approval_head, setApprovalHead] = useState(null)
     const [recall_head, setRecallHead] = useState(false)
+    const [approval_head, setApprovalHead] = useState(null)
     const [document, setDocument] = useState(null)
+const [fileLabel,setFileLabel] = useState('')
 
 
     const closeHandler = () => {
@@ -24,6 +25,10 @@ const AddLeaveModal = (props) => {
     const newFile = (data) => {
         console.log('data in side modal', data[0])
         setDocument(data)
+    }
+
+    const newLabel = (data) =>{
+        setFileLabel(data.target.value)
     }
 
     const recallHandler = () =>{
@@ -55,7 +60,14 @@ const AddLeaveModal = (props) => {
             head_approval: approval_head === 'Yes' ? 1 : 0
         }, { headers }).then((response)=>{
             if(response){
-                setModal(false)
+                setToDate('')
+                setFromDate('')
+                setDocument('null')
+                setApprovalHead('No')
+                setFileLabel('')
+                setRecallHead(true)
+                closeHandler()
+                props.reloadFunc()
             }
         })
     }
@@ -72,8 +84,13 @@ const AddLeaveModal = (props) => {
                 <div className={classes.modal_data_div}>Head Employee<span>{props.SuperVisor}</span></div>
                 <div className={classes.modal_data_div}>Leave from <span><input value={from_date} placeholder="DD/MM/YYYY" onInput={(e) => setFromDate(e.target.value)} type="date" /></span></div>
                 <div className={classes.modal_data_div}>Leave to <span><input type="date" placeholder="DD/MM/YYYY" value={to_date} onInput={(e) => setToDate(e.target.value)} /></span></div>
-                <div className={classes.modal_data_div}>Approval By Head<span><input value={approval_head} onInput={(e) => setApprovalHead(e.target.value)} type="text" /></span></div>
-                <div className={classes.modal_data_div}>Attach File<span><InpFile fileHandler={newFile} /></span></div>
+                <div className={classes.modal_data_div}>Approval By Head<span>
+                <select onChange={e=>setApprovalHead(e.target.value)} className={classes.loan_select}>
+                        <option value='Yes'>Yes</option>
+                        <option value='No'>No</option>
+                    </select>    
+                </span></div>
+                <div className={classes.modal_data_div}>Attach File<span><InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} /></span></div>
                 <div className={classes.modal_data_div} value={recall_head} >Recall Head<span><input type="checkbox"   onChange={recallHandler} /></span></div>
                 <div className={classes.modal_btn_container}>
                 <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>

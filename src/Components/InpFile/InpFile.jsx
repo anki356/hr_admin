@@ -7,6 +7,7 @@ const InpFile = (props) => {
 
     function changeFile(e) {
         props.fileHandler(e.target.files[0])
+        props.labelFunc(e.target.value)
         setFile(e.target.value)
     }
 
@@ -16,7 +17,7 @@ const InpFile = (props) => {
                 <input className={classes.input}  onChange={changeFile} type="file" id='file' />
                 <label htmlFor="file" className={classes.label}>
                     <span>Choose</span>
-                    <span>{file}</span>
+                    <span>{props.label == ''? 'File' :props.label}</span>
                 </label>
             </div>
         </React.Fragment>
