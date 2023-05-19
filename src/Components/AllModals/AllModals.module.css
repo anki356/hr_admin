@@ -20,6 +20,7 @@
   justify-content: space-between;
   margin-bottom: 17px;
   font-weight: 600;
+  align-items: center;
 }
 .modal_data_div span {
   width: 60%;
@@ -30,6 +31,7 @@
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
 }
 .modal_btn_container .modal_btn1 {
   width: 40%;
@@ -126,6 +128,18 @@
     background: var(--bg);
     color: white;
   }
+
+
+  .loan_select{    border: 1px solid #a3a3a3;
+    border-radius: var(--br);
+    height: 33px;
+    padding: 0 10px;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+    appearance: none;
+    background: #F1F1F1;}
 
   @media screen and (max-width:590px){
     .modal_data_div {

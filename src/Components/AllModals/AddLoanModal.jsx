@@ -5,8 +5,9 @@ import Close from '../../assets/close.png'
 import InpFile from '../InpFile/InpFile'
 import Cookies from 'universal-cookie'
 import axios from 'axios'
+import SelectTag from '../SelectTag/SelectTag'
 const AddLoanModal = (props) => {
-const url = "http://localhost:9000/"
+    const url = "http://localhost:9000/"
     const cookies = new Cookies();
     const token = cookies.get('token')
     const [modal, setModal] = useState(false)
@@ -15,7 +16,7 @@ const url = "http://localhost:9000/"
     const [approval_head, setApprovalHead] = useState(null)
     const [recall_head, setRecallHead] = useState(false)
     const [document, setDocument] = useState(null)
-
+    const [selectvalue, setSelectValue] = useState('')
 
     const closeHandler = () => {
         setModal(false)
@@ -26,10 +27,10 @@ const url = "http://localhost:9000/"
         setDocument(data)
     }
 
-    const recallHandler = () =>{
-       setRecallHead((prevState)=>{
-        return !prevState
-       })
+    const recallHandler = () => {
+        setRecallHead((prevState) => {
+            return !prevState
+        })
     }
 
     useEffect(() => {
@@ -42,7 +43,7 @@ const url = "http://localhost:9000/"
 
         console.log(document);
 
-        const headers = { "Authorization": "Bearer " + token,'Content-Type': 'multipart/form-data' }
+        const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
         axios.post(url + "api/addLeave", {
             employee_id: props.Obj.employee_id,
             from_date: from_date,
@@ -50,14 +51,14 @@ const url = "http://localhost:9000/"
             download: document,
             recall_head: recall_head,
             head_approval: approval_head === 'Yes' ? 1 : 0
-        }, { headers }).then((response)=>{
-            if(response){
+        }, { headers }).then((response) => {
+            if (response) {
                 setModal(false)
             }
         })
     }
-   
-       
+
+
 
     return (
         <Modal wd={'470px'} isModal={modal} >
@@ -70,17 +71,33 @@ const url = "http://localhost:9000/"
                 <div className={classes.modal_data_div}>Id <span>{props.Obj.empID}</span></div>
                 <div className={classes.modal_data_div}>Floor <span>{props.Obj.floor_name}</span></div>
                 <div className={classes.modal_data_div}>Head Employee<span>{props.SuperVisor}</span></div>
-                <div className={classes.modal_data_div}>Loan <span><input type="text" value={loan}onInput={(e)=>setLoan(e.target.value)} /></span></div>
-                <div className={classes.modal_data_div}>Loan Tenure <span><input type="text" value={tenure}onInput={(e)=>setTenure(e.target.value)}/></span></div>
+                <div className={classes.modal_data_div}>Loan <span><input type="text" value={loan} onInput={(e) => setLoan(e.target.value)} /></span></div>
+                <div className={classes.modal_data_div}>Loan Tenure <span><input type="text" value={tenure} onInput={(e) => setTenure(e.target.value)} /></span></div>
                 <div className={classes.modal_data_div}>Approval By Head<span><input value={approval_head} onInput={(e) => setApprovalHead(e.target.value)} type="text" /></span></div>
                 <div className={classes.modal_data_div}>Attach File<span><InpFile fileHandler={newFile} /></span></div>
-                <div className={classes.modal_data_div} value={recall_head} >Recall Head<span><input type="checkbox"   onChange={recallHandler} /></span></div>
+                <div className={classes.modal_data_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
+                <div className={classes.modal_data_div} onChange={e => setSelectValue(e.target.value)} >Select Date<span>
+                    <select className={classes.loan_select}>
+                        <option selected value='1'>Janaury</option>
+                        <option value='2'>February</option>
+                        <option value='3'>March</option>
+                        <option value='4'>April</option>
+                        <option value='5'>May</option>
+                        <option value='6'>June</option>
+                        <option value='7'>July</option>
+                        <option value='8'>August</option>
+                        <option value='9'>September</option>
+                        <option value='10'>October</option>
+                        <option value='11'>November</option>
+                        <option value='12'>December</option>
+                    </select> </span></div>
+
                 <div className={classes.modal_btn_container}>
-                <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>
-                <button type="submit" className={classes.modal_btn2} >Approve Leave</button>
+                    <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>
+                    <button type="submit" className={classes.modal_btn2} >Approve Leave</button>
                 </div>
             </form>
-           
+
         </Modal>
     )
 }
