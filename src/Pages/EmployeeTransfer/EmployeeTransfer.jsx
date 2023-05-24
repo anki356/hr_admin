@@ -3,6 +3,7 @@ import Heading from '../../Components/Heading/Heading'
 import DropDownFilter from '../../Components/DropDownFilter/DropDownFilter'
 import Filter from '../../Components/Filter/Filter'
 
+import Pagination from '../../Components/Pagination/Pagination'
 // Data for Table
 import Cookies from 'universal-cookie'
 
@@ -80,7 +81,13 @@ const selectByFloor = async (data) => {
     return { ...prevState, floor_name: data }
   })
 }
-
+const selectEntries = (data) => {
+  setLimit(data)
+}
+const selectPage = (data) => {
+  console.log(data)
+  setOffset((data - 1) * limit)
+}
 const changeDate = (data) => {
   setLimit(10)
   setOffset(0)
@@ -131,8 +138,14 @@ const changeByDesignation = (data) => {
       <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable App_Btn={true} func={changeModalState}  data={Data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'false'} t3={'Approve'} link2={'/attendence_history'} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }
+// else if(error!==null &loading){
+  <React.Fragment>
+    <h1>Loading</h1>
+    </React.Fragment>
+
 
 export default EmployeeTransfer

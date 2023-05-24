@@ -110,7 +110,7 @@ const App = () => {
 
 
               <Route exact path="/timing_approvals" element={<TimingApprovals />} />
-              <Route exact path="/timing_approve" element={<TimingApprove />} />
+              <Route exact path="/timing_approve/:attendance_id/:employee_id" element={<TimingApprove />} />
 
               <Route exact path="/roles" element={<Roles />} />
               <Route exact path="/add_roles" element={<AddRoles />} />

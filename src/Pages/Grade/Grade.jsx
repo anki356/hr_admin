@@ -5,6 +5,7 @@ import TileContainer from '../../UI/TileContainer/TileContainer'
 import DropDownFilter from '../../Components/DropDownFilter/DropDownFilter'
 import Filter from '../../Components/Filter/Filter'
 
+import Pagination from '../../Components/Pagination/Pagination'
 // Data for Table
 
 import MainTable from '../../Components/MainTable/MainTable'
@@ -151,6 +152,13 @@ setTileData( [
     })
   
   }
+  const selectEntries = (data) => {
+    setLimit(data)
+  }
+  const selectPage = (data) => {
+    console.log(data)
+    setOffset((data - 1) * limit)
+  }
   return (
     <React.Fragment>
       <Heading heading={'Grade'}  />
@@ -161,8 +169,13 @@ setTileData( [
       >
         <MainTable data={Data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} wd={'2700px'} />
       </div>
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }
+// else if(error!==null &loading){
+  <React.Fragment>
+    <h1>Loading</h1>
+    </React.Fragment>
 
 export default Grade

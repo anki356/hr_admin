@@ -101,7 +101,9 @@ const MainTable = (props) => {
     const printData = (val, key, img) => {
         switch (key) {
             case 'name':
-                return <><img src={img} alt="" />{val}</>
+                return <>
+                {/* <img src={img} alt="" /> */}
+                {val}</>
                 case 'date':
                     return <>{val?.split("T")[0].split("-").reverse().join("-")}</>
             case 'attendence':

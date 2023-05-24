@@ -11,6 +11,8 @@ import Cookies from 'universal-cookie'
 import useHttp from '../../Hooks/use-http'
 import moment from 'moment'
 import axios from 'axios'
+
+import Pagination from '../../Components/Pagination/Pagination'
 // Table Headings, Data and Keys
 const tableHeadings = [
   { heading: 'Employee Name' },
@@ -190,8 +192,14 @@ const FineManagement = () => {
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk1={true} link1={'false'} link2={'/fine_approvals'} App_Btn={true} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
       <AddFineModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }
+// else if(error!==null &loading){
+  <React.Fragment>
+    <h1>Loading</h1>
+    </React.Fragment>
+
 
 export default FineManagement

@@ -328,12 +328,12 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
             </div>
             <h3 className='uni_heading'>Download Documents</h3>
            
-            <MainTable headings={documents_table_headings} keys={documents_table_keys} data={documentsData}  height={true}/>
+            <MainTable headings={documents_table_headings} keys={documents_table_keys} data={documentsData}  />
             <br />
             <br />
             <h3 className='uni_heading'>Advance & Loan Emi</h3>
             <h4 className={classes.h4_heading}>Advance</h4>
-            <MainTable headings={advance_table_headings} keys={advance_table_keys} data={advanceData}  height={true}/>
+            <MainTable headings={advance_table_headings} keys={advance_table_keys} data={advanceData}  />
             <br />
             <br />
             <h4 className={classes.h4_heading}>Loan</h4>
@@ -348,7 +348,7 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
                 <div>{monthArray[loanData[0]?.month]}</div>
             </div>
                               
-<MainTable  restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData} height={true}  />
+<MainTable  restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData}   />
             <br /><br />
             <IncrementHistory data={IncrementData} />
 

@@ -165,7 +165,13 @@ setInterviewData(response.data)
     })
 
   }
-
+  const selectEntries = (data) => {
+    setLimit(data)
+  }
+  const selectPage = (data) => {
+    console.log(data)
+    setOffset((data - 1) * limit)
+  }
   // Table Headings, Data and Keys
   const tableHeadings = [
     { heading: 'Interviewee' },
@@ -193,14 +199,16 @@ setInterviewData(response.data)
       <Heading heading={'Interviews'} Btn={'Interview'} Btn_link={'/add_interview'} />
       <TileContainer Data={TileData} />
       <InterviewFilter data={Data} data2={interviewData} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} App_Btn={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
+      <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} App_Btn={true}  height={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
       <InterviewModal value={newval} setval={setNewVal} Obj={obj} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }
 // else if(error!==null &loading){
-<React.Fragment>
-  <h1>Loading</h1>
-</React.Fragment>
+  <React.Fragment>
+    <h1>Loading</h1>
+    </React.Fragment>
+
 
 export default Interviews

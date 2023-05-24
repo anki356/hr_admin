@@ -57,10 +57,10 @@ const Navbar = (props) => {
         <img src={Img} alt="" />
       </div>
       <div className={classes.navbar_sidediv}>
-        <div className={classes.searchbar_container}>
+        {/* <div className={classes.searchbar_container}>
           <input type="text" placeholder='Emp ID , Employee Name..' />
           <img src={Mag} alt="" />
-        </div>
+        </div> */}
         <div className={classes.nav_divs_container}>
           <div className={classes.nav_div}>
             <img src={I2} alt="" />
