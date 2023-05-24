@@ -1,39 +1,73 @@
 import classes from './Grade.module.css'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Heading from '../../Components/Heading/Heading'
 import TileContainer from '../../UI/TileContainer/TileContainer'
 import DropDownFilter from '../../Components/DropDownFilter/DropDownFilter'
 import Filter from '../../Components/Filter/Filter'
 
 // Data for Table
-import Data from './data'
+
 import MainTable from '../../Components/MainTable/MainTable'
-
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+import moment from 'moment'
 const Grade = () => {
-
-  // Here is our data for tile in the page
-  const TileData = [
-    {
-      title: 'Average Employee',
-      value: 'A+',
-      num: 15
-    },
-    {
-      title: 'Grade Employee',
-      value: 42,
-      num: 23
-    },
-    {
-      title: 'Left Grade Employee',
-      value: 50,
-      num: 10
-    },
-    {
-      title: 'Out From Store',
-      value: 104,
-      num: -23
-    }
-  ]
+  const url = "http://localhost:9000/"
+const [Data,setData]=useState([])
+const [date, setDate] = useState(new Date())
+  const [limit, setLimit] = useState(10)
+  const [offset, setOffset] = useState(0)
+  const cookies = new Cookies();
+  const token = cookies.get('token')
+  const [TileData, setTileData] = useState([])
+  const [employeeFilter, setEmployeeFilter] = useState({
+    employee_query: '',
+    floor_name: "",
+    role_name: "",
+    store_name: ""
+  })
+  useEffect(()=>{
+    const headers = { "Authorization": "Bearer " + token }
+let from_date=moment()
+from_date=from_date.startOf('month')
+let to_date=moment().endOf('month').add(1,'d')
+axios.get(url+"api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset,{headers}).then((response)=>{
+  response.data.forEach((data)=>{
+    data.out_of_40=data.grade_1st_avg+data.grade_2nd_avg+data.grade_3rd_avg+data.grade_4th_avg
+  data.out_of_60=(data.WD_Grade+data.COM_Grade+data.Fine_Marks)*2})
+setData(response.data)
+})
+axios.get(url+"api/calculateAverageGrade",{headers}).then((response)=>{
+  axios.get(url+"api/isGraded",{headers}).then((responseOne)=>{
+    axios.get(url+"api/getTotalEmployees",{headers}).then((responseTwo)=>{ 
+      let from_date_out=moment()
+      axios.get("http://localhost:9000/api/getTotalOutSessions?from_date=" + from_date_out.format("YYYY-MM-DD") + "&to_date=" + from_date_out.add(1, 'd').format("YYYY-MM-DD"), { headers }).then((responseThird) => {
+setTileData( [
+  {
+    title: 'Average Employee',
+    value: response.data,
+  },
+  {
+    title: 'Grade Employee',
+    value: responseOne.data[0].count_id
+  },
+  {
+    title: 'Left Grade Employee',
+    value: responseTwo.data[0].count_id-responseOne.data[0].count_id,
+   
+  },
+  {
+    title: 'Out From Store',
+    value: responseThird.data[0].count_id,
+    
+  }
+])
+})
+})
+})
+})
+  },[])
+  
 
   // Table Headings, Data and Keys
   const tableHeadings=[
@@ -41,7 +75,7 @@ const Grade = () => {
     {heading:'Employee ID'},
     {heading:'Designation'},
     {heading:'WD Grade'},
-    {heading:'COM Trade'},
+    {heading:'COM Grade'},
     {heading:'Fine Marks'},
     {heading:'Out of 60'},
     {heading:'Behavior With Customer'},
@@ -54,15 +88,75 @@ const Grade = () => {
   ]
 
   const tableKeys = [
-    'name','id','attendence','floor'
+    'employee_name','empID','role_name','WD_Grade','COM_Grade','Fine_Marks','out_of_60','grade_1st_avg','grade_2nd_avg','grade_3rd_avg','grade_4th_avg','out_of_40','Total','Grade_Equivalent'
   ]
-
+  useEffect(() => {
+    const headers = { "Authorization": "Bearer " + token }
+    let from_date = moment(date).startOf('month')
+  let to_date=moment(date).endOf('month').add(1,'d')
+    let getString = url + "api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
+    if (employeeFilter.employee_query != '') {
+      getString += "&employee_query=" + employeeFilter.employee_query
+    }
+    if (employeeFilter.role_name != '') {
+      getString += '&role_name=' + employeeFilter.role_name
+    }
+    if (employeeFilter.floor_name != '') {
+      getString += "&floor_name=" + employeeFilter.floor_name
+    }
+    if (employeeFilter.store_name != '') {
+      getString += "&store_name=" + employeeFilter.store_name
+    }
+    axios.get(getString,{headers}).then((response)=>{
+      response.data.forEach((data)=>{
+        data.out_of_40=data.grade_1st_avg+data.grade_2nd_avg+data.grade_3rd_avg+data.grade_4th_avg
+      data.out_of_60=(data.WD_Grade+data.COM_Grade+data.Fine_Marks)*2})
+    setData(response.data)
+    })
+   
+  
+  }, [date, limit, offset, employeeFilter])
+  const selectByStore = (data) => {
+  
+    setEmployeeFilter((prevState) => {
+      return { ...prevState, store_name: data }
+    })
+  
+  }
+  const selectByFloor = async (data) => {
+  
+    setEmployeeFilter((prevState) => {
+      return { ...prevState, floor_name: data }
+    })
+  }
+  
+  const changeDate = (data) => {
+    setLimit(10)
+    setOffset(0)
+    setDate(data)
+  }
+  const changeByEmployee = (data) => {
+  
+    // if(data.charAt(0)!=='1')
+    //  {
+  
+    setEmployeeFilter((prevState) => {
+      return { ...prevState, employee_query: data }
+    })
+  }
+  const changeByDesignation = (data) => {
+  
+    setEmployeeFilter((prevState) => {
+      return { ...prevState, role_name: data }
+    })
+  
+  }
   return (
     <React.Fragment>
       <Heading heading={'Grade'}  />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'}  />
-      <Filter data={Data} />
+      <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
+      <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <div className={classes.whole_table_c}
       >
         <MainTable data={Data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} wd={'2700px'} />

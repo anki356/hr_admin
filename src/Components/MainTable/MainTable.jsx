@@ -142,7 +142,7 @@ const MainTable = (props) => {
                     <tbody>
 
 
-                        {tableData&&tableData.map((val, index) => (
+                        {tableData.length>0&&tableData.map((val, index) => (
                             <tr key={index}>
                                 {props.keys.map((element, index) => (
                                     <td key={index}
@@ -165,7 +165,13 @@ const MainTable = (props) => {
                                 {
                                     props.Lnk === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!=='false'?props.link1+"/"+val.attendance_id+"/"+val.employee_id:'false'} Btn={props.App_Btn} link2={props.link2+"/"+val.id+"/"+val.employee_id} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!=='false'?props.link1+"/"+val.attendance_id+"/"+val.employee_id:'false'} Btn={props.App_Btn} link2={props.link2!=='false'?props.link2+"/"+val.employee_id:'false'} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                        </td> : null
+                                }
+                                {
+                                    props.Lnk1 === true ?
+                                        <td>
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!=='false'?props.link1+"/"+val.attendance_id+"/"+val.employee_id:'false'} Btn={props.App_Btn} link2={props.link2!=='false'?props.link2+"/"+val.id+"/"+val.employee_id:'false'} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
                                         </td> : null
                                 }
                                 {

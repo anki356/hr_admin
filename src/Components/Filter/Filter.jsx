@@ -31,7 +31,7 @@ const Filter = (props) => {
       }
       fetching()
   }, [])
-  const tableData = props.data.map((element) => (
+  const tableData = props.data.length>0&&props.data.map((element) => (
     {
       employee_name: element.employee_name,
       empID: element.empID,

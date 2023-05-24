@@ -5,7 +5,7 @@ import DropDownFilter from '../../Components/DropDownFilter/DropDownFilter'
 import Filter from '../../Components/Filter/Filter'
 
 // Data for Table
-import Data from './data'
+
 import MainTable from '../../Components/MainTable/MainTable'
 import AddLoanModal from '../../Components/AllModals/AddLoanModal'
 import AddBonusModal from '../../Components/AllModals/AddBonusModal'
@@ -16,54 +16,49 @@ import moment from 'moment'
 import Pagination from '../../Components/Pagination/Pagination'
 
 // Here is our data for tile in the page
-const TileData = [
-  {
-    title: 'Total Employee',
-    value: '130',
-    num: 2
-  },
-  {
-    title: 'Trails Employee',
-    value: 9,
-    num: 2
-  },
-  {
-    title: 'Total Depart.',
-    value: 8,
-    num: 3
-  },
-  {
-    title: 'Out From Store',
-    value: 23,
-    num: -12
-  }
-]
+// const TileData = [
+//   {
+//     title: 'Total Employee',
+//     value: '130',
+//     num: 2
+//   },
+//   {
+//     title: 'Trails Employee',
+//     value: 9,
+//     num: 2
+//   },
+//   {
+//     title: 'Total Depart.',
+//     value: 8,
+//     num: 3
+//   },
+//   {
+//     title: 'Out From Store',
+//     value: 23,
+//     num: -12
+//   }
+// ]
 
 // Table Headings, Data and Keys
 const tableHeading = [
   { heading: 'Employee' },
   { heading: 'Basic Salary' },
   { heading: 'Financial Year' },
-  { heading: 'Status' },
   { heading: 'Amount' },
   { heading: 'Pay Date' },
 ]
-const tableKeys = ['employee', 'basic_salary', 'financial_year', 'status', 'amount', 'pay_date']
+const tableKeys = ['employee_name', 'basic_salary', 'financial_year', 'amount', 'pay_date']
 
 
 const Bonus = () => {
   const [newval, setNewVal] = useState(false)
   const [obj, setObj] = useState({})
-
-  const changeModalState = ([val, element]) => {
-    setNewVal(val)
-    setObj(element)
-  }
+  const [data,setData]=useState([])
+  
 
   const url = "http://localhost:9000/"
   // Here is our data for tile in the page
   const [date, setDate] = useState(new Date())
-  const [data, setData] = useState([])
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
@@ -73,70 +68,58 @@ const Bonus = () => {
     store_name: ""
   })
   const cookies = new Cookies();
-  const { sendRequest: fetchPendingAttendance } = useHttp()
+  const { sendRequest: fetchBonus } = useHttp()
   const [TileData, setTileData] = useState([])
-  useEffect(() => {
   const token = cookies.get('token')
+  useEffect(() => {
+ 
     const headers = { "Authorization": "Bearer " + token }
-    let from_date = moment(date)
-    const listAttendance = (attendance) => {
-      setData(attendance)
-    }
-    fetchPendingAttendance({ url: url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'" }, listAttendance)
-    from_date = moment(date)
-    axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Present'", { headers }).then((response) => {
-      const todayPresent = response.data[0]?.count_id
-      from_date = moment(date).subtract(1, 'd')
-      axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Present'", { headers }).then((response) => {
-        const yesterdayPresent = response.data[0]?.count_id
-        from_date = moment(date)
-        axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Absent'", { headers }).then((response) => {
-          const todayAbsent = response.data[0]?.count_id
-          from_date = moment(date).subtract(1, 'd')
-          axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Absent'", { headers }).then((response) => {
-            const yesterdayAbsent = response.data[0]?.count_id
-            from_date = moment(date)
-            axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='On Leave'", { headers }).then((response) => {
-              const todayLeave = response.data[0]?.count_id
-              from_date = moment(date).subtract(1, 'd')
-              axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='On Leave'", { headers }).then((response) => {
-                const yesterdayLeave = response.data[0]?.count_id
-                let from_date_out = moment()
-                axios.get("http://localhost:9000/api/getTotalOutSessions?from_date=" + from_date_out.format("YYYY-MM-DD") + "&to_date=" + from_date_out.add(1, 'd').format("YYYY-MM-DD"), { headers }).then((response) => {
-                  let totalOut = response.data[0]?.count_id
-                  setTileData([{
-                    title: "Total Present",
-                    value: todayPresent,
-                    num: todayPresent - yesterdayPresent,
-                    para: "Day"
-                  }, {
-                    title: "Total Absent",
-                    value: todayAbsent,
-                    num: todayAbsent - yesterdayAbsent,
-                    para: "Day"
-                  }, {
-                    title: "Total On Leave",
-                    value: todayLeave,
-                    num: todayLeave - yesterdayLeave,
-                    para: "Day"
-                  }, {
-                    title: "Total Outs",
-                    value: totalOut,
-                    para: "Hour"
-                  }])
-                })
-              })
-            })
-          })
-        })
+    OverallData()
+    
+    axios.get("http://localhost:9000/api/totalAmountOfBonusGiven?year=2023", { headers }).then((response) => {
+       
+      
+      axios.get("http://localhost:9000/api/totalEmployeesGivenBonus?year=2023", { headers }).then((responseOne) => {
+        axios.get("http://localhost:9000/api/getTotalEmployees", { headers }).then((responseTwo) => {
+          axios.get("http://localhost:9000/api/totalAmountOfBonusGiven?year=2022", { headers }).then((responseThird) => {
+       setTileData([
+          {
+            title: 'Total Bonus Given This year',
+            value: response.data[0].total,
+           
+          },
+          {
+            title: 'Total Employees Give Bonus',
+            value: responseOne.data[0].count_id,
+           
+          },
+          {
+            title: 'Total Employees Pending',
+            value:responseTwo.data[0].count_id-responseOne.data[0].count_id ,
+          },
+          {
+            title: 'Total Bonus Given Last year',
+            value: responseThird.data[0].total!==null?responseThird.data[0].total:0
+          }
+        ])
+      })
+    })
       })
     })
     console.log(TileData)
   },[])
+  const changeModalState = ([val, element]) => {
+    const headers = { "Authorization": "Bearer " + token }
+    axios.get(url + "api/getEmployeeDetails?id=" + element.employee_id, { headers }).then((response) => {
+      setObj(response.data.employeesResult[0])
+    })
+    setNewVal(val)
+    
+  }
   useEffect(() => {
     let from_date = moment(date)
 
-    let getString = url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'"
+    let getString = url + "api/getBonus?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'"
     if (employeeFilter.employee_query != '') {
       getString += "&employee_query=" + employeeFilter.employee_query
     }
@@ -150,10 +133,25 @@ const Bonus = () => {
       getString += "&store_name=" + employeeFilter.store_name
     }
 
-    const listAttendance = (attendance) => {
-      setData(attendance)
+    const listBonus = (Bonus) => {
+      Bonus.bonusResult.forEach((data)=>{
+        if(Bonus.baseSalariesData!==undefined){
+          Bonus.baseSalariesData.forEach((dataOne)=>{
+            console.log(dataOne)
+            if(dataOne.employee_id===data.employee_id){
+            
+              data.basic_salary=dataOne.amount
+            }
+                    })
+                    data.financial_year=data.created_on.split("T")[0].split("-")[0]
+                    data.pay_date=data.created_on.split("T")[0].split("-")[2]
+        }
+       
+      })
+      console.log(Bonus.bonusResult)
+      setData(Bonus.bonusResult)
     }
-    fetchPendingAttendance({ url: getString }, listAttendance)
+    fetchBonus({ url: getString }, listBonus)
 
 
     // axios.get(getString,{headers}).then((response)=>{
@@ -201,7 +199,24 @@ const Bonus = () => {
     setOffset(0)
     setDate(data)
   }
-
+function OverallData(){
+  let from_date = moment(date)
+  const listBonus = (Bonus) => {
+    Bonus.bonusResult.forEach((data)=>{
+      if(Bonus.baseSalariesData!==undefined){
+        Bonus.baseSalariesData.forEach((dataOne)=>{
+          if(dataOne.employee_id===data.employee_id){
+          
+            data.basic_salary=dataOne.amount
+          }
+                  })
+      }
+     
+    })
+    setData(Bonus.bonusResult)
+  }
+  fetchBonus({ url: url + "api/getBonus?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'" }, listBonus)
+}
 
   return (
     <React.Fragment>
@@ -209,10 +224,10 @@ const Bonus = () => {
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk={true} link1={'false'}  link2={'/bonus_approvals'} App_Btn={true} data={Data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} t2={'Approve'} />
+      <MainTable func={changeModalState} Lnk={true} link1={'false'}  App_Btn={true} data={data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} link2='false' />
 <Pagination selectEntries={selectEntries} selectPage={selectPage} />
 
-      <AddBonusModal value={newval} setval={setNewVal} Obj={obj} />
+      <AddBonusModal value={newval} setval={setNewVal} Obj={obj}  reloadFunc={OverallData} />
     </React.Fragment>
   )
 }
