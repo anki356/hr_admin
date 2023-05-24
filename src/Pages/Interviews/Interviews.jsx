@@ -19,6 +19,7 @@ const Interviews = () => {
   // Here is our data for tile in the page
   const [date, setDate] = useState(new Date())
   const [data, setData] = useState([])
+  const [interviewData,setInterviewData]=useState([])
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
@@ -34,6 +35,9 @@ const Interviews = () => {
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token }
     let from_date = moment()
+    axios.get(url+"api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='Store Incharge'",{headers}).then((response)=>{
+setInterviewData(response.data)
+    })
     const listInterview = (interview) => {
 
       interview.forEach((data) => {
@@ -188,7 +192,7 @@ const Interviews = () => {
     <React.Fragment>
       <Heading heading={'Interviews'} Btn={'Interview'} Btn_link={'/add_interview'} />
       <TileContainer Data={TileData} />
-      <InterviewFilter data={Data} data2={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
+      <InterviewFilter data={Data} data2={interviewData} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} App_Btn={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
       <InterviewModal value={newval} setval={setNewVal} Obj={obj} />
     </React.Fragment>

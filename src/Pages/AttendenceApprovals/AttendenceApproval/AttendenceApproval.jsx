@@ -147,7 +147,7 @@ console.log(date)
       <DetailsDivContainer data={employee_data} />
       <DragAndDrop uploadFile={uploadFile} />
       <LabeledInputContainer date={date}  func={InputValHanlder} />
-      <BottomButtonContainer func={true} cancel={'Reject'} approve={'Approve Attendence'} cancelRequests={cancelRequests} approveRequests={approveRequests} />
+      <BottomButtonContainer func={true} cancel={'Reject'} approve={'Approve Attendence'}  cancelRequests={cancelRequests} func2={approveRequests} />
     </React.Fragment>
   )
 }

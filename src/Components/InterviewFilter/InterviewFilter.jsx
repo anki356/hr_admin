@@ -12,6 +12,8 @@ import Cookies from 'universal-cookie'
 import SelectTag from '../SelectTag/SelectTag'
 import classes2 from './InterviewFilter.module.css'
 import Img from '../../assets/shop.png'
+
+
 const InterviewFilter = (props) => {
 
     const cookies = new Cookies();
@@ -104,7 +106,7 @@ const InterviewFilter = (props) => {
         <div className={classes.filter_box}>
             <div className={classes2.select_container}>
                 <label htmlFor="interviewer">Interviewer</label>
-                <SelectTag img={Img} select_id='interviewer' title={'Interviewer'} />
+                <SelectTag img={Img} select_id='interviewer' title={'Interviewer'}  data={props.data2}/>
             </div>
 
             <form className={classes.input_div}>
