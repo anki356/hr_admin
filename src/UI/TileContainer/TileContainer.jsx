@@ -9,7 +9,6 @@ const TileContainer = (props) => {
 
     return (
         <div className={classes.tile_container}>
-            {/* Here we are mapping out Data(props.data) */}
             {Data.map((element, index) => (
                 <HeaderTile key={index} title={element.title} value={element.value} num={element.num} />
             ))}

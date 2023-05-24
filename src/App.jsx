@@ -46,6 +46,7 @@ import HierarchyPage from './Pages/HierarchyPage/HierarchyPage';
 import Grade from './Pages/Grade/Grade';
 import AdminLogin from './Pages/AdminLogin/AdminLogin';
 import AllAttendence from "./Pages/AllAttendence/AllAttendence";
+import AddLoan from './Pages/LoanEmi/AddLoan/AddLoan';
 // We have to diffrentiate between Login page and other Pages, so we are using useLocation
 
 const App = () => {
@@ -87,7 +88,6 @@ const App = () => {
               <Route exact path="/employee_profile/:id" element={<EmployeeProfile />} />
 
 
-
               <Route exact path="/fine_management" element={<FineManagement />} />
               <Route exact path="/fine_approvals/:id/:employee_id" element={<FineApprovals />} />
 
@@ -95,8 +95,8 @@ const App = () => {
               <Route exact path="/leave_approvals/:id/:employee_id" element={<LeaveApprovals />} />
 
               <Route exact path="/loan_emi" element={<LoanEmi />} />
+              <Route exact path="/add_loan" element={<AddLoan />} />
               <Route exact path="/loan_approvals/:id/:employee_id" element={<LoanApprovals />} />
-
 
               <Route exact path="/salary_details" element={<SalaryDetails />} />
               <Route exact path="/salary_slip" element={<SalarySlip />} />
