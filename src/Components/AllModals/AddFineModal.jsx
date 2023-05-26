@@ -63,7 +63,7 @@ const AddFineModal = (props) => {
                 <div className={classes.modal_data_div}>Floor <span>{props.Obj.floor_name}</span></div>
                 <div className={classes.modal_data_div}>Floor Incharge<span>{props.SuperVisor}</span></div>
                 <div className={classes.modal_data_div}>Fine<span><input type="text" value={fine} onChange={e => setFine(e.target.value)} /></span></div>
-                <div className={classes.modal_data_div}>Message<span><textarea onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea></span></div>
+                <div className={classes.modal_data_div}>Reason<span><textarea onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea></span></div>
                 <div className={classes.modal_btn_container}>
                     <button className={classes.modal_btn1} onClick={closeHandler}>Cancel</button>
                     <button type='submit' className={classes.modal_btn2} disabled={isLoading}>{isLoading ? 'Loading..' : 'Send Approvals To Admin'}</button>

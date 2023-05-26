@@ -3,7 +3,7 @@ import React,{useState,useEffect} from 'react'
 import moment from 'moment'
 import Cookies from 'universal-cookie'
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
-import classes from './AddLoan.module.css'
+import classes from './AddLeave.module.css'
 import Heading from '../../../Components/Heading/Heading'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
@@ -11,11 +11,16 @@ import InpFile from '../../../Components/InpFile/InpFile'
 import axios from 'axios'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 import { useNavigate,useLocation } from 'react-router-dom'
-const AddLoan = () => {
+const AddLeave = () => {
     const navigate=useNavigate()
     const Location=useLocation()
     const url = "http://localhost:9000/"   
     const [employee_data,setEmployeeData]=useState([])
+    const [from_date, setFromDate] = useState(null)
+    const [to_date, setToDate] = useState(null)
+   
+   
+    
     const [fileLabel,setFileLabel] = useState('')
 const [tenure,setTenure]=useState(0)
 const [searchtext, setSearchText] = useState('')
@@ -78,16 +83,7 @@ setNoData(true)
 }
         })
     },[searchtext])
-    const handleNumFieldsChange = (data) => {
-        const value = parseInt(data, 10) || 0;
-        setTenure(value);
-        setFieldValues(Array(value).fill(''));
-      };
-      const handleFieldValueChange = (data, index) => {
-        const updatedValues = [...fieldValues];
-        updatedValues[index] = data;
-        setFieldValues(updatedValues);
-      };
+    
       function cancel(e){
         e.preventDefault()
         setEmployeeData([])
@@ -98,19 +94,14 @@ setNoData(true)
     function add(e){
         e.preventDefault()
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-        axios.post(url+"api/addLoan",{
-            "employee_id":employee_id,
-            "date":moment().format("YYYY-MM-DD HH:mm:ss"),
-            "amount":amount,
-            "tenure":tenure,
-            "recall_head":recall_head,
-            "download":document,
-            "approval_status":"Pending",
-            "month":Number(month)-1,
-            "amount_array":fieldValues,
-            "head_approval":approvalHead
-            
-        },{headers}).then((response)=>{
+        axios.post(url + "api/addLeave", {
+            employee_id: employee_id,
+            from_date: from_date,
+            to_date: to_date,
+            download: document,
+            recall_head: recall_head,
+            head_approval: approvalHead === 'Yes' ? 1 : 0
+        }, { headers }).then((response)=>{
     if(response){
         
         navigate(-1) 
@@ -127,11 +118,13 @@ setNoData(true)
     }
   return (
    <React.Fragment>
-    <Heading heading={'Add Loan'} /><ExpenseSearchBar func={searchHandler} />
+    <Heading heading={'Add Leave'} /><ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
     <form className={classes.form}>
-        <LabeledInput id={'loan'} title={'Loan'}img={false}func2={setAmount} />
-        <LabeledInput id={'loan_tenure'} title={'Loan Tenure'}  img={false} func2={handleNumFieldsChange} />
+    <div className={classes.form_input_div}>Leave From <span>
+    <input value={from_date} placeholder="DD/MM/YYYY" onInput={(e) => setFromDate(e.target.value)} type="date" /></span></div>
+    <div className={classes.form_input_div}>Leave to <span>
+    <input type="date" placeholder="DD/MM/YYYY" value={to_date} onInput={(e) => setToDate(e.target.value)} /></span></div>
         <div className={classes.form_input_div}>
             <label htmlFor="abh">Approve By Head</label>
             <select id='abh' onChange={(e)=>setApprovalHead(e.target.value)}>
@@ -140,7 +133,7 @@ setNoData(true)
             </select>
         </div>
         <div className={classes.form_input_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
-        <div className={classes.form_input_div}>
+        {/* <div className={classes.form_input_div}>
             <label htmlFor="month">Select Month</label>
             <select id='month' onChange={(e)=>setMonth(e.target.value)}>
             <option selected value='1'>Janaury</option>
@@ -156,23 +149,18 @@ setNoData(true)
                     <option value='11'>November</option>
                     <option value='12'>December</option>
             </select>
-        </div>
+        </div> */}
         <div className={classes.file_con}>
             <h3 className={classes.file_con_label}>Attach File</h3>
             <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} />
         </div>
        
-        {fieldValues.map((value, index) => (
-        <div key={index}>
-         
-          <LabeledInput id={'loan_emi'} title={'Loan EMI '+(index+1)}  img={false} func2={(data) => handleFieldValueChange(data, index)} />
-        </div>
-      ))}
+       
    
     </form>
-    <BottomButtonContainer cancel={'Cancel'} approve={'Add Loan'} func={true} cancelRequests={cancel} func2={add}/>
+    <BottomButtonContainer cancel={'Cancel'} approve={'Add Leave'} func={true} cancelRequests={cancel} func2={add}/>
    </React.Fragment>
   )
 }
 
-export default AddLoan
+export default AddLeave

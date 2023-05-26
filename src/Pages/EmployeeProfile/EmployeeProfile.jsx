@@ -243,9 +243,11 @@ useEffect(()=>{
     const data=response.data.documentResult
     if(data.length>0&& data!==undefined&&data!==null)
     {
-
+data.forEach((d)=>{
+    d.created_on=d.created_on.split("T")[0].split("-").reverse().join("-")
+})
     
-    data[0].created_on=data[0].created_on.split("T")[0].split("-").reverse().join("-")
+   
     setDocumentsData(data)
     }
     const dataSecond=response.data.advanceResult

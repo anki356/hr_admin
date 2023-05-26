@@ -47,8 +47,10 @@ import Grade from './Pages/Grade/Grade';
 import AdminLogin from './Pages/AdminLogin/AdminLogin';
 import AllAttendence from "./Pages/AllAttendence/AllAttendence";
 import AddLoan from './Pages/LoanEmi/AddLoan/AddLoan';
+import AddFine from './Pages/FineManagement/AddFine/AddFine'
 // We have to diffrentiate between Login page and other Pages, so we are using useLocation
-
+import AddAdvance from './Pages/Advance/AddAdvance/AddAdvance'
+import AddLeave from './Pages/LeaveManagement/AddLeave/AddLeave';
 const App = () => {
 
   const urlPath = useLocation()
@@ -70,12 +72,15 @@ const App = () => {
               <Route exact path='/all_attendence' element={<AllAttendence/>}  />
               <Route exact path='/attendence_history/:id' element={<AttendenceHistory />} />
               <Route exact path='/attendence_approval/:attendance_id/:employee_id' element={<AttendenceApproval />} />
+              <Route exact path='/add_leave' element={<AddLeave />} />
+              <Route exact path='/add_fine' element={<AddFine />} />
 
               <Route exact path="/attendence_corrections" element={<AttendenceCorrection />} />
               <Route exact path="/attendence_corrections_details" element={<CorrectionDetails />} />
               <Route exact path="/attendence_corrections_check" element={<Correction />} />
               <Route exact path="/advance" element={<Advance />} />
               <Route exact path="/advance_approvals/:id/:employee_id" element={<AdvanceApprovals />} />
+              <Route exact path="/add_advance" element={<AddAdvance />} />
 
               <Route exact path="/expense_approvals" element={<ExpenseApprovals />} />
               <Route exact path="/expense_approval/:id/:employee_id" element={<ExpenseApproval />} />

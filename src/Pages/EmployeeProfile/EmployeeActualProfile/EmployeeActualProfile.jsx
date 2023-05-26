@@ -21,9 +21,9 @@ const EmployeeActualProfile = () => {
   setEmployeeData(response.data.employeesResult[0])
   if(response.data.employeesResult[0].role_name==='Salesman'){
   
-    let from_date=moment().startOf('month').format("YYYY-MM-DD")
-    let to_date=moment().endOf('month').format("YYYY-MM-DD")
-      axios.get("http://localhost:9000/api/calculateGrades?employee_id="+id+"&from_date="+from_date+"&to_date="+to_date+"&commission=3000",{headers}).then((response)=>{
+    let from_date=moment().subtract(1,'month').startOf('month').format("YYYY-MM-DD")
+    let to_date=moment().subtract(1,'month').endOf('month').format("YYYY-MM-DD")
+      axios.get("http://localhost:9000/api/getGrades?employee_id="+id+"&from_date="+from_date+"&to_date="+to_date+"&commission=3000",{headers}).then((response)=>{
         
      setEmployeeGrade(response.data.total_grades/20)
     })  

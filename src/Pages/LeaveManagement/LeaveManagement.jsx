@@ -197,11 +197,11 @@ const LeaveManagement = () => {
   }
   return (
     <React.Fragment>
-      <Heading heading={'Leave Management'} />
+      <Heading heading={'Leave Management'} Btn_link={'/add_leave'} Btn={'Leave'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} data={data} height={true} Lnk1={true} link1={'false'} link2={'/leave_approvals'} t2={'Approve'} t3={'Add Leave'} App_Btn={true} Btn={false} headings={tableHeadings} keys={tableKeys} />
+      <MainTable func={changeModalState} data={data} height={true} Lnk1={true} link1={'false'} link2={'/leave_approvals'} t2={'Approve'} t3={'Add Leave'} App_Btn={false} Btn={false} headings={tableHeadings} keys={tableKeys} />
       <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

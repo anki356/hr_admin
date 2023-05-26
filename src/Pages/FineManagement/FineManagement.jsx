@@ -186,11 +186,11 @@ const FineManagement = () => {
 
   return (
     <React.Fragment>
-      <Heading heading={'Fine Management'} />
+      <Heading heading={'Fine Management'} Btn_link={'/add_fine'} Btn={'Fine'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk1={true} link1={'false'} link2={'/fine_approvals'} App_Btn={true} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
+      <MainTable func={changeModalState} Lnk1={true} link1={'false'} link2={'/fine_approvals'} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
       <AddFineModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

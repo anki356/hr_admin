@@ -20,6 +20,8 @@ const AddExpense = () => {
     const [date, setDate] = useState('')
     const [text, setText] = useState('')
     const [notes,setNotes]=useState('')
+    const [noData,setNoData]=useState(false)
+
     const [searchtext, setSearchText] = useState('')
     const [categories,setCategories]=useState([])
     const [subCategories,setSubCategories]=useState([])
@@ -39,6 +41,7 @@ const [employee_id,setEmployeeId]=useState(null)
 useEffect(()=>{
     const headers={"Authorization":"Bearer "+token}
     axios.get(url+"api/getEmployeeDetails?employee_query="+searchtext,{headers}).then((response)=>{
+        if(response.data.employeesResult.length>0){
         setEmployeeId(response.data.employeesResult[0].id)
 setEmployeeData([
     {
@@ -66,6 +69,11 @@ setEmployeeData([
           value: response.data.employeesResult[0].store_department_name
         }
 ])
+setNoData(false)
+        }
+        else{
+            setNoData(true)
+        }
 axios.get(url+"api/getCategories",{headers}).then((response)=>{
 setCategories(response.data)
 })
@@ -96,7 +104,7 @@ function cancel(){
     const navigate=useNavigate()
     navigate(-1) 
 }
-console.log(category,subCategory)
+
 
 
 
@@ -104,7 +112,7 @@ console.log(category,subCategory)
         <React.Fragment>
             <Heading heading={'Add Expense'} />
             <ExpenseSearchBar func={searchHandler} />
-            {searchtext === '' ? '' : <DetailsDivContainer data={employee_data} />}
+            {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
             <div className='uni_container'>
                 <div className={classes.inner_container}>
                     <div className={classes.add_expense_seleecct_container}>
