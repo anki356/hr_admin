@@ -51,6 +51,7 @@ import AddFine from './Pages/FineManagement/AddFine/AddFine'
 // We have to diffrentiate between Login page and other Pages, so we are using useLocation
 import AddAdvance from './Pages/Advance/AddAdvance/AddAdvance'
 import AddLeave from './Pages/LeaveManagement/AddLeave/AddLeave';
+import Emp_Transfer from './Pages/EmployeeTransfer/Emp_Transfer/Emp_Transfer';
 const App = () => {
 
   const urlPath = useLocation()
@@ -109,6 +110,7 @@ const App = () => {
               <Route exact path="/overall_salary_details" element={<OverallSalaryDetails />} />
 
               <Route exact path="/employee_transfer" element={<EmployeeTransfer />} />
+              <Route exact path="/emp_transfer" element={<Emp_Transfer />} />
 
               <Route exact path="/interviews" element={<Interviews />} />
               <Route exact path="/add_interview" element={<AddInterview />} />
