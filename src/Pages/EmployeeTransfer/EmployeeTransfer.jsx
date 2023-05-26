@@ -40,13 +40,13 @@ useEffect(()=>{
      
       setData(transfer)
     }
-    fetchTransfer({ url: url + "api/getTransfer?from_date=" + from_date.subtract(10,'d').format("YYYY-MM-DD") + "&to_date=" + from_date.add(10, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset }, listTransfer)
+    fetchTransfer({ url: url + "api/getTransfer?from_date=" + from_date.subtract(10,'d').format("YYYY-MM-DD") + "&to_date=" + from_date.add(10, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset+"&status='Pending'" }, listTransfer)
 console.log(Data)
 },[])
 useEffect(() => {
   let from_date = moment(date)
 
-  let getString = url + "api/getTransfer?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
+  let getString = url + "api/getTransfer?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset+"&status='Pending'"
   if (employeeFilter.employee_query != '') {
     getString += "&employee_query=" + employeeFilter.employee_query
   }
@@ -134,10 +134,10 @@ const changeByDesignation = (data) => {
   return (
     <React.Fragment>
       <EmployeeTransferModal value={newval} setval={setNewVal} Obj={obj} />
-      <Heading heading={'Employee Transfer'} />
+      <Heading heading={'Employee Transfer'} Btn_link={'/add_transfer'} Btn={'Transfer'} />
       <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable App_Btn={true} func={changeModalState}  data={Data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'false'} t3={'Approve'} link2={'/attendence_history'} />
+      <MainTable func={changeModalState} Lnk1={true} link1={'false'} link2={'/emp_transfer'} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
