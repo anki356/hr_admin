@@ -1,0 +1,18 @@
+.container{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 10px;
+}
+.container > div{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 45%;
+}
+.container > div > div:nth-child(1){    font-size: 14px;
+    color: var(--bg);
+    font-weight: 500;}
+.container > div > div:nth-child(2){
+    font-size: 14px;
+}
