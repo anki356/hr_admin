@@ -53,6 +53,7 @@ import AddAdvance from './Pages/Advance/AddAdvance/AddAdvance'
 import AddLeave from './Pages/LeaveManagement/AddLeave/AddLeave';
 import Emp_Transfer from './Pages/EmployeeTransfer/Emp_Transfer/Emp_Transfer';
 import AddTransfer from './Pages/EmployeeTransfer/AddTransfer/AddTransfer';
+import View_Grade from './Pages/Grade/View_Grade/View_Grade';
 const App = () => {
 
   const urlPath = useLocation()
@@ -138,6 +139,7 @@ const App = () => {
               <Route exact path='/hierarchy' element={<HierarchyPage />} />
 
               <Route exact path='/grade' element={<Grade />} />
+              <Route exact path='/view_grade' element={<View_Grade />} />
 
               {/* Extra Pages */}
               <Route exact path="/fine_details" element={<FineDetails />} />

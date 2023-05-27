@@ -1,0 +1,12 @@
+.table_container {
+  display: flex;
+  justify-content: space-between;
+}
+.table_container_child {
+  width: 48%;
+}
+.table_heading {
+  font-weight: 600;
+  color: var(--bg);
+  margin: 20px 0;
+}
