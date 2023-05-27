@@ -96,7 +96,7 @@ let from_date=moment().startOf('month')
 let end_date=moment().endOf('month')
   fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.add(1,'d').format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
 
-  let countPresent=0
+  var countPresent=0
   var countAbsent=0
   attendanceData.forEach((data)=>{
     if(data.status==='Present'){
@@ -106,7 +106,7 @@ let end_date=moment().endOf('month')
       countAbsent++
     }
   })
-console.log("attendanceData",attendanceData)
+// console.log("attendanceData",attendanceData)
   setNOOfWorking(countPresent)
   setOff(countAbsent)
   end_date=moment().endOf('month')
@@ -149,8 +149,8 @@ newData.push(obj)
     setMonth(e.target.value)
     setNewDate(new Date(e.target.value))
   }
-console.log(totalFine)
-  const calData = [
+console.log("here our data",no_of_working,totalFine,totalFine,off)
+  var calData = [
     {
       p: 'No. Of Working',
       h1: no_of_working,

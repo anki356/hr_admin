@@ -103,7 +103,8 @@ const[empId,setEmpId]=useState(null)
         {heading:'Emp ID'},
         {heading:'Request Date'},
         {heading:'Expense Type'},
-        {heading:'Approval'}
+        {heading:'Approval'},
+        {heading:'Action'},
     ]
     const tableKeys = ['employee_name', 'empID' , 'date','category_name','approval']
     function cancelRequests(){

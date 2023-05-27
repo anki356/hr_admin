@@ -35,18 +35,10 @@ const [recall_head, setRecallHead] = useState(false)
 const [month,setMonth]=useState(null)
 const [approvalHead,setApprovalHead]=useState(false)
 console.log(fieldValues)
-    const searchHandler = (data) => {  
-        setSearchText(data)
-    
-    
-    }
-    const newFile = (data) => {
-        console.log('data in side modal', data[0])
-        setDocument(data)
-    }
-    useEffect(()=>{
+     const searchHandler = (data) => {  
+  
         const headers={"Authorization":"Bearer "+token}
-        axios.get(url+"api/getEmployeeDetails?employee_query="+searchtext,{headers}).then((response)=>{
+        axios.get(url+"api/getEmployeeDetails?employee_query="+data,{headers}).then((response)=>{
             if(response.data.employeesResult.length>0){
 
             setEmployeeId(response.data.employeesResult[0].id)
@@ -82,7 +74,13 @@ else{
 setNoData(true)
 }
         })
-    },[searchtext])
+    }
+    const newFile = (data) => {
+        console.log('data in side modal', data[0])
+        setDocument(data)
+    }
+ 
+      
     
       function cancel(e){
         e.preventDefault()
@@ -100,7 +98,7 @@ setNoData(true)
             to_date: to_date,
             download: document,
             recall_head: recall_head,
-            head_approval: approvalHead === 'Yes' ? 1 : 0
+            head_approval: approvalHead 
         }, { headers }).then((response)=>{
     if(response){
         

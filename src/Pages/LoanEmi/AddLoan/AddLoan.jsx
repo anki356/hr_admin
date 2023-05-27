@@ -30,54 +30,51 @@ const [recall_head, setRecallHead] = useState(false)
 const [month,setMonth]=useState(null)
 const [approvalHead,setApprovalHead]=useState(false)
 console.log(fieldValues)
-    const searchHandler = (data) => {  
-        setSearchText(data)
-    
-    
-    }
-    const newFile = (data) => {
-        console.log('data in side modal', data[0])
-        setDocument(data)
-    }
-    useEffect(()=>{
-        const headers={"Authorization":"Bearer "+token}
-        axios.get(url+"api/getEmployeeDetails?employee_query="+searchtext,{headers}).then((response)=>{
-            if(response.data.employeesResult.length>0){
+const searchHandler = (data) => {  
+  
+    const headers={"Authorization":"Bearer "+token}
+    axios.get(url+"api/getEmployeeDetails?employee_query="+data,{headers}).then((response)=>{
+        if(response.data.employeesResult.length>0){
 
-            setEmployeeId(response.data.employeesResult[0].id)
-    setEmployeeData([
-        {
-            title:"Name",
-            value:response.data.employeesResult[0].name
-          },{
-      title:'SuperVisor Name',
-      value:response.data.headEmployeesResult[0]?.head_employee_name
-          },{
-            title:'Designation',
-      value:response.data.employeesResult[0].role_name
-          },{
-            title:'Floor Name',
-      value:response.data.employeesResult[0].floor_name
-      
-            }, {
-              title: 'Gender',
-              value: response.data.employeesResult[0].gender
-      
-            }, {
-              title: 'Store name',
-              value: response.data.employeesResult[0].store_name
-            }, {
-              title: 'Store Department',
-              value: response.data.employeesResult[0].store_department_name
-            }
-    ])
-    setNoData(false)
+        setEmployeeId(response.data.employeesResult[0].id)
+setEmployeeData([
+    {
+        title:"Name",
+        value:response.data.employeesResult[0].name
+      },{
+  title:'SuperVisor Name',
+  value:response.data.headEmployeesResult[0]?.head_employee_name
+      },{
+        title:'Designation',
+  value:response.data.employeesResult[0].role_name
+      },{
+        title:'Floor Name',
+  value:response.data.employeesResult[0].floor_name
+  
+        }, {
+          title: 'Gender',
+          value: response.data.employeesResult[0].gender
+  
+        }, {
+          title: 'Store name',
+          value: response.data.employeesResult[0].store_name
+        }, {
+          title: 'Store Department',
+          value: response.data.employeesResult[0].store_department_name
+        }
+])
+setNoData(false)
 }
 else{
 setNoData(true)
 }
-        })
-    },[searchtext])
+    })
+}
+    const newFile = (data) => {
+        console.log('data in side modal', data[0])
+        setDocument(data)
+    }
+  
     const handleNumFieldsChange = (data) => {
         const value = parseInt(data, 10) || 0;
         setTenure(value);

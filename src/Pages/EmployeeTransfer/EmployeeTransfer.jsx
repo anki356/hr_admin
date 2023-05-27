@@ -114,13 +114,16 @@ const changeByDesignation = (data) => {
   const tableHeadings=[
     {heading:'Employee Name'},
     {heading:'Employee ID'},
-    {heading:'Floor'},
-    {heading:'Past Department'},
-    {heading:'Current Department'}
+    {heading:'Floor From'},
+    {heading:'Floor To'},
+    {heading:'Department From'},
+    {heading:'Department To'},
+    {heading:'Store From'},
+    {heading:'Store To'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_name','department_from_name','store_dep_name'
+    'employee_name','empID','floor_from_name','floor_to_name','department_from_name','store_dep_name','stores_from_name','stores_to_name'
   ]
 
   const [newval, setNewVal] = useState(false)

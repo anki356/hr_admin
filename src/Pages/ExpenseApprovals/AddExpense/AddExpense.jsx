@@ -34,54 +34,55 @@ const [employee_id,setEmployeeId]=useState(null)
     const dateHandler = (data) => { console.log('date', data);setDate(data) }
     const amountHandler = (data) => { console.log('date', data);setAmount(data) }
     const searchHandler = (data) => {  
-        setSearchText(data)
+        const headers={"Authorization":"Bearer "+token}
+        axios.get(url+"api/getEmployeeDetails?employee_query="+data,{headers}).then((response)=>{
+            if(response.data.employeesResult.length>0){
+            setEmployeeId(response.data.employeesResult[0].id)
+    setEmployeeData([
+        {
+            title:"Name",
+            value:response.data.employeesResult[0].name
+          },{
+      title:'SuperVisor Name',
+      value:response.data.headEmployeesResult[0]?.head_employee_name
+          },{
+            title:'Designation',
+      value:response.data.employeesResult[0].role_name
+          },{
+            title:'Floor Name',
+      value:response.data.employeesResult[0].floor_name
+      
+            }, {
+              title: 'Gender',
+              value: response.data.employeesResult[0].gender
+      
+            }, {
+              title: 'Store name',
+              value: response.data.employeesResult[0].store_name
+            }, {
+              title: 'Store Department',
+              value: response.data.employeesResult[0].store_department_name
+            }
+    ])
+    setNoData(false)
+            }
+            else{
+                setNoData(true)
+            }
     
     
-    }
+    })
+}
 useEffect(()=>{
     const headers={"Authorization":"Bearer "+token}
-    axios.get(url+"api/getEmployeeDetails?employee_query="+searchtext,{headers}).then((response)=>{
-        if(response.data.employeesResult.length>0){
-        setEmployeeId(response.data.employeesResult[0].id)
-setEmployeeData([
-    {
-        title:"Name",
-        value:response.data.employeesResult[0].name
-      },{
-  title:'SuperVisor Name',
-  value:response.data.headEmployeesResult[0]?.head_employee_name
-      },{
-        title:'Designation',
-  value:response.data.employeesResult[0].role_name
-      },{
-        title:'Floor Name',
-  value:response.data.employeesResult[0].floor_name
-  
-        }, {
-          title: 'Gender',
-          value: response.data.employeesResult[0].gender
-  
-        }, {
-          title: 'Store name',
-          value: response.data.employeesResult[0].store_name
-        }, {
-          title: 'Store Department',
-          value: response.data.employeesResult[0].store_department_name
-        }
-])
-setNoData(false)
-        }
-        else{
-            setNoData(true)
-        }
 axios.get(url+"api/getCategories",{headers}).then((response)=>{
 setCategories(response.data)
 })
 axios.get(url+"api/getSubCategories",{headers}).then((response)=>{
 setSubCategories(response.data)
 })
-    })
-},[searchtext])
+    
+},[])
      
 function add(){
     const headers={"Authorization":"Bearer "+token}
@@ -124,7 +125,7 @@ function cancel(){
                         <SelectTag usingid={true} select_id={'slt'} title={'Sub Category'} img={Img}  selectedVal={(data)=>setSubCategory(data)} data={subCategories} />
                     </div>
                     <LabeledInput func2={timeHandler} id={'time'} ph={'Time'} title={'Time'} img={false} type={'time'} />
-                    <LabeledInput func2={dateHandler} mr={true} id={'date'} ph={'Date'} title={'Date'} type={'date'} img={false} />
+                    <LabeledInput func2={dateHandler}  id={'date'} ph={'Date'} title={'Date'} type={'date'} img={false} />
                     <LabeledInput func2={amountHandler} mr={true} id={'amount'} ph={'Amount'} title={'Amount'} type={'text'} img={false} />
                 </div>
                 <textarea type="text" className={classes.add_expense_textarea}value={notes} onInput={(e)=>setNotes(e.target.value)} />

@@ -53,6 +53,7 @@ import AddAdvance from './Pages/Advance/AddAdvance/AddAdvance'
 import AddLeave from './Pages/LeaveManagement/AddLeave/AddLeave';
 import Emp_Transfer from './Pages/EmployeeTransfer/Emp_Transfer/Emp_Transfer';
 import AddTransfer from './Pages/EmployeeTransfer/AddTransfer/AddTransfer';
+import AddBonus from './Pages/Bonus/AddBonus/AddBonus';
 const App = () => {
 
   const urlPath = useLocation()
@@ -83,6 +84,7 @@ const App = () => {
               <Route exact path="/advance" element={<Advance />} />
               <Route exact path="/advance_approvals/:id/:employee_id" element={<AdvanceApprovals />} />
               <Route exact path="/add_advance" element={<AddAdvance />} />
+              <Route exact path="/add_bonus" element={<AddBonus />} />
 
               <Route exact path="/expense_approvals" element={<ExpenseApprovals />} />
               <Route exact path="/expense_approval/:id/:employee_id" element={<ExpenseApproval />} />

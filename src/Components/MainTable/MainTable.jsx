@@ -120,7 +120,7 @@ const MainTable = (props) => {
                 return setApproval(val)
             case 'document':
                 console.log(val)
-                return  <a href="#" onClick={(event)=>downloadLeaveData("http://localhost:9000/"+val,event)} >Download file<img src={DownloadIcon}></img></a>
+                return  <a href="#" onClick={(event)=>downloadLeaveData("http://localhost:9000/"+val,event)} >Download file</a>
             default:
                 return val
         }
