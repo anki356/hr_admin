@@ -55,3 +55,19 @@
 .file_div  div  > label span{
   height: 47px !important;
 }
+.add_inp{
+  width: max-content;
+    padding: 0 20px;
+    height: 40px;
+    margin-top: 30px;
+    border-radius: var(--br);
+    cursor: pointer;
+    font-weight: 500;
+    background: var(--bg);
+    color: white;
+    border: 1px solid var(--bg);
+}
+
+.inp_con{
+ width: 100%;
+}

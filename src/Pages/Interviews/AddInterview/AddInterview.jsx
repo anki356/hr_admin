@@ -32,6 +32,10 @@ const AddInterview = () => {
     const [roleData, setRoleData] = useState([])
     const [deptData, setDeptData] = useState([])
 
+
+    const [arr, setArr] = useState([])
+
+
     useEffect(() => {
         const headers = { "Authorization": "Bearer " + token }
 
@@ -128,6 +132,16 @@ const AddInterview = () => {
     function cancel() {
         navigate(-1)
     }
+
+    const increaseFile = () => {
+        const newFileInput = {
+            id: arr.length + 1,
+        };
+
+        setArr(prevInputs => [...prevInputs, newFileInput]);
+    }
+
+
     return (
         <React.Fragment>
             <Heading heading={'Add Interview'} />
@@ -150,10 +164,23 @@ const AddInterview = () => {
                     <textarea id="remarks"></textarea>
                 </div>
 
-                <div className={classes.file_div }>
+                <div className={classes.file_div}>
                     <h5 >Upload Document</h5>
                     <InpFile />
                 </div>
+                <div className={classes.file_div}>
+                    <h5 >Upload Document 2</h5>
+                    <InpFile />
+                </div>
+                <div className={classes.inp_con}>
+                    {arr.map((element,index)=>(
+                        <div className={classes.file_div}>
+                        <h5 >Upload Additional Document {element.id}</h5>
+                        <InpFile />
+                    </div>
+                    ))}
+                </div>
+                <button className={classes.add_inp} onClick={increaseFile}>Add File</button>
                 {/* <div className={classes.input_div}>
                     <label htmlFor="file">Attach File</label>
                     <input type="file" id='file' />
