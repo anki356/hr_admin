@@ -31,14 +31,9 @@ const [recall_head, setRecallHead] = useState(false)
 const [approvalHead,setApprovalHead]=useState(false)
 console.log(fieldValues)
     const searchHandler = (data) => {  
-        setSearchText(data)
-    
-    
-    }
-   
-    useEffect(()=>{
+  
         const headers={"Authorization":"Bearer "+token}
-        axios.get(url+"api/getEmployeeDetails?employee_query="+searchtext,{headers}).then((response)=>{
+        axios.get(url+"api/getEmployeeDetails?employee_query="+data,{headers}).then((response)=>{
             if(response.data.employeesResult.length>0){
 
             setEmployeeId(response.data.employeesResult[0].id)
@@ -74,7 +69,7 @@ else{
 setNoData(true)
 }
         })
-    },[searchtext])
+    }
   
       function cancel(){
       

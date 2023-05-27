@@ -22,7 +22,7 @@ const documents_table_headings = [
     {heading:''},
     {heading:'Option'}
 ]
-const documents_table_keys = ['type' , 'created_on' , '' , 'file_name' ]
+const documents_table_keys = ['type' , 'created_on' , '' , 'document' ]
 const personal_details = [
     {
         title: 'Date Of Birth',

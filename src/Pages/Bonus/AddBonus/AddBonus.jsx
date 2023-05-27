@@ -1,4 +1,4 @@
-import classes from './AddAdvance.module.css'
+import classes from './AddBonus.module.css'
 import React,{ useState, useEffect } from 'react'
 import InpFile from '../../../Components/InpFile/InpFile'
 import Cookies from 'universal-cookie'
@@ -11,16 +11,14 @@ import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 import Heading from '../../../Components/Heading/Heading'
-const AddAdvanceModal = (props) => {
+const AddBonus = (props) => {
     const url = "http://localhost:9000/"
     const cookies = new Cookies();
     const token = cookies.get('token')
 
     
     const [searchtext, setSearchText] = useState('')
-    const [advance, setAdvance] = useState(null)
-    const [approval_head, setApprovalHead] = useState(null)
-    const [recall_head, setRecallHead] = useState(false)
+    const [bonus, setBonus] = useState(null)
     const [document, setDocument] = useState(null)
     const [fileLabel, setFileLabel] = useState('')
     const [noData,setNoData]=useState(false)
@@ -93,19 +91,15 @@ setNoData(true)
         // console.log(document);
 
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-        axios.post(url + "api/addAdvance", {
-            employee_id: employee_id,
-            date: moment().format("YYYY-MM-DD"),
-            amount: advance,
-            download: document,
-            recall_head: recall_head,
-            head_approval: approval_head === 'Yes' ? 1 : 0
-        }, { headers }).then((response) => {
+        axios.post(url+"api/addBonus",{
+            employee_id:employee_id,
+            amount:bonus,
+            download:document
+        },{headers}).then((response)=>{
             if (response) {
-                setAdvance('')
+                setBonus('')
                 setDocument('')
-                setRecallHead('')
-                setApprovalHead('')
+               
                 setFileLabel('')
                 cancel()
             }
@@ -116,30 +110,23 @@ setNoData(true)
 
     return (
         <React.Fragment>
-            <Heading heading={'Add Advance'} /><ExpenseSearchBar func={searchHandler} />
+            <Heading heading={'Add Bonus'} /><ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
             <form className={classes.form}>
-                <LabeledInput id={'advance'} title={'Advance'} img={false} func2={setAdvance} />
-
-                <div className={classes.form_input_div}>
-                    <label htmlFor="abh">Approve By Head</label>
-                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)}>
-                        <option selected={approval_head === true} value={true}>Yes</option>
-                        <option selected={approval_head === false} value={false}>No</option>
-                    </select>
-                </div>
+            <div className={classes.form_input_div}  >Bonus Amount<span><input type="text" value={bonus} onChange={(e)=>setBonus(e.target.value)} /></span></div>
                 <div className={classes.file_con}>
                     <h3 className={classes.file_con_label}>Attach File</h3>
                     <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} />
                 </div>
-                <div className={classes.form_input_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
-                <BottomButtonContainer cancel={'Cancel'} approve={'Add Advance'} func={true} cancelRequests={cancel} func2={add} />
+                
+                
+              
             </form>
-
+            <BottomButtonContainer cancel={'Cancel'} approve={'Add Bonus'} func={true} cancelRequests={cancel} func2={add} />
 
         </React.Fragment>
 
     )
 }
 
-export default AddAdvanceModal
+export default AddBonus

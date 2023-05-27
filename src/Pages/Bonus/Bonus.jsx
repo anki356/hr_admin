@@ -220,11 +220,11 @@ function OverallData(){
 
   return (
     <React.Fragment>
-      <Heading heading={'Bonus'} />
+      <Heading heading={'Bonus'}  Btn_link={'/add_bonus'} Btn={'Bonus'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk={true} link1={'false'}  App_Btn={true} data={data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} link2='false' />
+      <MainTable func={changeModalState} Lnk={false} link1={'false'}  App_Btn={false} data={data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} link2='false' />
 <Pagination selectEntries={selectEntries} selectPage={selectPage} />
 
       <AddBonusModal value={newval} setval={setNewVal} Obj={obj}  reloadFunc={OverallData} />
