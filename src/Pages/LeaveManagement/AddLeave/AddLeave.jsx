@@ -119,10 +119,12 @@ setNoData(true)
     <Heading heading={'Add Leave'} /><ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
     <form className={classes.form}>
-    <div className={classes.form_input_div}>Leave From <span>
-    <input value={from_date} placeholder="DD/MM/YYYY" onInput={(e) => setFromDate(e.target.value)} type="date" /></span></div>
-    <div className={classes.form_input_div}>Leave to <span>
-    <input type="date" placeholder="DD/MM/YYYY" value={to_date} onInput={(e) => setToDate(e.target.value)} /></span></div>
+        <LabeledInput type='date' title='Leave From' id='leave_from' img={false} func2={setFromDate}   />
+        <LabeledInput type='date' title='Leave To' id='leave_to' img={false} func2={setToDate}   />
+    {/* <div className={classes.form_input_div}>Leave From <span>
+    <input value={from_date} placeholder="DD/MM/YYYY" onInput={(e) => setFromDate(e.target.value)} type="date" /></span></div> */}
+    {/* <div className={classes.form_input_div}>Leave to <span>
+    <input type="date" placeholder="DD/MM/YYYY" value={to_date} onInput={(e) => setToDate(e.target.value)} /></span></div> */}
         <div className={classes.form_input_div}>
             <label htmlFor="abh">Approve By Head</label>
             <select id='abh' onChange={(e)=>setApprovalHead(e.target.value)}>
@@ -130,7 +132,9 @@ setNoData(true)
                 <option selected={approvalHead===false} value={false}>No</option>
             </select>
         </div>
-        <div className={classes.form_input_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
+        <div className={classes.form_input_div} value={recall_head} >
+            <label htmlFor="recall">Recall Head</label>
+            <div style={{marginTop:'10px'}}><input type="checkbox" onChange={recallHandler} id='recall' /></div></div>
         {/* <div className={classes.form_input_div}>
             <label htmlFor="month">Select Month</label>
             <select id='month' onChange={(e)=>setMonth(e.target.value)}>
