@@ -32,40 +32,34 @@ const EmployeeTransfer = () => {
     role_name: "",
     store_name: ""
   })
-useEffect(()=>{
-  const headers = { "Authorization": "Bearer " + token }
-    let from_date = moment()
-    const listTransfer = (transfer) => {
 
+useEffect(() => {
+  let from_date = moment(date)
+//getTransfer
+if(employeeFilter.store_name!=''){
+  let getString = url + "api/getTransfer?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
+}
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
+    }
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
+    }
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+    }
+    const listTransfer = (transfer) => {
+  
      
       setData(transfer)
     }
-    fetchTransfer({ url: url + "api/getTransfer?from_date=" + from_date.subtract(10,'d').format("YYYY-MM-DD") + "&to_date=" + from_date.add(10, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset+"&status='Pending'" }, listTransfer)
-console.log(Data)
-},[])
-useEffect(() => {
-  let from_date = moment(date)
-
-  let getString = url + "api/getTransfer?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset+"&status='Pending'"
-  if (employeeFilter.employee_query != '') {
-    getString += "&employee_query=" + employeeFilter.employee_query
-  }
-  if (employeeFilter.role_name != '') {
-    getString += '&role_name=' + employeeFilter.role_name
-  }
-  if (employeeFilter.floor_name != '') {
-    getString += "&floor_name=" + employeeFilter.floor_name
-  }
-  if (employeeFilter.store_name != '') {
-    getString += "&store_name=" + employeeFilter.store_name
+    fetchTransfer({ url: getString }, listTransfer)
   }
 
-  const listTransfer = (transfer) => {
-
-   
-    setData(transfer)
-  }
-  fetchTransfer({ url: getString }, listTransfer)
 
 }, [date, limit, offset, employeeFilter])
 const selectByStore = (data) => {
@@ -89,8 +83,6 @@ const selectPage = (data) => {
   setOffset((data - 1) * limit)
 }
 const changeDate = (data) => {
-  setLimit(10)
-  setOffset(0)
   setDate(data)
 }
 const changeByEmployee = (data) => {
@@ -119,11 +111,12 @@ const changeByDesignation = (data) => {
     {heading:'Department From'},
     {heading:'Department To'},
     {heading:'Store From'},
-    {heading:'Store To'}
+    {heading:'Store To'},
+    {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_from_name','floor_to_name','department_from_name','store_dep_name','stores_from_name','stores_to_name'
+    'employee_name','empID','floor_from_name','floor_to_name','department_from_name','store_dep_name','stores_from_name','stores_to_name','status'
   ]
 
   const [newval, setNewVal] = useState(false)
@@ -140,7 +133,7 @@ const changeByDesignation = (data) => {
       <Heading heading={'Employee Transfer'} Btn_link={'/add_transfer'} Btn={'Transfer'} />
       <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk1={true} link1={'false'} link2={'/emp_transfer'} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
+      <MainTable func={changeModalState} Lnk3={true} link1={'/emp_transfer'} link2={false} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )

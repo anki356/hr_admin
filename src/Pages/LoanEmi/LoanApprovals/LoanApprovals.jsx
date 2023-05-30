@@ -78,8 +78,10 @@ const LoanApprovals = () => {
     axios.post("http://localhost:9000/api/restructureLoans", {
       loan_id: id,
       month: month
-    }, { headers }).then(() => {
-
+    }, { headers }).then((response) => {
+if(response){
+window.location.reload(false)
+}
     })
 
   }

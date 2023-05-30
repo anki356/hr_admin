@@ -74,7 +74,7 @@ const Bonus = () => {
   useEffect(() => {
  
     const headers = { "Authorization": "Bearer " + token }
-    OverallData()
+    // OverallData()
     
     axios.get("http://localhost:9000/api/totalAmountOfBonusGiven?year=2023", { headers }).then((response) => {
        
@@ -118,21 +118,23 @@ const Bonus = () => {
   }
   useEffect(() => {
     let from_date = moment(date)
-
-    let getString = url + "api/getBonus?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'"
-    if (employeeFilter.employee_query != '') {
-      getString += "&employee_query=" + employeeFilter.employee_query
+//getBonus
+if(employeeFilter.store_name!=''){
+  let getString = url + "api/getBonus?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
+}
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
     }
-    if (employeeFilter.role_name != '') {
-      getString += '&role_name=' + employeeFilter.role_name
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
     }
-    if (employeeFilter.floor_name != '') {
-      getString += "&floor_name=" + employeeFilter.floor_name
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
-    }
-
     const listBonus = (Bonus) => {
       Bonus.bonusResult.forEach((data)=>{
         if(Bonus.baseSalariesData!==undefined){
@@ -152,6 +154,9 @@ const Bonus = () => {
       setData(Bonus.bonusResult)
     }
     fetchBonus({ url: getString }, listBonus)
+  }
+
+   
 
 
     // axios.get(getString,{headers}).then((response)=>{
@@ -195,28 +200,26 @@ const Bonus = () => {
   }
 
   const changeDate = (data) => {
-    setLimit(10)
-    setOffset(0)
     setDate(data)
   }
-function OverallData(){
-  let from_date = moment(date)
-  const listBonus = (Bonus) => {
-    Bonus.bonusResult.forEach((data)=>{
-      if(Bonus.baseSalariesData!==undefined){
-        Bonus.baseSalariesData.forEach((dataOne)=>{
-          if(dataOne.employee_id===data.employee_id){
+// function OverallData(){
+//   let from_date = moment(date)
+//   const listBonus = (Bonus) => {
+//     Bonus.bonusResult.forEach((data)=>{
+//       if(Bonus.baseSalariesData!==undefined){
+//         Bonus.baseSalariesData.forEach((dataOne)=>{
+//           if(dataOne.employee_id===data.employee_id){
           
-            data.basic_salary=dataOne.amount
-          }
-                  })
-      }
+//             data.basic_salary=dataOne.amount
+//           }
+//                   })
+//       }
      
-    })
-    setData(Bonus.bonusResult)
-  }
-  fetchBonus({ url: url + "api/getBonus?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'" }, listBonus)
-}
+//     })
+//     setData(Bonus.bonusResult)
+//   }
+//   fetchBonus({ url: url + "api/getBonus?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='Out For Some Work'" }, listBonus)
+// }
 
   return (
     <React.Fragment>
@@ -227,7 +230,7 @@ function OverallData(){
       <MainTable func={changeModalState} Lnk={false} link1={'false'}  App_Btn={false} data={data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} link2='false' />
 <Pagination selectEntries={selectEntries} selectPage={selectPage} />
 
-      <AddBonusModal value={newval} setval={setNewVal} Obj={obj}  reloadFunc={OverallData} />
+      {/* <AddBonusModal value={newval} setval={setNewVal} Obj={obj}  reloadFunc={OverallData} /> */}
     </React.Fragment>
   )
 }

@@ -23,9 +23,9 @@ const Interviews = () => {
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
-    employee_query: '',
+    interviewer_name: '',
     floor_name: "",
-    role_name: "",
+    interviewee_name: "",
     store_name: ""
   })
   const cookies = new Cookies();
@@ -45,7 +45,7 @@ setInterviewData(response.data)
       })
       setData(interview)
     }
-    fetchInterview({ url: url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset }, listInterview)
+    fetchInterview({ url: url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&status='Pending'" }, listInterview)
     from_date = moment()
     axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD"), { headers }).then((response) => {
 
@@ -53,20 +53,20 @@ setInterviewData(response.data)
       axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD"), { headers }).then((responseOne) => {
 
         from_date = moment()
-        axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "status='Trial'", { headers }).then((responseTwo) => {
+        axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Trial'", { headers }).then((responseTwo) => {
           from_date = moment().subtract(1, 'd')
-          axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "status='Trial'", { headers }).then((responseThird) => {
+          axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Trial'", { headers }).then((responseThird) => {
 
             from_date = moment()
-            axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "status='Rejected'", { headers }).then((responseFourth) => {
+            axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Rejected'", { headers }).then((responseFourth) => {
               from_date = moment().subtract(1, 'd')
-              axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "status='Rejected'", { headers }).then((responseFifth) => {
+              axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Rejected'", { headers }).then((responseFifth) => {
 
                 from_date = moment()
                 
-                axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "status='Permanent'", { headers }).then((responseSixth) => {
+                axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Permanent'", { headers }).then((responseSixth) => {
                   from_date = moment().subtract(1, 'd')
-                  axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "status='Permanent'", { headers }).then((responseSeventh) => {
+                  axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Permanent'", { headers }).then((responseSeventh) => {
                   setTileData([
                     {
                       title: 'Total Interviews',
@@ -106,12 +106,12 @@ setInterviewData(response.data)
   useEffect(() => {
     let from_date = moment(date)
 
-    let getString = url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
-    if (employeeFilter.employee_query != '') {
-      getString += "&employee_query=" + employeeFilter.employee_query
+    let getString = url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset+ "&status='Pending'"
+    if (employeeFilter.interviewer_name != '') {
+      getString += "&interviewer_name=" + employeeFilter.interviewer_name
     }
-    if (employeeFilter.role_name != '') {
-      getString += '&role_name=' + employeeFilter.role_name
+    if (employeeFilter.interviewee_name != '') {
+      getString += '&interviewee_name=' + employeeFilter.interviewee_name
     }
     if (employeeFilter.floor_name != '') {
       getString += "&floor_name=" + employeeFilter.floor_name
@@ -149,19 +149,19 @@ setInterviewData(response.data)
     setOffset(0)
     setDate(data)
   }
-  const changeByEmployee = (data) => {
+  const changeByInterviewer = (data) => {
 
     // if(data.charAt(0)!=='1')
     //  {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, employee_query: data }
+      return { ...prevState, interviewer_name: data }
     })
   }
-  const changeByDesignation = (data) => {
+  const changeByInterviewee = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, role_name: data }
+      return { ...prevState, interviewee_name: data }
     })
 
   }
@@ -193,12 +193,12 @@ setInterviewData(response.data)
     setNewVal(val)
     setObj(element)
   }
-
+console.log(Data)
   return (
     <React.Fragment>
       <Heading heading={'Interviews'} Btn={'Interview'} Btn_link={'/add_interview'} />
       <TileContainer Data={TileData} />
-      <InterviewFilter data={Data} data2={interviewData} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
+      <InterviewFilter data={data} data2={interviewData} changeDate={changeDate} changeByInterviewee={changeByInterviewee} changeByInterviewer={changeByInterviewer} />
       <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} App_Btn={true}  height={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
       <InterviewModal value={newval} setval={setNewVal} Obj={obj} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />

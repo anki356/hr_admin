@@ -17,7 +17,7 @@ const LoanEmi = () => {
   const [SuperVisor, setSuperVisor]=useState(null)
   const url="http://localhost:9000/"
   // Here is our data for tile in the page
-  const [date,setDate]=useState(new Date())
+  const [date,setDate]=useState(null)
  const [data,setData]=useState([])
   const [limit,setLimit]=useState(10)
   const [offset,setOffset]=useState(0)
@@ -36,10 +36,8 @@ const LoanEmi = () => {
     const token = cookies.get('token')
       const headers={"Authorization":"Bearer "+token}
       let from_date=moment()
-      const listLoan = (loan) => {
-        setData(loan)
-      }
-      fetchLoan({ url: url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'" }, listLoan)
+     
+     
       from_date=moment()
       axios.get(url+"api/getTotalLoansGranted?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((response)=>{
        
@@ -91,33 +89,30 @@ const LoanEmi = () => {
       })
     },[])
   useEffect(()=>{
-    // let token=localStorage.getItem('token')
-    // if(token===null){
-    // navigate('/login')
-    // }
-    // const headers={"Authorization":"Bearer "+token}
+   
     let from_date=moment(date)
-    
-  let getString=url+"api/getLoans?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
-    if(employeeFilter.employee_query!=''){
-      getString+="&employee_query="+employeeFilter.employee_query
+    if(employeeFilter.store_name!=''){ 
+  let getString=url+"api/getLoans?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
 }
-      if(employeeFilter.role_name!=''){
-        getString+='&role_name='+employeeFilter.role_name
-      }
-      if(employeeFilter.floor_name!=''){
-        getString+="&floor_name="+employeeFilter.floor_name
-      }
-      if(employeeFilter.store_name!=''){
-        getString+="&store_name="+employeeFilter.store_name
-      }
-        
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
+    }
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
+    }
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+    }
       const listLoan = (loan) => {
         setData(loan)
       }
       fetchLoan({ url: getString }, listLoan) 
       
-      
+    }
       // axios.get(getString,{headers}).then((response)=>{
       //       setData(response.data)
       //   })
@@ -152,6 +147,7 @@ const LoanEmi = () => {
     {heading:'Employee Name'},
     {heading:'Employee ID'},
     {heading:'Floor'},
+    {heading:'Store'},
     {heading:'Amount'},
     {heading:'Tenure'},{
       heading:'Request Status'
@@ -159,19 +155,12 @@ const LoanEmi = () => {
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_name','amount' ,'tenure', 'status'
+    'employee_name','empID','floor_name','store_name','amount' ,'tenure', 'status'
   ]
   const [newval, setNewVal] = useState(false)
   const [obj,setObj] = useState({})
 
-  const changeModalState = ([val , element]) => {
-    const headers={"Authorization":"Bearer "+token}
-    axios.get(url+"api/getEmployeeDetails?id="+element.employee_id,{headers}).then((response)=>{
-        setSuperVisor(response.data.headEmployeesResult[0]?.head_employee_name)
-        })
-    setNewVal(val)
-    setObj(element)
-  }
+  
   const selectByStore=(data)=>{
    
     setEmployeeFilter((prevState)=>{
@@ -187,8 +176,7 @@ const LoanEmi = () => {
 }
   
   const changeDate=(data)=>{
-    setLimit(10)
-    setOffset(0)
+   
     setDate(data)
 }
 const changeByEmployee=(data)=>{
@@ -221,7 +209,7 @@ const selectEntries=(data)=>{
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
-      <MainTable  Lnk05={true} link1={'/loan_approvals'} link2={'false'} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
+      <MainTable link1={'/loan_approvals'} Lnk3={true} link2={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
       {/* <AddLoanModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  /> */}
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

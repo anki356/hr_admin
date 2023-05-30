@@ -174,11 +174,13 @@ const AttendenceApprovals = () => {
     { heading: 'Employee Name' },
     { heading: 'Employee ID' },
     { heading: 'Attendence' },
-    { heading: 'Floor' }
+    { heading: 'Floor' },
+    {heading:'Store'},
+    {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name', 'empID', 'status', 'floor_name'
+    'employee_name', 'empID', 'status', 'floor_name','store_name','status'
   ]
   const changeByEmployee = (data) => {
     setEmployeeFilter((prevState) => {
@@ -213,7 +215,7 @@ const AttendenceApprovals = () => {
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'false'} />
+      <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={false} />
       {/* <Entrypage selectEntries={selectEntries} selectPage={selectPage}/> */}
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

@@ -5,6 +5,7 @@ import Img from '../../assets/vector9.png'
 const SelectTag = (props) => {
 
     const valHandler = (e) => {
+        console.log(e)
         props.selectedVal(e.target.value)
     }
 
@@ -26,7 +27,7 @@ const SelectTag = (props) => {
                         <option key={index} value={val.id}>{val.name}</option>
                     )) }
                 </select> :
-                <select onChange={callParentFunction} className={classes.select} id={props.select_id ? props.select_id :''}>
+                <select onChange={(e)=>callParentFunction(e)} className={classes.select} id={props.select_id ? props.select_id :''}>
                     <option selected value='1'>Janaury</option>
                     <option value='2'>February</option>
                     <option value='3'>March</option>

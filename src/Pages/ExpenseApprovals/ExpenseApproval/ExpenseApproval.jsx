@@ -93,20 +93,22 @@ const[empId,setEmpId]=useState(null)
            setExpenseData(response.data)
           })
           axios.get(url+"api/getExpenseHistory?id="+employee_id, { headers }).then((response)=>{
+            response.data.forEach((data)=>{
+data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
+            })
             setExpenseHistorydata(response.data)
           })
       
       
         }, [])
     const tableHeadings = [
-        {heading:'Employee Name'},
-        {heading:'Emp ID'},
+      {heading:'Amount'},
         {heading:'Request Date'},
         {heading:'Expense Type'},
-        {heading:'Approval'},
-        {heading:'Action'},
+        {heading:'Status'},
+        {heading:'Status date'},
     ]
-    const tableKeys = ['employee_name', 'empID' , 'date','category_name','approval']
+    const tableKeys = ['amount' , 'date','category_name','approval','status_date']
     function cancelRequests(){
         const url="http://localhost:9000/"
         const headers={"Authorization":"Bearer "+token}

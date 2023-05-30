@@ -18,7 +18,7 @@ const EmployeeDetails = () => {
   const cookies = new Cookies();
   const url="http://localhost:9000/"
   const [Data,setData]=useState([])
-  const [date,setDate]=useState(new Date())
+  const [date,setDate]=useState(null)
   const [limit,setLimit]=useState(10)
   const [offset,setOffset]=useState(0)
   
@@ -42,10 +42,10 @@ const EmployeeDetails = () => {
     const token = cookies.get('token')
     const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
-    const listEmployees = (Employees) => {
-      setData(Employees)
-    }
-    fetchEmployees({url:url+"api/getEmployees?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset},listEmployees)
+    // const listEmployees = (Employees) => {
+    //   setData(Employees)
+    // }
+    // fetchEmployees({url:url+"api/getEmployees?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset},listEmployees)
 axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
   
   axios.get(url+"api/getTotalEmployees?type='Trial'",{headers}).then((responseOne)=>{
@@ -58,7 +58,7 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
       value: response.data[0].count_id
     },
     {
-      title: 'Trails Employee',
+      title: 'Trial Employee',
       value: responseOne.data[0].count_id
     },
     {
@@ -77,37 +77,34 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
   },[])
  
   useEffect(()=>{
-    let from_date=moment(date)
-    
-  let getString=url+"api/getEmployees?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset
-    if(employeeFilter.employee_query!=''){
-      getString+="&employee_query="+employeeFilter.employee_query
-}
-      if(employeeFilter.role_name!=''){
-        getString+='&role_name='+employeeFilter.role_name
+    if(employeeFilter.store_name!=''){
+      let getString=url+"api/getEmployees?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+      if(employeeFilter.employee_query!=''){
+        getString+="&employee_query="+employeeFilter.employee_query
+  }
+        if(employeeFilter.role_name!=''){
+          getString+='&role_name='+employeeFilter.role_name
+        }
+        if(employeeFilter.floor_name!=''){
+          getString+="&floor_name="+employeeFilter.floor_name
+        }
+       
+        if(date!=null){
+          let from_date=moment(date)
+          getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+        }
+        const listEmployees = (Employees) => {
+            setData(Employees)
+          }
+          fetchEmployees({ url: getString }, listEmployees) 
       }
-      if(employeeFilter.floor_name!=''){
-        getString+="&floor_name="+employeeFilter.floor_name
-      }
-      if(employeeFilter.store_name!=''){
-        getString+="&store_name="+employeeFilter.store_name
-      }
-     
-        
-      const listEmployees = (Employees) => {
-        setData(Employees)
-      }
-      fetchEmployees({ url: getString },listEmployees)
-      
-      
       // axios.get(getString,{headers}).then((response)=>{
       //       setData(response.data)
       //   })
   },[date,limit,offset,employeeFilter])
  
   const changeDate=(data)=>{
-    setLimit(10)
-    setOffset(0)
+   
     setDate(data)
 }
   // Table Headings, Data and Keys
@@ -134,11 +131,12 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
     {heading:'Employee ID'},
     {heading:'Floor'},
     {heading:'Designation'},
-    {heading:'Department'}
+    {heading:'Department'},
+    {heading:'Store'}
   ]
 
   const tableKeys = [
-    'name','empID','floor_name','role_name' , 'store_department_name'
+    'name','empID','floor_name','role_name' , 'store_department_name','store_name'
   ]
   const selectByStore=(data)=>{
    

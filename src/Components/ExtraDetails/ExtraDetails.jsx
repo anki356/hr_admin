@@ -33,7 +33,7 @@ const ExtraDetails = (props) => {
           <ExtraDetailsDiv title={element.title} value={element.value} index={index} />
           ))}
         </div>
-        <div className={classes.inner_container_second}>
+        <div >
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
           <div>
            {props?.data[0]?.notes}

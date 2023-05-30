@@ -22,6 +22,7 @@ const AddExpense = () => {
     const [notes,setNotes]=useState('')
     const [noData,setNoData]=useState(false)
 
+    const [View, setView] = useState(false)
     const [searchtext, setSearchText] = useState('')
     const [categories,setCategories]=useState([])
     const [subCategories,setSubCategories]=useState([])
@@ -29,6 +30,7 @@ const AddExpense = () => {
     const [subCategory,setSubCategory]=useState(null)
     const [amount,setAmount]=useState(null)
 const [employee_id,setEmployeeId]=useState(null)
+
     const url = "http://localhost:9000/"
     const timeHandler = (data) => { console.log('time', data);setTime(data) }
     const dateHandler = (data) => { console.log('date', data);setDate(data) }
@@ -38,32 +40,40 @@ const [employee_id,setEmployeeId]=useState(null)
         axios.get(url+"api/getEmployeeDetails?employee_query="+data,{headers}).then((response)=>{
             if(response.data.employeesResult.length>0){
             setEmployeeId(response.data.employeesResult[0].id)
-    setEmployeeData([
-        {
-            title:"Name",
-            value:response.data.employeesResult[0].name
-          },{
-      title:'SuperVisor Name',
-      value:response.data.headEmployeesResult[0]?.head_employee_name
-          },{
-            title:'Designation',
-      value:response.data.employeesResult[0].role_name
-          },{
-            title:'Floor Name',
-      value:response.data.employeesResult[0].floor_name
-      
-            }, {
-              title: 'Gender',
-              value: response.data.employeesResult[0].gender
-      
-            }, {
-              title: 'Store name',
-              value: response.data.employeesResult[0].store_name
-            }, {
-              title: 'Store Department',
-              value: response.data.employeesResult[0].store_department_name
-            }
-    ])
+            setEmployeeData([
+                {
+                    title:"Name",
+                    value:response.data.employeesResult[0].name
+                  },
+                {
+                    title:"Employee ID",
+                    value:response.data.employeesResult[0].empID
+                  },
+                  {
+              title:'SuperVisor Name',
+              value:response.data.headEmployeesResult[0]?.head_employee_name
+                  },{
+                    title:'Designation',
+              value:response.data.employeesResult[0].role_name
+                  },,{
+                    title:'Department',
+              value:response.data.employeesResult[0].department_name
+                  },{
+                    title:'Floor Name',
+              value:response.data.employeesResult[0].floor_name
+              
+                    }, {
+                      title: 'Gender',
+                      value: response.data.employeesResult[0].gender
+              
+                    }, {
+                      title: 'Store name',
+                      value: response.data.employeesResult[0].store_name
+                    }, {
+                      title: 'Store Department',
+                      value: response.data.employeesResult[0].store_department_name
+                    }
+            ])
     setNoData(false)
             }
             else{
@@ -106,7 +116,15 @@ function cancel(){
     navigate(-1) 
 }
 
-
+useEffect(()=>{
+    console.log(category)
+if(category==='3'){
+    setView(true)
+}
+else{
+    setView(false)
+}
+},[category])
 
 
     return (
@@ -120,7 +138,7 @@ function cancel(){
                         <label htmlFor="slt">Category</label>
                         <SelectTag usingid={true} select_id={'slt'} title={'Category'} img={Img}  selectedVal={(data)=>setCategory(data)} data={categories} />
                     </div>
-                    <div className={classes.add_expense_seleecct_container}>
+                    <div  className={` ${View === true ? classes.add_expense_seleecct_container : classes.invisible}`}>
                         <label htmlFor="slt">Sub Category</label>
                         <SelectTag usingid={true} select_id={'slt'} title={'Sub Category'} img={Img}  selectedVal={(data)=>setSubCategory(data)} data={subCategories} />
                     </div>
@@ -128,7 +146,8 @@ function cancel(){
                     <LabeledInput func2={dateHandler}  id={'date'} ph={'Date'} title={'Date'} type={'date'} img={false} />
                     <LabeledInput func2={amountHandler} mr={true} id={'amount'} ph={'Amount'} title={'Amount'} type={'text'} img={false} />
                 </div>
-                <textarea type="text" className={classes.add_expense_textarea}value={notes} onInput={(e)=>setNotes(e.target.value)} />
+                <label htmlFor="rea">Reason</label>
+                <textarea id="rea" type="text" className={classes.add_expense_textarea}value={notes} onInput={(e)=>setNotes(e.target.value)} />
             </div>
             <BottomButtonContainer cancel={'Cancel'} approve={'Add Expense'} func={true} func1={cancel} func2={add}/>
         </React.Fragment>

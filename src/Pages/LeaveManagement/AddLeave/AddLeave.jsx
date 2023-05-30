@@ -42,32 +42,40 @@ console.log(fieldValues)
             if(response.data.employeesResult.length>0){
 
             setEmployeeId(response.data.employeesResult[0].id)
-    setEmployeeData([
-        {
-            title:"Name",
-            value:response.data.employeesResult[0].name
-          },{
-      title:'SuperVisor Name',
-      value:response.data.headEmployeesResult[0]?.head_employee_name
-          },{
-            title:'Designation',
-      value:response.data.employeesResult[0].role_name
-          },{
-            title:'Floor Name',
-      value:response.data.employeesResult[0].floor_name
-      
-            }, {
-              title: 'Gender',
-              value: response.data.employeesResult[0].gender
-      
-            }, {
-              title: 'Store name',
-              value: response.data.employeesResult[0].store_name
-            }, {
-              title: 'Store Department',
-              value: response.data.employeesResult[0].store_department_name
-            }
-    ])
+            setEmployeeData([
+                {
+                    title:"Name",
+                    value:response.data.employeesResult[0].name
+                  },
+                {
+                    title:"Employee ID",
+                    value:response.data.employeesResult[0].empID
+                  },
+                  {
+              title:'SuperVisor Name',
+              value:response.data.headEmployeesResult[0]?.head_employee_name
+                  },{
+                    title:'Designation',
+              value:response.data.employeesResult[0].role_name
+                  },,{
+                    title:'Department',
+              value:response.data.employeesResult[0].department_name
+                  },{
+                    title:'Floor Name',
+              value:response.data.employeesResult[0].floor_name
+              
+                    }, {
+                      title: 'Gender',
+                      value: response.data.employeesResult[0].gender
+              
+                    }, {
+                      title: 'Store name',
+                      value: response.data.employeesResult[0].store_name
+                    }, {
+                      title: 'Store Department',
+                      value: response.data.employeesResult[0].store_department_name
+                    }
+            ])
     setNoData(false)
 }
 else{

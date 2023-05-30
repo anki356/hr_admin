@@ -54,6 +54,7 @@ import AddLeave from './Pages/LeaveManagement/AddLeave/AddLeave';
 import Emp_Transfer from './Pages/EmployeeTransfer/Emp_Transfer/Emp_Transfer';
 import AddTransfer from './Pages/EmployeeTransfer/AddTransfer/AddTransfer';
 import View_Grade from './Pages/Grade/View_Grade/View_Grade';
+import AddBonus from './Pages/Bonus/AddBonus/AddBonus';
 const App = () => {
 
   const urlPath = useLocation()
@@ -135,6 +136,7 @@ const App = () => {
 
               <Route exact path="/bonus" element={<Bonus />} />
               <Route exact path="/bonus_approvals" element={<BonusApprovals />} />
+              <Route exact path="/add_bonus" element={<AddBonus />} />
 
               <Route exact path='/hierarchy' element={<HierarchyPage />} />
 

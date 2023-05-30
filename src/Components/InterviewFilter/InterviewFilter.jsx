@@ -21,11 +21,8 @@ const InterviewFilter = (props) => {
     const [View2, setView2] = useState(false)
     const [startDate, setStartDate] = useState(new Date());
     const [designationOptions, setDesignationOptions] = useState([])
-    const [selectedDesignation, setSelectedDesignation] = useState('')
-    const filterByDesignation = async (e) => {
-        setSelectedDesignation(e.target.value)
-        props.changeByDesignation(e.target.value)
-    }
+    const [selecteInterviwer, setSelectedInterviewer] = useState('')
+   
     useEffect(() => {
         const fetching = async () => {
             const token = cookies.get('token')
@@ -36,20 +33,16 @@ const InterviewFilter = (props) => {
         }
         fetching()
     }, [])
-    const tableData = props.data.map((element) => (
-        {
-            employee_name: element.employee_name,
-            empID: element.empID,
-            image: element.image
-        }
-    ))
-    const tableData2 = props.data2.map((element) => (
-        {
-            employee_name: element.employee_name,
-            empID: element.empID,
-            image: element.image
-        }
-    ))
+    
+    const tableData = props.data.map((element) => 
+       {return {
+            employee_name: element.employee_name
+          
+        }}
+    )
+    
+   
+   
 
     const tableHeadings = [
         { heading: 'Interviewee Name' }
@@ -59,27 +52,35 @@ const InterviewFilter = (props) => {
         { heading: 'Interviewer ID' }
     ]
 
-    const [state, setstate] = useState('')
+    const [state, setstate] = useState({
+        query:'',
+        list:''
+    })
     const [state2, setstate2] = useState('')
     useEffect(() => {
         props.changeDate(startDate)
     }, [startDate])
     const handleChange = (e) => {
         setView(true)
-        const results = tableData.filter(post => {
+      
+        const results = tableData.filter((data) => {
             if (e.target.value === " ") return tableData
-            return post.employee_name.toLowerCase().includes(e.target.value.toLowerCase()) || post.empID.includes(e.target.value)
+            console.log(data)
+            return data.employee_name?.toLowerCase()?.includes(e.target.value?.toLowerCase()) 
         })
         setstate({
             query: e.target.value,
             list: results
         })
+       console.log(state.list) 
     }
     const handleChange2 = (e) => {
         setView2(true)
+     
         const results = tableData.filter(post => {
             if (e.target.value === " ") return tableData
-            return post.employee_name.toLowerCase().includes(e.target.value.toLowerCase()) || post.empID.includes(e.target.value)
+            
+            return post.employee_name?.toLowerCase().includes(e.target.value?.toLowerCase()) 
         })
         setstate2({
             query: e.target.value,
@@ -93,28 +94,31 @@ const InterviewFilter = (props) => {
             setView(true)
         }, 1000);
     }
-    function changeByEmployee() {
+    function changeByInterviewer(data) {
+        setSelectedInterviewer(data)
+        
+        props.changeByInterviewer(data)
         setView(false)
-        props.changeByEmployee(state.query)
     }
-    function changeByInterviewer() {
-        setView2(false)
-        props.changeByInterviewer(state2.query)
+    function changeByInterviewee() {
+       
+        props.changeByInterviewee(state.query)
+        setView(false)
     }
     return (
 
         <div className={classes.filter_box}>
             <div className={classes2.select_container}>
                 <label htmlFor="interviewer">Interviewer</label>
-                <SelectTag img={Img} select_id='interviewer' title={'Interviewer'}  data={props.data2}/>
+                <SelectTag img={Img} select_id='interviewer' title={'Interviewer'}  data={props.data2} selectedVal={changeByInterviewer}/>
             </div>
 
             <form className={classes.input_div}>
                 <label htmlFor="interviewee">Interviewee</label>
                 <input value={state.query} onChange={handleChange} type="text" id='interviewee' placeholder='Interviewee Name..' />
-                <img className={classes.img1} src={mag} alt="" onClick={(e) => changeByEmployee()} />
+                <img className={classes.img1} src={mag} alt="" onClick={(e) => changeByInterviewee(e)} />
                 <div className={`${classes.search_table} ${View === true ? classes.visible : ''}`}>
-                    <MainTable Inp={false} Btn={false} headings={tableHeadings} data={state.list === undefined ? tableData : state.list} keys={['intervieww_name',]} />
+                    <MainTable Inp={false} Btn={false} headings={tableHeadings} data={state.list === undefined ? tableData : state.list} keys={['employee_name']} />
                 </div>
             </form>
 

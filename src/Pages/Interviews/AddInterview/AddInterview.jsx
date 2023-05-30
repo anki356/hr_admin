@@ -27,14 +27,18 @@ const AddInterview = () => {
     const [salary, setSalary] = useState([])
     const [dept, setDept] = useState([])
     const [exp, setExp] = useState([])
-
+    const [remarks, setRemarks] = useState(null)
+    const [fileLabel, setFileLabel] = useState([])
+    const [download, setDownload] = useState([])
     const [employeeData, setEmployeeData] = useState([])
     const [roleData, setRoleData] = useState([])
     const [deptData, setDeptData] = useState([])
 
 
     const [arr, setArr] = useState([])
-
+    const newLabel = (data, index) => {
+        setFileLabel(prevInputs => [...prevInputs, data])
+    }
 
     useEffect(() => {
         const headers = { "Authorization": "Bearer " + token }
@@ -57,7 +61,7 @@ const AddInterview = () => {
 
             setRoleData(response.data)
         })
-        axios.get(url + "api/getStoreDep", { headers }).then((response) => {
+        axios.get(url + "api/getDepartments", { headers }).then((response) => {
             setDeptData(response.data)
         })
     }, [])
@@ -67,72 +71,114 @@ const AddInterview = () => {
             title: 'Name',
             id: 'name',
             ph: '',
-            func2: 'setName'
+            func2: setName
         },
         {
             title: 'Father Name',
             id: 'father_name',
             ph: '',
-            func2: 'setFatherName'
+            func2: setfatherName
         },
         {
             title: 'Designation Interview For',
             id: 'designation_interview_for',
             ph: '',
-            func2: 'setDesignation'
+            func2: setDesignation
         },
         {
             title: 'Hired By',
             id: 'hired_by',
             ph: '',
-            func2: 'setHiredBy'
+            func2: setHiredBy
         },
         {
             title: 'Reference',
             id: 'reference',
             ph: '',
-            func2: 'reference'
+            func2: setReference
 
         },
         {
             title: 'Interview Date',
             id: 'interview_date',
             ph: '',
-            func2: 'setInterviewDate',
+            func2: setInterviewDate,
             type: 'date'
         },
         {
             title: 'Interviewer Name',
             id: 'interviewer name',
             ph: '',
-            func2: 'setInterviewerName'
+            func2: setInterviewer
         },
         {
             title: 'Salary Expectation',
             id: 'salary_expectation',
             ph: '',
-            func2: 'setSalary'
+            func2: setSalary
         },
         {
             title: 'Department',
             id: 'department',
             ph: '',
-            func2: 'setDept'
+            func2: setDept
         },
         {
             title: 'Experience',
             id: 'experience',
             ph: '',
-            func2: 'setExp'
+            func2: setExp
         },
     ]
-    function add() {
+    function add(e) {
+        e.preventDefault()
+      
+let obj={}
+obj.download=[]
+download.forEach((data)=>{
+    obj.download.push(data)
+})
+        const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
+        axios.post(url + "api/addInterview", {
+           "fileLength":obj.download.length,
+            "download":obj.download,
+            "name": name,
+            "interviewer_employee_id": interviewer,
+            "expected_salary": salary,
+            "fathers_name": father_name,
+            "experience": exp,
+            "remarks": remarks,
+            "designation_id": designation,
+            "reference_id": reference,
+            "date_time": interviewDate,
+            "department_id": dept
+
+        }, { headers }).then((response) => {
+            if (response) {
+                setName('')
+                setDept('')
+                setDesignation('')
+                setExp('')
+                setfatherName('')
+                setHiredBy('')
+                setInterviewDate('')
+                setInterviewer('')
+                setReference('')
+                setRemarks('')
+                setSalary('')
+                cancel()
+            }
+        })
 
     }
     function cancel() {
         navigate(-1)
     }
+    const newFile = (data, index) => {
 
+        setDownload(prevInputs => [...prevInputs, data]);
+    }
+    
     const increaseFile = () => {
         const newFileInput = {
             id: arr.length + 1,
@@ -147,37 +193,38 @@ const AddInterview = () => {
             <Heading heading={'Add Interview'} />
             <div className={classes.container}>
                 {inputs.map((element, index) => {
-                    return element.title !== 'Interviewer Name' && element.title !== 'Reference' & element.title !== 'Designation Interview For' & element.title !== 'Hired By' && element.title !== 'Department' ? <LabeledInput func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} /> : element.title !== 'Reference' && element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' ? <LabeledSelect cls={true} mr={true} parentFunc={element.func2} img={Img} select_id='interviewer' title={'Interviewer'} data={interviewData} /> : element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' ? <LabeledSelect cls={true} mr={true} parentFunc={element.func2} img={Img} select_id='reference' title={'Reference'} data={employeeData} /> : element.title !== 'Hired By' && element.title !== 'Department' ?
+                    return element.title !== 'Interviewer Name' && element.title !== 'Reference' & element.title !== 'Designation Interview For' & element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledInput func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} /> : element.title !== 'Reference' && element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='interviewer' title={'Interviewer'} data={interviewData} /> : element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='reference' title={'Reference'} data={employeeData} /> : element.title !== 'Hired By' && element.title !== 'Department'&& element.title !== 'Interview Date' ?
 
-                        <LabeledSelect cls={true} mr={true} parentFunc={element.func2} select_id='designation_interview_for' title={'Designation Interview For'} data={roleData} spl_name={'role_name'} />
+                        <LabeledSelect cls={true} mr={true} usingid={true} selectedVal={element.func2} select_id='designation_interview_for' title={'Designation Interview For'} data={roleData} spl_name={'role_name'} />
                         //  <select onChange={(e) => element.func2(e.target.value)} id='designation_interview_for' placeholder={'Designation Interview For'}  > {roleData.map((val, index) => (
                         //     <option key={index} value={val.id}>{val.role_name}</option>
                         // ))}</select> 
 
-                        : element.title !== 'Department' ? <LabeledSelect cls={true} mr={true} parentFunc={element.func2} img={Img} select_id='hired_by' title={'Hired By'} data={interviewData} /> : <LabeledSelect cls={true} mr={true} parentFunc={element.func2} img={Img} select_id='department' title={'Department'} data={deptData} />
+                        : element.title !== 'Department'&& element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='hired_by' title={'Hired By'} data={interviewData} /> : element.title !== 'Interview Date'? <LabeledSelect cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='department' title={'Department'} data={deptData}  usingid={true}/>:
+                        <LabeledInput func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} type={element.type}/>
                 }
 
 
                 )}
                 <div className={classes.input_div}>
                     <label htmlFor="remarks">Remarks</label>
-                    <textarea id="remarks"></textarea>
+                    <textarea id="remarks" onChange={(e) => setRemarks(e.target.value)}></textarea>
                 </div>
 
                 <div className={classes.file_div}>
                     <h5 >Upload Document</h5>
-                    <InpFile />
+                    <InpFile label={fileLabel[0]} labelFunc={(data) => newLabel(data, 0)} fileHandler={(data) => newFile(data, 0)} />
                 </div>
                 <div className={classes.file_div}>
                     <h5 >Upload Document 2</h5>
-                    <InpFile />
+                    <InpFile label={fileLabel[1]} labelFunc={(data) => newLabel(data, 1)} fileHandler={(data) => newFile(data, 1)} />
                 </div>
                 <div className={classes.inp_con}>
-                    {arr.map((element,index)=>(
+                    {arr.map((element, index) => (
                         <div className={classes.file_div}>
-                        <h5 >Upload Additional Document {element.id}</h5>
-                        <InpFile />
-                    </div>
+                            <h5 >Upload Additional Document {element.id}</h5>
+                            <InpFile label={fileLabel[index + 2]} labelFunc={(data) => newLabel(data, index + 2)} fileHandler={(data) => newFile(data, index+2)} />
+                        </div>
                     ))}
                 </div>
                 <button className={classes.add_inp} onClick={increaseFile}>Add File</button>

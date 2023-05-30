@@ -132,8 +132,6 @@ setTileData( [
   }
   
   const changeDate = (data) => {
-    setLimit(10)
-    setOffset(0)
     setDate(data)
   }
   const changeByEmployee = (data) => {

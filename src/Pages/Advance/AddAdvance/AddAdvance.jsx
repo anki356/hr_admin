@@ -42,12 +42,20 @@ const AddAdvanceModal = (props) => {
         {
             title:"Name",
             value:response.data.employeesResult[0].name
-          },{
+          },
+        {
+            title:"Employee ID",
+            value:response.data.employeesResult[0].empID
+          },
+          {
       title:'SuperVisor Name',
       value:response.data.headEmployeesResult[0]?.head_employee_name
           },{
             title:'Designation',
       value:response.data.employeesResult[0].role_name
+          },,{
+            title:'Department',
+      value:response.data.employeesResult[0].department_name
           },{
             title:'Floor Name',
       value:response.data.employeesResult[0].floor_name
@@ -99,7 +107,7 @@ setNoData(true)
             amount: advance,
             download: document,
             recall_head: recall_head,
-            head_approval: approval_head === 'Yes' ? 1 : 0
+            head_approval: approval_head
         }, { headers }).then((response) => {
             if (response) {
                 setAdvance('')

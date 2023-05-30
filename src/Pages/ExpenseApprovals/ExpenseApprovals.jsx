@@ -13,7 +13,7 @@ import Pagination from '../../Components/Pagination/Pagination'
 const ExpenseApprovals = () => {
   const url="http://localhost:9000/"
   const [Data,setData]=useState([])
-  const [date,setDate]=useState(new Date())
+  const [date,setDate]=useState(null)
   const [limit,setLimit]=useState(10)
   const [offset,setOffset]=useState(0)
   const [totalExpense,setTotalExpense]=useState(0)
@@ -39,10 +39,7 @@ const ExpenseApprovals = () => {
     const token = cookies.get('token')
     const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
-    const listExpenses = (expenses) => {
-      setData(expenses)
-    }
-    fetchExpenses({url:url+"api/getExpenses?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"},listExpenses)
+  
     from_date=moment()
     axios.get("http://localhost:9000/api/getTotalExpenseADay?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseOne)=>{
     setTotalExpense(responseOne.data[0].total===null?0:responseOne.data[0].total)
@@ -104,28 +101,36 @@ const ExpenseApprovals = () => {
     // }
     // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
-    
-  let getString=url+"api/getExpenses?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")+"&limit="+limit+"&offset="+offset+"&status='Pending'"
-    if(employeeFilter.employee_query!=''){
-      getString+="&employee_query="+employeeFilter.employee_query
-}
-      if(employeeFilter.role_name!=''){
-        getString+='&role_name='+employeeFilter.role_name
-      }
-      if(employeeFilter.floor_name!=''){
-        getString+="&floor_name="+employeeFilter.floor_name
-      }
-      if(employeeFilter.store_name!=''){
-        getString+="&store_name="+employeeFilter.store_name
-      }
-      if(employeeFilter.category_name!=''){
-        getString+="&category_name="+employeeFilter.category_name
-      }
+    if(employeeFilter.store_name!=''){
+      let getString=url+"api/getExpenses?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+      if(employeeFilter.employee_query!=''){
+        getString+="&employee_query="+employeeFilter.employee_query
+  }
+        if(employeeFilter.role_name!=''){
+          getString+='&role_name='+employeeFilter.role_name
+        }
+        if(employeeFilter.floor_name!=''){
+          getString+="&floor_name="+employeeFilter.floor_name
+        }
+        if(employeeFilter.category_name!=''){
+          getString+="&category_name="+employeeFilter.category_name
+        }
+        if(date!=null){
+          let from_date=moment(date)
+          getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+        }
+        const listExpenses = (expenses) => {
+          setData(expenses)
+        }
+        fetchExpenses({ url: getString }, listExpenses) 
+
+    }
+  
+   
+      
+      
         
-      const listExpenses = (expenses) => {
-        setData(expenses)
-      }
-      fetchExpenses({ url: getString }, listExpenses) 
+      
       
   },[date,limit,offset,employeeFilter])
   const selectEntries=(data)=>{
@@ -137,8 +142,6 @@ const ExpenseApprovals = () => {
         }
   
   const changeDate=(data)=>{
-    setLimit(10)
-    setOffset(0)
     setDate(data)
 }
   // Table Headings, Data and Keys
@@ -187,11 +190,13 @@ const ExpenseApprovals = () => {
     {heading:'Employee ID'},
     {heading:'Expense'},
     {heading:'Expense Type'},
-    {heading:'Request Date'}
+    {heading:'Request Date'},
+    {heading:'Status'},
+    {heading:'Store'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','amount','category_name','date'
+    'employee_name','empID','amount','category_name','date','status','store_name'
   ]
 
   return (

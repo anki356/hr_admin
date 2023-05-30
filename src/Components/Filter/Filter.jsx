@@ -14,7 +14,7 @@ const Filter = (props) => {
 
   const cookies = new Cookies();
   const [View, setView] = useState(false)
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
   const[designationOptions,setDesignationOptions]=useState([])
   const[selectedDesignation,setSelectedDesignation]=useState('')
   const filterByDesignation=async(e)=>{

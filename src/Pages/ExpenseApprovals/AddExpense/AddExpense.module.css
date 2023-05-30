@@ -4,6 +4,9 @@
   flex-wrap: wrap;
   row-gap: 15px;
 }
+.invisible {
+  display: none;
+}
 .add_expense_textarea {
   min-width: 100%;
   border: 1px solid #dcd8d8;

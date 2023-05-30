@@ -17,11 +17,11 @@ const HoverableTableActions = (props) => {
       <ul style={view === true ? { display: 'block' } : { display: "none" }}>
         {props.Btn === true &&
           <li><div onClick={clickHandler} className={classes.hoverable_links}>{props.t3 ? props.t3 : 'Approve'}</div></li>}
-        {props.link1 !== 'false' &&
+        {props.link1 !== false &&
           <li><Link className={classes.hoverable_links} to={props.link1}>{props.t1 ? props.t1 : 'Approve'}</Link></li>
         }
         {
-          props.link2!='false'&&
+          props.link2!=false&&
           <li><Link className={classes.hoverable_links} to={props.link2}>{props.t2 ? props.t2 : 'Details'}</Link></li>}
         {props.link4 ? <li><Link className={classes.hoverable_links} to={props.link4}>{props.t4 ? props.t4 : 'Details'}</Link></li> : ''}
         

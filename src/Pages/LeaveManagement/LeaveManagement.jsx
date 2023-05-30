@@ -17,7 +17,7 @@ import AddLeaveModal from '../../Components/AllModals/AddLeaveModal'
 const LeaveManagement = () => {
   const url = "http://localhost:9000/"
   // Here is our data for tile in the page
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(null)
 
   const cookies = new Cookies();
   const token = cookies.get('token')
@@ -36,17 +36,11 @@ const LeaveManagement = () => {
 
   const [TileData, setTileData] = useState([])
   // Here is our data for tile in the page'
-  const OverAllData = () => {
-    let from_date = moment()
-    const listLeave = (leave) => {
-      setData(leave)
-    }
-    fetchLeaves({ url: url + "api/getLeaves?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&status='Pending'" }, listLeave)
-  }
+  
   useEffect(() => {
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token }
-    OverAllData()
+    
     let from_date = moment()
     axios.get(url + "api/getTotalEmployeesOnLeave?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD"), { headers }).then((response) => {
       let employeeOnLeave = response.data[0].count_id
@@ -104,26 +98,32 @@ const LeaveManagement = () => {
     // }
     // const headers={"Authorization":"Bearer "+token}
     let from_date = moment(date)
-
-    let getString = url + "api/getLeaves?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&status='Pending'"
-    if (employeeFilter.employee_query != '') {
-      getString += "&employee_query=" + employeeFilter.employee_query
+if(employeeFilter.store_name!=''){
+  let getString = url + "api/getLeaves?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
+}
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
     }
-    if (employeeFilter.role_name != '') {
-      getString += '&role_name=' + employeeFilter.role_name
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
     }
-    if (employeeFilter.floor_name != '') {
-      getString += "&floor_name=" + employeeFilter.floor_name
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
-    }
-
     const listLeave = (leave) => {
       setData(leave)
     }
     fetchLeaves({ url: getString }, listLeave)
 
+
+
+}
+   
+   
 
     // axios.get(getString,{headers}).then((response)=>{
     //       setData(response.data)
@@ -137,11 +137,12 @@ const LeaveManagement = () => {
     { heading: 'Employee ID' },
     { heading: 'Floor' },
     { heading: 'Designation' },
-    { heading: 'Department' }
+    { heading: 'Department' },
+    {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name', 'empID', 'floor_name', 'role_name', 'department_name'
+    'employee_name', 'empID', 'floor_name', 'role_name', 'department_name','status'
   ]
   const selectByStore = (data) => {
 
@@ -201,8 +202,8 @@ const LeaveManagement = () => {
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} data={data} height={true} Lnk1={true} link1={'false'} link2={'/leave_approvals'} t2={'Approve'} t3={'Add Leave'} App_Btn={false} Btn={false} headings={tableHeadings} keys={tableKeys} />
-      <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
+      <MainTable func={changeModalState} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk3={true} link2={false} link1={'/leave_approvals'} />
+      <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )

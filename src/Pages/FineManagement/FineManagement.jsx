@@ -18,12 +18,15 @@ const tableHeadings = [
   { heading: 'Employee Name' },
   { heading: 'Employee ID' },
   { heading: 'Floor' },
+  { heading: 'Store' },
   { heading: 'Fine Date' },
-  { heading: 'Fine' }
+  { heading: 'Fine' },
+  {heading:'Request Status'}
+
 ]
 
 const tableKeys = [
-  'employee_name', 'empID', 'floor_name', 'date', 'amount'
+  'employee_name', 'empID', 'floor_name','store_name', 'date', 'amount','status'
 ]
 
 const FineManagement = () => {
@@ -33,7 +36,7 @@ const FineManagement = () => {
   const [SuperVisor, setSuperVisor] = useState(null)
   const url = "http://localhost:9000/"
   // Here is our data for tile in the page
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(null)
   const [data, setData] = useState([])
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
@@ -51,11 +54,8 @@ const FineManagement = () => {
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token }
     let from_date = moment(date)
-    const listAttendance = (attendance) => {
-      setData(attendance)
-    }
-    fetchPendingAttendance({ url: url + "api/getFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset }, listAttendance)
-    from_date = moment(date)
+   
+    
     axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Present'", { headers }).then((response) => {
       const todayPresent = response.data[0]?.count_id
       from_date = moment(date).subtract(1, 'd')
@@ -110,25 +110,29 @@ const FineManagement = () => {
   }, [])
   useEffect(() => {
     let from_date = moment(date)
-
-    let getString = url + "api/getFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
-    if (employeeFilter.employee_query != '') {
-      getString += "&employee_query=" + employeeFilter.employee_query
+//getFine
+if(employeeFilter.store_name!=''){
+  let getString = url + "api/getFines?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
+}
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
     }
-    if (employeeFilter.role_name != '') {
-      getString += '&role_name=' + employeeFilter.role_name
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
     }
-    if (employeeFilter.floor_name != '') {
-      getString += "&floor_name=" + employeeFilter.floor_name
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
-    }
-
     const listAttendance = (attendance) => {
       setData(attendance)
     }
     fetchPendingAttendance({ url: getString }, listAttendance)
+  }
+
 
   }, [date, limit, offset, employeeFilter])
   // Table Headings, Data and Keys
@@ -168,8 +172,7 @@ const FineManagement = () => {
   }
 
   const changeDate = (data) => {
-    setLimit(10)
-    setOffset(0)
+    
     setDate(data)
   }
 
@@ -190,7 +193,7 @@ const FineManagement = () => {
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk1={true} link1={'false'} link2={'/fine_approvals'} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} t3={'Add Fine'} t2={'Approve'} />
+      <MainTable func={changeModalState} Lnk3={true} link1={'fine_approvals'} link2={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}/>
       <AddFineModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
