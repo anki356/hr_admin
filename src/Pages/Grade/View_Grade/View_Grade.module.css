@@ -10,3 +10,16 @@
   color: var(--bg);
   margin: 20px 0;
 }
+
+.header{
+  height: 45px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+  background: #FCF6AB;
+  border-radius: var(--br);
+  color: var(--bg);
+  font-weight: 500;
+}
