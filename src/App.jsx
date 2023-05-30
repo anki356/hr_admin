@@ -141,7 +141,7 @@ const App = () => {
               <Route exact path='/hierarchy' element={<HierarchyPage />} />
 
               <Route exact path='/grade' element={<Grade />} />
-              <Route exact path='/view_grade' element={<View_Grade />} />
+              <Route exact path='/view_grade/:id' element={<View_Grade />} />
 
               {/* Extra Pages */}
               <Route exact path="/fine_details" element={<FineDetails />} />

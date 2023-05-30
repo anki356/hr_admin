@@ -136,7 +136,7 @@ obj.no_of_shifts=data.no_of_shifts
 obj.status=data.status
 newData.push(obj)
 })
-  const [month, setMonth] = useState(new Date())
+  const [month, setMonth] = useState(new Date().getMonth())
   const [newDate, setNewDate] = useState(new Date())
   const [year, setYear] = useState(new Date().getUTCFullYear())
 
@@ -145,9 +145,29 @@ newData.push(obj)
     setNewDate(new Date(e.target.value))
   }
 
-  const monthHandler = (e) => {
-    setMonth(e.target.value)
-    setNewDate(new Date(e.target.value))
+  const decreaseMonthHandler = (e) => {
+    setMonth((prevState)=>{
+      if(prevState!==0){
+        return prevState-1
+      }
+      else{
+        return 12
+        
+      }
+      
+    })
+    if(month===0){
+      setYear((prevState)=>{
+        return prevState-1
+      })
+    }
+    const listAttendance= (attendance) => {
+      setAttendanceData(attendance)
+        }
+        let from_date=moment([year,month])
+        let to_date=moment([year,month+1])
+
+    fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+to_date.format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
   }
 console.log("here our data",no_of_working,totalFine,totalFine,off)
   var calData = [

@@ -95,6 +95,7 @@ setTileData( [
     const headers = { "Authorization": "Bearer " + token }
     let from_date = moment(date).startOf('month')
   let to_date=moment(date).endOf('month').add(1,'d')
+  console.log(from_date,to_date)
     let getString = url + "api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
     if (employeeFilter.employee_query != '') {
       getString += "&employee_query=" + employeeFilter.employee_query
@@ -165,7 +166,7 @@ setTileData( [
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <div className={classes.whole_table_c}
       >
-        <MainTable data={Data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={'/attendence_history'} wd={'2700px'} />
+        <MainTable data={Data} height={true} Lnk06={true} headings={tableHeadings} keys={tableKeys} link1={false} link2={'/view_grade'} wd={'2700px'} />
       </div>
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
