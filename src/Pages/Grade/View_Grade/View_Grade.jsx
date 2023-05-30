@@ -11,19 +11,31 @@ const employee_data = [
     }
 ]
 
+
+
 const View_Grade = () => {
     return (
         <React.Fragment>
             <Heading heading={'Employee Grade'} />
             <DetailsDivContainer data={employee_data} />
+            
             <div className={classes.table_container}>
                 <div className={classes.table_container_child}>
-                    <h3 className={classes.table_heading}>Some Random Handing</h3>
+                    <h3 className={classes.table_heading}>System Marks</h3>
                     <Spl_Grade_table />
                 </div>
                 <div className={classes.table_container_child}>
-                    <h3 className={classes.table_heading}>Some Random Handing</h3>
-                    <Spl_Grade_table />
+                    <h3 className={classes.table_heading}>FI Marks</h3>
+                    <Spl_Grade_table>
+                        <div className={classes.header}>
+                            <span>Total</span>
+                            <span>85/100</span>
+                        </div>
+                        <div className={classes.header}>
+                            <span>Grade</span>
+                            <span>A+</span>
+                        </div>
+                    </Spl_Grade_table>
                 </div>
             </div>
         </React.Fragment>

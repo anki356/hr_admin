@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 
 import moment from 'moment'
 import Cookies from 'universal-cookie'
@@ -10,31 +10,31 @@ import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import InpFile from '../../../Components/InpFile/InpFile'
 import axios from 'axios'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
-import { useNavigate,useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 import useHttp from '../../../Hooks/use-http'
 const AddLoan = () => {
-    const navigate=useNavigate()
-    const Location=useLocation()
-    const url = "http://localhost:9000/"   
-    const [employee_data,setEmployeeData]=useState([])
-    const [fileLabel,setFileLabel] = useState('') 
+    const navigate = useNavigate()
+    const Location = useLocation()
+    const url = "http://localhost:9000/"
+    const [employee_data, setEmployeeData] = useState([])
+    const [fileLabel, setFileLabel] = useState('')
     const [fine, setFine] = useState('')
     const [text, setText] = useState('')
-const [searchtext, setSearchText] = useState('')
-const [fieldValues, setFieldValues] = useState([]);
-const [noData,setNoData]=useState(false)
-const [employee_id,setEmployeeId]=useState(null)
-const cookies = new Cookies()
-const token = cookies.get('token')
-const [recall_head, setRecallHead] = useState(false)
-const [approvalHead,setApprovalHead]=useState(false)
-console.log(fieldValues)
-    const searchHandler = (data) => {  
-  
-        const headers={"Authorization":"Bearer "+token}
-        axios.get(url+"api/getEmployeeDetails?employee_query="+data,{headers}).then((response)=>{
-            if(response.data.employeesResult.length>0){
+    const [searchtext, setSearchText] = useState('')
+    const [fieldValues, setFieldValues] = useState([]);
+    const [noData, setNoData] = useState(false)
+    const [employee_id, setEmployeeId] = useState(null)
+    const cookies = new Cookies()
+    const token = cookies.get('token')
+    const [recall_head, setRecallHead] = useState(false)
+    const [approvalHead, setApprovalHead] = useState(false)
+    console.log(fieldValues)
+    const searchHandler = (data) => {
+
+        const headers = { "Authorization": "Bearer " + token }
+        axios.get(url + "api/getEmployeeDetails?employee_query=" + data, { headers }).then((response) => {
+            if (response.data.employeesResult.length > 0) {
 
             setEmployeeId(response.data.employeesResult[0].id)
             setEmployeeData([
@@ -78,13 +78,13 @@ setNoData(true)
 }
         })
     }
-  
-      function cancel(){
-      
+
+    function cancel() {
+
         setEmployeeData([])
         setSearchText('')
         setNoData(false)
-        navigate(-1) 
+        navigate(-1)
     }
     const formData = {
         employee_id: employee_id,
@@ -112,41 +112,47 @@ setNoData(true)
 
 
 
-    
-    
+
+
     const recallHandler = () => {
         setRecallHead((prevState) => {
             return !prevState
         })
     }
-  return (
-   <React.Fragment>
-    <Heading heading={'Add Fine'} /><ExpenseSearchBar func={searchHandler} />
-            {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
-    <form className={classes.form}>
-        
-        <div className={classes.form_input_div}>
-        Fine<span><input type="text" value={fine} onChange={e => setFine(e.target.value)} /></span>
-        </div>
-        <div className={classes.form_input_div}>
-        Reason<span><textarea onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea></span>
-        </div>
-        <div className={classes.form_input_div}>
-            <label htmlFor="abh">Approve By Head</label>
-            <select id='abh' onChange={(e)=>setApprovalHead(e.target.value)}>
-                <option selected={approvalHead===true} value={true}>Yes</option>
-                <option selected={approvalHead===false} value={false}>No</option>
-            </select>
-        </div>
-        <div className={classes.form_input_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
-       
-        
-       
-        
-    </form>
-    <BottomButtonContainer cancel={'Cancel'} approve={'Add Fine'} func={true} cancelRequests={cancel} func2={formHandler}/>
-   </React.Fragment>
-  )
+    return (
+        <React.Fragment>
+            <Heading heading={'Add Fine'} /><ExpenseSearchBar func={searchHandler} />
+            {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
+            <form className={classes.form}>
+
+                {/* <div className={classes.form_input_div}>
+                    Fine<span><input type="text" value={fine} onChange={e => setFine(e.target.value)} /></span>
+                </div> */}
+                <LabeledInput title={'Fine'} id={'fine'} img={false} type={'number'} func2={setFine} />
+                <div className={classes.form_input_div}>
+                    <label htmlFor="abh">Approve By Head</label>
+                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)}>
+                        <option selected={approvalHead === true} value={true}>Yes</option>
+                        <option selected={approvalHead === false} value={false}>No</option>
+                    </select>
+                </div>
+                <div className={`${classes.form_input_div} ${classes.w100}`}>
+                    <label id='text'>Reason</label>
+                    <textarea id='text' onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea>
+                </div>
+                
+                <div className={`${classes.form_input_div} ${classes.flex}`} value={recall_head} >
+                    <label htmlFor="recall_head">Recall Head</label>
+                    <input id='recall_head' type="checkbox" onChange={recallHandler} />
+                </div>
+
+
+
+
+            </form>
+            <BottomButtonContainer cancel={'Cancel'} approve={'Add Fine'} func={true} cancelRequests={cancel} func2={formHandler} />
+        </React.Fragment>
+    )
 }
 
 export default AddLoan
