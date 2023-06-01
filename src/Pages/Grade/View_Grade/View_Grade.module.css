@@ -23,3 +23,19 @@
   color: var(--bg);
   font-weight: 500;
 }
+
+
+.grade_btn{
+  margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    margin-left: auto;
+    color: white;
+    border: none;
+    background: var(--bg);
+    padding: 10px 20px;
+    border-radius: var(--br);
+    font-size: 13px;
+}
