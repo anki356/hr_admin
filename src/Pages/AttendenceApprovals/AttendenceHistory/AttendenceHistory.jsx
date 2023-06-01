@@ -95,20 +95,20 @@ setAttendanceData(attendance)
 let from_date=moment().startOf('month')
 let end_date=moment().endOf('month')
   fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.add(1,'d').format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
+  const listWorkingdays= (attendance) => {
+    setNOOfWorking(attendance.length)
+      }
+      from_date=moment().startOf('month')
+      end_date=moment().endOf('month')
+  fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.format("YYYY-MM-DD")+"&employee_id="+id+"&status='Present'"},listWorkingdays)
+  const listAbsent= (attendance) => {
+    setOff(attendance.length)
+      }
+      from_date=moment().startOf('month')
+      end_date=moment().endOf('month')
+  fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.format("YYYY-MM-DD")+"&employee_id="+id+"&status='Absent'&status='On Leave'&status='Pending'"},listAbsent)
 
-  var countPresent=0
-  var countAbsent=0
-  attendanceData.forEach((data)=>{
-    if(data.status==='Present'){
-      countPresent++
-    }
-    else{
-      countAbsent++
-    }
-  })
-// console.log("attendanceData",attendanceData)
-  setNOOfWorking(countPresent)
-  setOff(countAbsent)
+ 
   end_date=moment().endOf('month')
   fetchFine({url:url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+end_date.add(1,'d').format("YYYY-MM-DD")+"&employee_id="+id},getTotalFine)
 },[])
@@ -164,10 +164,12 @@ newData.push(obj)
     const listAttendance= (attendance) => {
       setAttendanceData(attendance)
         }
+   
         let from_date=moment([year,month])
         let to_date=moment([year,month+1])
 
     fetchAttendance({url: url+"api/getAttendance?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+to_date.format("YYYY-MM-DD")+"&employee_id="+id},listAttendance)
+  
   }
 console.log("here our data",no_of_working,totalFine,totalFine,off)
   var calData = [

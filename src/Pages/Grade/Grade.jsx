@@ -95,7 +95,6 @@ setTileData( [
     const headers = { "Authorization": "Bearer " + token }
     let from_date = moment(date).startOf('month')
   let to_date=moment(date).endOf('month').add(1,'d')
-  console.log(from_date,to_date)
     let getString = url + "api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset
     if (employeeFilter.employee_query != '') {
       getString += "&employee_query=" + employeeFilter.employee_query
