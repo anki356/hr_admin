@@ -24,8 +24,8 @@ useEffect(()=>{
     
     
       const listSalary=(Salary)=>{
-       
-       setFixedData([
+       if(Salary[0].esi!==null){
+        setFixedData([
             {
                 "title": 'Salary',
                 "val_a": Salary[0].net_salary,
@@ -98,6 +98,73 @@ useEffect(()=>{
                 "val_b": Salary[0].cash_incentive
             },
         ])
+       }
+       else{
+        setFixedData([
+            {
+                "title": 'Salary',
+                "val_a": Salary[0].net_salary,
+                "val_b":Salary[0].net_payable_salary
+            },
+            {
+                'title': 'Monthly Days',
+                "val_a": moment().daysInMonth(),
+                "val_b": moment().daysInMonth()
+            },
+            {
+                "title": 'Working Days',
+                "val_a":Salary[0].working_days ,
+                "val_b": Salary[0].days_shown
+            },
+            {
+                "title": 'Basic Pay',
+                "val_a": Salary[0].amount,
+                "val_b": Salary[0].min_wages_as_per_rule
+            },
+            {
+                "title": 'Commission',
+                "val_a": Salary[0].commission,
+                "val_b": ''
+            },
+            {
+                "title": 'Expenses',
+                "val_a": Salary[0].expense,
+                "val_b": ''
+            },
+            {
+                "title": 'Tea',
+                "val_a":  Salary[0].tea,
+                "val_b": ''
+            },
+            {
+                "title": 'Gross Salary',
+                "val_a": Salary[0].net_salary,
+                "val_b": Salary[0].net_salary
+            },
+           
+            {
+                "title": 'Current Advance',
+                "val_a": Salary[0].advance,
+                "val_b": ''
+            },
+            {
+                "title": 'Loan Emi',
+                "val_a": Salary[0].loan_emi,
+                "val_b": ''
+            },
+            {
+                "title": 'Net Pay Salary',
+                "val_a": '',
+                "val_b": Salary[0].net_payable_salary
+            },
+            {
+                "title": 'Net Pay Incentive',
+                "val_a": '',
+                "val_b": Salary[0].cash_incentive
+            },
+        ])
+       }
+   
         setEmployeeData([{
             title:"Name",
             value:Salary[0].employee_name
