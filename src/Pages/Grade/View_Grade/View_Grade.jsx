@@ -5,6 +5,8 @@ import Spl_Grade_table from '../../../Components/Spl_Grade_Table/Spl_Grade_table
 import classes from './View_Grade.module.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
+import GradeMeter from '../../../Components/GradeMeter/GradeMeter'
+import GradeMeterContainer from '../../../Components/GradeMeterContainer/GradeMeterContainer'
 
 
 
@@ -109,6 +111,8 @@ const View_Grade = () => {
         <React.Fragment>
             <Heading heading={'Employee Grade'} />
             <DetailsDivContainer data={employee_data} />
+
+            <GradeMeterContainer  />
             
             <div className={classes.table_container}>
                 <div className={classes.table_container_child}>
@@ -129,6 +133,8 @@ const View_Grade = () => {
                     </Spl_Grade_table>
                 </div>
             </div>
+
+            <button className={classes.grade_btn}>Download Report</button>
         </React.Fragment>
     )
 }
