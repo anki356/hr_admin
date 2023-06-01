@@ -8,16 +8,25 @@ import classes from './SalarySummaryDetails.module.css'
 import { useParams,useNavigate } from 'react-router-dom'
 import useHttp from '../../../Hooks/use-http'
 import moment from 'moment'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+import JSPDF from 'jspdf'
+const document=require('document.html')
 const SalarySummaryDetails = () => {
+    const cookies = new Cookies();
+    const token = cookies.get('token')
+    const headers = { "Authorization": "Bearer " + token }
     const [employee_data,setEmployeeData]=useState([])
    
     const [fixed_data, setFixedData]=useState([])
     const { sendRequest: fetchSalary } = useHttp()
+    const { sendRequest: fetchDownload } = useHttp()
     const {id}=useParams()
 
     const navigate=useNavigate()
-useEffect(()=>{
     const url="http://localhost:9000/"
+useEffect(()=>{
+   
     // if(token===null){
     // navigate('/login')
     // }
@@ -208,12 +217,22 @@ console.log(fixed_data)
 function cancelRequests(){
     navigate(-1)
 }
+
 function download(){
 
+   var doc=new JSPDF('p','pt')
+   doc.html(document,{
+    callback:function(pdf){
+        pdf.save("summary.pdf")
+    }
+   });
+   
+    
 }
 
     return (
         <React.Fragment>
+            
             <Heading heading={'Salary Summary'} />
             <DetailsDivContainer data={employee_data} />
             <br />
@@ -227,7 +246,7 @@ function download(){
                 ))}
             </div>
             <BottomButtonContainer func={true} cancel={'Cancel'} approve={'Download Summary'} cancelRequests={cancelRequests} func2={download} />
-        </React.Fragment>
+           </React.Fragment>
     )
 }
 
