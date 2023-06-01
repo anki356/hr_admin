@@ -1,133 +1,202 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
 import DetailsDiv from '../../../Components/DetailsDiv/DetailsDiv'
 import Heading from '../../../Components/Heading/Heading'
 import MainTable from '../../../Components/MainTable/MainTable'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import classes from './SalarySummaryDetails.module.css'
-
+import { useParams,useNavigate } from 'react-router-dom'
+import useHttp from '../../../Hooks/use-http'
+import moment from 'moment'
 const SalarySummaryDetails = () => {
+    const [employee_data,setEmployeeData]=useState([])
+   
+    const [fixed_data, setFixedData]=useState([])
+    const { sendRequest: fetchSalary } = useHttp()
+    const {id}=useParams()
 
-    const employee_data = [{
-        "title": "Electrician",
-        "value": "Royall"
-    }, {
-        "title": "Construction Manager",
-        "value": "Sayer"
-    }, {
-        "title": "Electrician",
-        "value": "Aliza"
-    }, {
-        "title": "Engineer",
-        "value": "Jemie"
-    }, {
-        "title": "Subcontractor",
-        "value": "Jacklin"
-    }, {
-        "title": "Subcontractor",
-        "value": "Garold"
-    }, {
-        "title": "Engineer",
-        "value": "Dorry"
-    }, {
-        "title": "Construction Expeditor",
-        "value": "Matias"
-    }, {
-        "title": "Subcontractor",
-        "value": "Genevieve"
-    }, {
-        "title": "Construction Foreman",
-        "value": "Catlin"
-    }]
+    const navigate=useNavigate()
+useEffect(()=>{
+    const url="http://localhost:9000/"
+    // if(token===null){
+    // navigate('/login')
+    // }
+    
+    
+      const listSalary=(Salary)=>{
+       if(Salary[0].esi!==null){
+        setFixedData([
+            {
+                "title": 'Salary',
+                "val_a": Salary[0].net_salary,
+                "val_b":Salary[0].net_payable_salary
+            },
+            {
+                'title': 'Monthly Days',
+                "val_a": moment().daysInMonth(),
+                "val_b": moment().daysInMonth()
+            },
+            {
+                "title": 'Working Days',
+                "val_a":Salary[0].working_days ,
+                "val_b": Salary[0].days_shown
+            },
+            {
+                "title": 'Basic Pay',
+                "val_a": Salary[0].amount,
+                "val_b": Salary[0].min_wages_as_per_rule
+            },
+            {
+                "title": 'Commission',
+                "val_a": Salary[0].commission,
+                "val_b": ''
+            },
+            {
+                "title": 'Expenses',
+                "val_a": Salary[0].expense,
+                "val_b": ''
+            },
+            {
+                "title": 'Tea',
+                "val_a":  Salary[0].tea,
+                "val_b": ''
+            },
+            {
+                "title": 'Gross Salary',
+                "val_a": Salary[0].net_salary,
+                "val_b": Salary[0].net_salary
+            },
+            {
+                "title": 'ESIC',
+                "val_a": Salary[0].esi,
+                "val_b": Salary[0].esi
+            },
+            {
+                "title": 'EPF',
+                "val_a": Salary[0].pf,
+                "val_b": Salary[0].esi
+            },
+           
+            {
+                "title": 'Current Advance',
+                "val_a": Salary[0].advance,
+                "val_b": ''
+            },
+            {
+                "title": 'Loan Emi',
+                "val_a": Salary[0].loan_emi,
+                "val_b": ''
+            },
+            {
+                "title": 'Net Pay Salary',
+                "val_a": '',
+                "val_b": Salary[0].net_payable_salary
+            },
+            {
+                "title": 'Net Pay Incentive',
+                "val_a": '',
+                "val_b": Salary[0].cash_incentive
+            },
+        ])
+       }
+       else{
+        setFixedData([
+            {
+                "title": 'Salary',
+                "val_a": Salary[0].net_salary,
+                "val_b":Salary[0].net_payable_salary
+            },
+            {
+                'title': 'Monthly Days',
+                "val_a": moment().daysInMonth(),
+                "val_b": moment().daysInMonth()
+            },
+            {
+                "title": 'Working Days',
+                "val_a":Salary[0].working_days ,
+                "val_b": Salary[0].days_shown
+            },
+            {
+                "title": 'Basic Pay',
+                "val_a": Salary[0].amount,
+                "val_b": Salary[0].min_wages_as_per_rule
+            },
+            {
+                "title": 'Commission',
+                "val_a": Salary[0].commission,
+                "val_b": ''
+            },
+            {
+                "title": 'Expenses',
+                "val_a": Salary[0].expense,
+                "val_b": ''
+            },
+            {
+                "title": 'Tea',
+                "val_a":  Salary[0].tea,
+                "val_b": ''
+            },
+            {
+                "title": 'Gross Salary',
+                "val_a": Salary[0].net_salary,
+                "val_b": Salary[0].net_salary
+            },
+           
+            {
+                "title": 'Current Advance',
+                "val_a": Salary[0].advance,
+                "val_b": ''
+            },
+            {
+                "title": 'Loan Emi',
+                "val_a": Salary[0].loan_emi,
+                "val_b": ''
+            },
+            {
+                "title": 'Net Pay Salary',
+                "val_a": '',
+                "val_b": Salary[0].net_payable_salary
+            },
+            {
+                "title": 'Net Pay Incentive',
+                "val_a": '',
+                "val_b": Salary[0].cash_incentive
+            },
+        ])
+       }
+   
+        setEmployeeData([{
+            title:"Name",
+            value:Salary[0].employee_name
+          },{
+      title:'SuperVisor Name',
+      value:Salary[0].head_employee_name
+          },{
+            title:'Designation',
+      value:Salary[0].role_name
+          },{
+            title:'Floor Name',
+      value:Salary[0].floor_name
+      
+            }, {
+              title: 'Gender',
+              value: Salary[0].gender
+      
+            }, {
+              title: 'Store name',
+              value: Salary[0].store_name
+            }, {
+              title: 'Store Department',
+              value: Salary[0].store_department_name
+            }])
+            
+    
+      }
+      fetchSalary({url:url+"api/getSalary?id="+id},listSalary)
+},[])
+console.log(fixed_data)
 
-    const fixed_data = [
-        {
-            title: 'Salary',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Monthly Days',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Working Days',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Basic Pay',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'HR/ Conv.',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Nett',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Commission',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Expenses',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Tea',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Gross Salary',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'ESIC',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'EPF',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'TDS',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Current Advance',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Previous Advance Emi',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Net Pay Salary',
-            val_a: '',
-            val_b: ''
-        },
-        {
-            title: 'Net Pay Incentive',
-            val_a: '',
-            val_b: ''
-        },
-    ]
-
+  
     const table_headings = [
         { heading: '' },
         { heading: 'Actual Salary' },
@@ -136,6 +205,12 @@ const SalarySummaryDetails = () => {
 
     const table_keys = ['title', 'val_a', 'val_b']
 
+function cancelRequests(){
+    navigate(-1)
+}
+function download(){
+
+}
 
     return (
         <React.Fragment>
@@ -151,7 +226,7 @@ const SalarySummaryDetails = () => {
                     <DetailsDiv num={index} key={index} title={val.title} value={val.value} />
                 ))}
             </div>
-            <BottomButtonContainer cancel={'Back'} approve={'Download Summary'} />
+            <BottomButtonContainer func={true} cancel={'Cancel'} approve={'Download Summary'} cancelRequests={cancelRequests} func2={download} />
         </React.Fragment>
     )
 }

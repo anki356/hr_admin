@@ -5,19 +5,13 @@ import Spl_Grade_table from '../../../Components/Spl_Grade_Table/Spl_Grade_table
 import classes from './View_Grade.module.css'
 import { useNavigate, useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
-import axios from 'axios'
-import moment from 'moment'
 
-import Cookies from 'universal-cookie'
 
 
 
 
 const View_Grade = () => {
     const url = "http://localhost:9000/"
-    const cookies = new Cookies()
-    const token = cookies.get('token')
-    const navigate=useNavigate()
     const {id}=useParams()
   const [employee_data,setEmployeeData]=useState([])
   const { sendRequest: fetchGrade } = useHttp()
