@@ -199,7 +199,7 @@ console.log(Data)
       <Heading heading={'Interviews'} Btn={'Interview'} Btn_link={'/add_interview'} />
       <TileContainer Data={TileData} />
       <InterviewFilter data={data} data2={interviewData} changeDate={changeDate} changeByInterviewee={changeByInterviewee} changeByInterviewer={changeByInterviewer} />
-      <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Pay Bonus'} App_Btn={true}  height={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
+      <MainTable func={changeModalState} Lnk={true} link1={'false'} t3={'Interview Details'} App_Btn={true}  height={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} data={data} />
       <InterviewModal value={newval} setval={setNewVal} Obj={obj} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

@@ -12,6 +12,8 @@
   margin-bottom: 30px;
   /* display: none; */
 }
+
+
 .calender_div {
   display: flex;
   justify-content: space-between;
@@ -48,12 +50,16 @@
 
 .actual_calender {
   width: 100%;
+  position: relative;
   /* overflow-x: scroll; */
 }
 
 .month_filter{
   margin-bottom: 20px;
 }
+
+.select_date_con{}
+.select_date_con > div{}
 
 @media screen and (max-width:750px){
   .actual_calender{
