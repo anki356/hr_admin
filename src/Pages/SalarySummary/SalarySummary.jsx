@@ -9,8 +9,13 @@ import useHttp from '../../Hooks/use-http'
 import Data from './data'
 import MainTable from '../../Components/MainTable/MainTable'
 import moment from 'moment'
-
+import axios from 'axios'
+import Cookies from 'universal-cookie'
+Cookies
 const SalarySummary = () => {
+  const cookies =new Cookies()
+  const token = cookies.get('token')
+  const headers = { "Authorization": "Bearer " + token }
   const url="http://localhost:9000/"
   // Here is our data for tile in the page
   const [date,setDate]=useState(new Date())
@@ -20,7 +25,7 @@ const SalarySummary = () => {
   const[salary,setSalary]=useState([])
   const[isView,setIsView]=useState(false)
   const { sendRequest: fetchSalary } = useHttp()
-
+const [TileData,setTileData]=useState([])
   const [employeeFilter, setEmployeeFilter] = useState({
     employee_query:'',
     floor_name:"",
@@ -28,28 +33,48 @@ const SalarySummary = () => {
     store_name:""
   })
   // Here is our data for tile in the page
-  const TileData = [
-    {
-      title: 'Total Expense',
-      value: '₹5000',
-      num: 15
-    },
-    {
-      title: 'Pending Approvals',
-      value: 42,
-      num: 23
-    },
-    {
-      title: 'On Leave',
-      value: 50,
-      num: 10
-    },
-    {
-      title: 'Out From Store',
-      value: 104,
-      num: -23
-    }
-  ]
+  
+  useEffect(()=>{
+    axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'",{headers}).then((response)=>{
+      axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'&type='PF'",{headers}).then((responseOne)=>{
+        axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'&type='Cash'",{headers}).then((responseTwo)=>{
+          let from_date=moment()
+          axios.get(url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseThird)=>{
+            if(responseThird.data[0].amount===null){
+              responseThird.data[0].amount=0
+            }
+            from_date=moment().subtract(1,'d')
+            axios.get(url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseFourth)=>{
+              if(responseFourth.data[0].amount===null){
+                responseFourth.data[0].amount=0
+              }
+               setTileData ( [
+                {
+                  title: 'Pending Salary Employee Count',
+                  value: response.data[0].count_id,
+                  
+                },
+                {
+                  title: 'Pending  Salary PF Employee Count',
+                  value: responseOne.data[0].count_id
+                },
+                {
+                  title: 'Pending  Salary Cash Employee Count',
+                  value: responseTwo.data[0].count_id
+                },
+                {
+                  title: 'Total Fines',
+                  value: responseThird.data[0].amount,
+                  num:responseThird.data[0].amount- responseFourth.data[0].amount
+                }
+              ])
+     
+            })
+          })
+        })
+      })
+    })
+  },[])
 useEffect(()=>{
   const listSalary=(Salary)=>{
     Salary.forEach((data)=>{

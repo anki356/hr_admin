@@ -194,6 +194,12 @@ const MainTable = (props) => {
                                     <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={val.status==='Pending'?props.link1+"/"+val.id+"/"+val.employee_id:false} Btn={props.App_Btn} link2={props.link2?props.link2+"/"+val.id+"/"+val.employee_id:props.link2} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
                                 </td> : null
                                 }
+                                {
+                                    props.Lnk04 === true ?
+                                    <td>
+                                    <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={false} Btn={props.App_Btn} link2={false} t1={props.t1} t2={props.t2} t3={props.t3} link4={true} t4={props.t4} />
+                                </td> : null
+                                }
                                 
                                 
                             </tr>
