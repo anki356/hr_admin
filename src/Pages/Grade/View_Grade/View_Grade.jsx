@@ -19,6 +19,8 @@ const View_Grade = () => {
   const { sendRequest: fetchGrade } = useHttp()
   const [systemMarks,setSystemMarks]=useState([])
   const [marksByFI,setMarksByFI]=useState([])
+  const[outOf40,setOutof40]=useState(0)
+  const[outOf60,setOutof60]=useState(0)
   const [total,setTotal]=useState(0)
   const [gradeEquivalent,setGradeEquivalent]=useState(null)
   useEffect(()=>{
@@ -101,6 +103,8 @@ const View_Grade = () => {
           else{
             setGradeEquivalent("C")
           }
+          setOutof40(Grade[0].grade_1st_avg+Grade[0].grade_2nd_avg+Grade[0].grade_3rd_avg+Grade[0].grade_4th_avg)
+          setOutof60((Grade[0].Fine_Marks+Grade[0].COM_Grade+Grade[0].WD_Grade)*2)
     }
  fetchGrade({url:url+"api/getGrade?id="+id},listGrade)
 
@@ -112,7 +116,7 @@ const View_Grade = () => {
             <Heading heading={'Employee Grade'} />
             <DetailsDivContainer data={employee_data} />
 
-            <GradeMeterContainer  />
+            <GradeMeterContainer systemMarks={outOf60} marksByFI={outOf40} />
             
             <div className={classes.table_container}>
                 <div className={classes.table_container_child}>

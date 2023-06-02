@@ -159,7 +159,7 @@ setTileData( [
   }
   return (
     <React.Fragment>
-      <Heading heading={'Grade'}  />
+      <Heading heading={'Grade'} Btn_link={'/add_grade'} Btn={'Grade'} />
       <TileContainer Data={TileData} />
       <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
