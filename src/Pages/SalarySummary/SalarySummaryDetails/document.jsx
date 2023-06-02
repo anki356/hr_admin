@@ -200,6 +200,8 @@ useEffect(()=>{
     
       }
       fetchSalary({url:url+"api/getSalary?id="+id},listSalary)
+      window.print()
+    //   navigate(-1)
 },[])
 console.log(fixed_data)
 
@@ -212,16 +214,7 @@ console.log(fixed_data)
 
     const table_keys = ['title', 'val_a', 'val_b']
 
-function cancelRequests(){
-    navigate(-1)
-}
 
-function download(){
-
-   navigate("/download/"+id)
-   
-    
-}
 
     return (
         <React.Fragment>
@@ -230,15 +223,15 @@ function download(){
             <DetailsDivContainer data={employee_data} />
             <br />
             <h3 className='uni_heading'>Data</h3>
-            <MainTable headings={table_headings} keys={table_keys} data={fixed_data} height={true} />
+            <MainTable headings={table_headings} keys={table_keys} data={fixed_data}  />
             <br /><br />
             {/* <h3 className='uni_heading'>Other Details</h3>
             <div className={classes.container}>
                 {employee_data.map((val, index) => (
                     <DetailsDiv num={index} key={index} title={val.title} value={val.value} />
                 ))}
-            </div> */}
-            <BottomButtonContainer func={true} cancel={'Cancel'} approve={'Download Summary'} cancelRequests={cancelRequests} func2={download} />
+            </div>
+            <BottomButtonContainer func={true} cancel={'Cancel'} approve={'Download Summary'} cancelRequests={cancelRequests} func2={download} /> */}
            </React.Fragment>
     )
 }

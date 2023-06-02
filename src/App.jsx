@@ -56,6 +56,7 @@ import AddTransfer from './Pages/EmployeeTransfer/AddTransfer/AddTransfer';
 import View_Grade from './Pages/Grade/View_Grade/View_Grade';
 import AddBonus from './Pages/Bonus/AddBonus/AddBonus';
 import Add_Grade from './Pages/Grade/Add_Grade/Add_Grade';
+import Document from "./Pages/SalarySummary/SalarySummaryDetails/document"
 const App = () => {
 
   const urlPath = useLocation()
@@ -144,6 +145,7 @@ const App = () => {
               <Route exact path='/grade' element={<Grade />} />
               <Route exact path='/view_grade/:id' element={<View_Grade />} />
               <Route exact path='/add_grade' element={<Add_Grade />} />
+              <Route exact path='/download/:id' element={<Document />} />
 
               {/* Extra Pages */}
               <Route exact path="/fine_details" element={<FineDetails />} />
