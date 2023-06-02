@@ -35,8 +35,8 @@ const Roles = () => {
 
   return (
     <React.Fragment>
-      <Heading heading={'Roles'} Btn={'Add Role'} Btn_link={'/add_roles'} />
-      <MainTable data={roles} height={true} Lnk06={true} headings={tableHeadings} keys={tableKeys} link3={'/det'} link2={'/edit_roles'} t1='View Details' t2='Edit' lnk2={true} link1={'false'} />
+      <Heading heading={'Roles'} Btn={'Role'} Btn_link={'/add_roles'} />
+      <MainTable data={roles} Lnk06={true} headings={tableHeadings} keys={tableKeys} link3={'/det'} link2={'/edit_roles'} t1='View Details' t2='Edit' lnk2={true} link1={'false'} />
     </React.Fragment>
   )
 }
