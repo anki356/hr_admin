@@ -48,6 +48,7 @@ const AdminLogin = () => {
     const formSubmissionHandler = async (e) => {
         e.preventDefault();
         setLoading(true)
+
         try {
             const response = await fetch('http://127.0.0.1:9000/api/auth/login', {
                 method: "POST",
@@ -59,6 +60,11 @@ const AdminLogin = () => {
                     password: enteredPassoword
                 })
             })
+
+            if (!response.ok) {
+                throw new Error('Something went wrong')
+            }
+
             const result = await response.json()
             if (result.token) {
 
@@ -72,23 +78,24 @@ const AdminLogin = () => {
 
                 // 4000.setItem("token", result.token)
                 alert('Welcome Sir')
-                //  Reset All States
-                setLoading(false)
-
-                setEnteredUsername('')
-                setEnteredPassword('')
-                setEnteredUsernameTocuhed(false)
-                setPasswordTouched(false)
 
                 setTimeout(() => {
                     navigate('/')
                 }, 500);
             }
+            else{
+                alert('Enter Correct Details')
+            }
+            //  Reset All States
+            setLoading(false)
+            setEnteredUsername('')
+            setEnteredPassword('')
+            setEnteredUsernameTocuhed(false)
+            setPasswordTouched(false)
         } catch (error) {
-            console.log(error)
-
             setLoading(false)
 
+            console.log(error)
             setEnteredUsername('')
             setEnteredPassword('')
             setEnteredUsernameTocuhed(true)
