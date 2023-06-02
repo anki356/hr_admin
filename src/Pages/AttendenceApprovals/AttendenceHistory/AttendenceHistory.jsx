@@ -230,6 +230,7 @@ const AttendenceHistory = () => {
           <div className={classes.select_date_con}>
            <LabeledInput type='date' id='select_date' title='Select Date' img={false} />
           </div>
+          <br />
           <FullCal event={ArrData} />
         </div>
       </div>
