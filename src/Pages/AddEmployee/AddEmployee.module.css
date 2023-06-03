@@ -1,26 +1,61 @@
-.rendered_page{
-    margin: 50px 0;
-    margin: 50px 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+.rendered_page {
+  margin: 50px 0;
+  margin: 50px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.af{
-    width: 100%;
+.af {
+  width: 100%;
 }
-.af h5{
-    font-size: 14px;
-    font-weight: 500;
-    color: #96503f;
-    margin-bottom: 10px;
+.af h5 {
+  font-size: 14px;
+  font-weight: 500;
+  color: #96503f;
+  margin-bottom: 10px;
 }
-.af > div{
-    margin-bottom: 10px;
+.af > div {
+  margin-bottom: 10px;
 }
-.af > div label{
-    width: 100%;
+.af > div label {
+  width: 100%;
 }
 /* .af > div label span{
     height: 47px;
 } */
+
+.file_div {
+  width: 100%;
+  margin-bottom: 20px;
+}
+.file_div label {
+  margin-top: 10px;
+}
+.file_div div > label,
+.file_div div > label span {
+  height: 47px !important;
+}
+.add_inp {
+  width: max-content;
+  padding: 0 20px;
+  height: 40px;
+  margin-top: 30px;
+  border-radius: var(--br);
+  cursor: pointer;
+  font-weight: 500;
+  background: var(--bg);
+  color: white;
+  border: 1px solid var(--bg);
+}
+
+.inp_con {
+  width: 100%;
+}
+
+.file_div h5 {
+    font-size: 14px;
+    font-weight: 500;
+    color: #96503f;
+    display: block;
+  }

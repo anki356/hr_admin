@@ -44,7 +44,7 @@ const AddEmployee = () => {
         setNum(3)
     }
     const decNum = () => {
-        num>1?
+        num > 1 ?
         setNum(prev => {return  prev - 1 }):
         setNum(1)
     }
@@ -160,7 +160,7 @@ setName(data)
             <div className={classes.rendered_page}>
                 {renderPage(num)}
             </div>
-            <BottomButtonContainer cancel={'Back'} approve={'Continue'} func={true} func2={incNum} func1={decNum} />
+            <BottomButtonContainer cancel={'Back'} approve={'Continue'} func={true} func2={incNum} cancelRequests={decNum} />
         </React.Fragment>
     )
 }
