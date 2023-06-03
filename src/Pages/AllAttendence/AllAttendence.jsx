@@ -217,7 +217,7 @@ const AllAttendence = () => {
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} link1={'false'}/>
+      <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} link1={false} link4={false}/>
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
