@@ -34,6 +34,7 @@ const AddInterview = () => {
     const [roleData, setRoleData] = useState([])
     const [deptData, setDeptData] = useState([])
 
+   
 
     const [arr, setArr] = useState([])
     const newLabel = (data, index) => {

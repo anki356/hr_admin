@@ -14,8 +14,8 @@ const InpFile = (props) => {
     return (
         <React.Fragment>
             <div>
-                <input className={classes.input}  onChange={changeFile} type="file" id='file' />
-                <label htmlFor="file" className={classes.label}>
+                <input className={classes.input} value={file}  onChange={changeFile} type="file" id={props.id} />
+                <label htmlFor={props.id} className={classes.label}>
                     <span>Choose</span>
                     <span>{props.label == ''? 'File' :props.label}</span>
                 </label>
