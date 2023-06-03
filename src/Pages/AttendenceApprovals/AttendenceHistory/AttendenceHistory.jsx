@@ -219,6 +219,10 @@ const AttendenceHistory = () => {
     fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&employee_id=" + id }, listAttendance)
   }
 
+  const getDate = (date) => {
+    console.log('here is yur current date', date)
+  }
+
   return (
     <React.Fragment>
       <Heading heading={'Attendence History'} />
@@ -227,11 +231,7 @@ const AttendenceHistory = () => {
       </div>
       <div className={classes.calender_container}>
         <div className={classes.actual_calender}>
-          <div className={classes.select_date_con}>
-           <LabeledInput type='date' id='select_date' title='Select Date' img={false} />
-          </div>
-          <br />
-          <FullCal event={ArrData} />
+          <FullCal dateFunc={getDate} event={ArrData}  />
         </div>
       </div>
       <CalendarBottomDiv data={calData} />
