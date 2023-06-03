@@ -11,7 +11,7 @@ import MainTable from '../../Components/MainTable/MainTable'
 import moment from 'moment'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
-Cookies
+import Pagination from '../../Components/Pagination/Pagination'
 const SalarySummary = () => {
   const cookies =new Cookies()
   const token = cookies.get('token')
@@ -34,47 +34,7 @@ const [TileData,setTileData]=useState([])
   })
   // Here is our data for tile in the page
   
-  useEffect(()=>{
-    axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'",{headers}).then((response)=>{
-      axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'&type='PF'",{headers}).then((responseOne)=>{
-        axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'&type='Cash'",{headers}).then((responseTwo)=>{
-          let from_date=moment()
-          axios.get(url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseThird)=>{
-            if(responseThird.data[0].amount===null){
-              responseThird.data[0].amount=0
-            }
-            from_date=moment().subtract(1,'d')
-            axios.get(url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseFourth)=>{
-              if(responseFourth.data[0].amount===null){
-                responseFourth.data[0].amount=0
-              }
-               setTileData ( [
-                {
-                  title: 'Pending Salary Employee Count',
-                  value: response.data[0].count_id,
-                  
-                },
-                {
-                  title: 'Pending  Salary PF Employee Count',
-                  value: responseOne.data[0].count_id
-                },
-                {
-                  title: 'Pending  Salary Cash Employee Count',
-                  value: responseTwo.data[0].count_id
-                },
-                {
-                  title: 'Total Fines',
-                  value: responseThird.data[0].amount,
-                  num:responseThird.data[0].amount- responseFourth.data[0].amount
-                }
-              ])
-     
-            })
-          })
-        })
-      })
-    })
-  },[])
+ 
 useEffect(()=>{
   const listSalary=(Salary)=>{
     Salary.forEach((data)=>{
@@ -83,10 +43,24 @@ useEffect(()=>{
     setSalary(Salary)
   }
   if(date!==null){
-
-    fetchSalary({url:url+"api/getAllSalary?month="+(date.getMonth()-1)},listSalary)
+let queryString=url+"api/getAllSalary?month="+(date.getMonth()-1)+"&limit="+limit+"&offset="+offset
+if(employeeFilter.employee_query!=''){
+  queryString+="&employee_query="+employeeFilter.employee_query
+}
+  if(employeeFilter.role_name!=''){
+    queryString+='&role_name='+employeeFilter.role_name
   }
-},[date])
+  if(employeeFilter.floor_name!=''){
+    queryString+="&floor_name="+employeeFilter.floor_name
+  }
+  
+  if(employeeFilter.store_name!==''){
+    queryString+="&store_name="+employeeFilter.store_name
+  }
+
+    fetchSalary({url:queryString},listSalary)
+  }
+},[date,employeeFilter,limit,offset])
   // Table Headings, Data and Keys
   const tableHeadings=[
     {heading:'Employee Name'},
@@ -148,6 +122,45 @@ const selectEntries=(data)=>{
           setOffset((data-1)*limit)
       }
       useEffect(() => {
+        axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'",{headers}).then((response)=>{
+          axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'&type='PF'",{headers}).then((responseOne)=>{
+            axios.get(url+"api/getCountSalary?month="+(date.getMonth()-1)+"&status='Pending'&type='Cash'",{headers}).then((responseTwo)=>{
+              let from_date=moment()
+              axios.get(url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseThird)=>{
+                if(responseThird.data[0].amount===null){
+                  responseThird.data[0].amount=0
+                }
+                from_date=moment().subtract(1,'d')
+                axios.get(url+"api/getTotalFines?from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD"),{headers}).then((responseFourth)=>{
+                  if(responseFourth.data[0].amount===null){
+                    responseFourth.data[0].amount=0
+                  }
+                   setTileData ( [
+                    {
+                      title: 'Pending Salary Employee Count',
+                      value: response.data[0].count_id,
+                      
+                    },
+                    {
+                      title: 'Pending  Salary PF Employee Count',
+                      value: responseOne.data[0].count_id
+                    },
+                    {
+                      title: 'Pending  Salary Cash Employee Count',
+                      value: responseTwo.data[0].count_id
+                    },
+                    {
+                      title: 'Total Fines',
+                      value: responseThird.data[0].amount,
+                      num:responseThird.data[0].amount- responseFourth.data[0].amount
+                    }
+                  ])
+         
+                })
+              })
+            })
+          })
+        })
         const handleKeyPress = (event) => {
           if (event.ctrlKey && event.key === 'v') {
            setIsView(true)
@@ -168,12 +181,17 @@ const selectEntries=(data)=>{
       <Heading heading={'Salary Summary'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
-      <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
+      <Filter data={salary}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <div className={classes.whole_table_c}>
       <MainTable wd={'3000px'} data={salary} height={true} Lnk2={isView} headings={tableHeadings} keys={tableKeys} link1={'/salary_summary_details'} link2={false} />
       </div>
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
 }
+// else if(error!==null &loading){
+  <React.Fragment>
+    <h1>Loading</h1>
+    </React.Fragment>
 
 export default SalarySummary

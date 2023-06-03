@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import Heading from '../../../Components/Heading/Heading'
 import classes from './OverallSalaryDetails.module.css'
 import ExtraDetailsDiv from '../../../Components/ExtraDetails/ExtraDetailsDiv'
@@ -16,6 +16,11 @@ import FullCalendar from '../../../Components/FullCalender/FullCal'
 import FullCal from '../../../Components/FullCalender/FullCal'
 import OSD_Charts from './OSD_Charts'
 
+import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
+import { useNavigate, useParams } from 'react-router-dom';
+import useHttp from '../../../Hooks/use-http'
+import Cookies from 'universal-cookie'
+import moment from 'moment'
 const Tile = ({ date, view }) => {
 
   const CurrentDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getUTCFullYear()}`
@@ -41,39 +46,127 @@ const Tile = ({ date, view }) => {
 
 
 const OverallSalaryDetails = () => {
+  const { sendRequest: fetchSalary } = useHttp()
+  const url = "http://localhost:9000/"
+  const cookies = new Cookies();
+  const [div_data, setDivData] = useState([])
+  const { sendRequest: fetchEmployeeDetails } = useHttp()
+  const { sendRequest: fetchAttendance } = useHttp()
+  const { sendRequest: fetchFine } = useHttp()
 
-  const employee_data = [{
-    "title": "Electrician",
-    "value": "Royall"
-  }, {
-    "title": "Construction Manager",
-    "value": "Sayer"
-  }, {
-    "title": "Electrician",
-    "value": "Aliza"
-  }, {
-    "title": "Engineer",
-    "value": "Jemie"
-  }, {
-    "title": "Subcontractor",
-    "value": "Jacklin"
-  }, {
-    "title": "Subcontractor",
-    "value": "Garold"
-  }, {
-    "title": "Engineer",
-    "value": "Dorry"
-  }, {
-    "title": "Construction Expeditor",
-    "value": "Matias"
-  }, {
-    "title": "Subcontractor",
-    "value": "Genevieve"
-  }, {
-    "title": "Construction Foreman",
-    "value": "Catlin"
-  }]
+  const navigate = useNavigate()
+  const [attendanceData, setAttendanceData] = useState([])
+  const [no_of_working, setNOOfWorking] = useState([])
+  const [off, setOff] = useState(0)
+  const [totalFine, setTotalFine] = useState(0)
+const [emp_id,setEmpID]=useState(null)
+  const { id } = useParams()
+  useEffect(() => {
+    const getTotalFine = (fineDetails) => {
 
+      if (fineDetails[0].amount !== null) {
+        setTotalFine(fineDetails[0].amount)
+      }
+    }
+    const listEmployeeDetails = (employeeDetails) => {
+      setDivData([{
+        title: "Name",
+        value: employeeDetails.employeesResult[0].name
+      }, {
+        title: 'SuperVisor Name',
+        value: employeeDetails.headEmployeesResult[0]?.head_employee_name
+      }, {
+        title: 'Designation',
+        value: employeeDetails.employeesResult[0].role_name
+      }, {
+        title: 'Floor Name',
+        value: employeeDetails.employeesResult[0].floor_name
+
+      }, {
+        title: 'Gender',
+        value: employeeDetails.employeesResult[0].gender
+
+      }, {
+        title: 'Store name',
+        value: employeeDetails.employeesResult[0].store_name
+      }, {
+        title: 'Store Department',
+        value: employeeDetails.employeesResult[0].store_department_name
+      }])
+    }
+    const listSalary=(Salary)=>{
+      fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + Salary[0].emp_id }, listEmployeeDetails)
+      setEmpID(Salary[0].emp_id )
+    }
+    fetchSalary({url:url+"api/getSalary?id="+id},listSalary)
+    
+    const listAttendance = (attendance) => {
+      setAttendanceData(attendance)
+    }
+    let from_date = moment().startOf('month')
+    let end_date = moment().endOf('month')
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + emp_id }, listAttendance)
+    const listWorkingdays = (attendance) => {
+      setNOOfWorking(attendance.length)
+    }
+    from_date = moment().startOf('month')
+    end_date = moment().endOf('month')
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + emp_id + "&status='Present'" }, listWorkingdays)
+    const listAbsent = (attendance) => {
+      setOff(attendance.length)
+    }
+    from_date = moment().startOf('month')
+    end_date = moment().endOf('month')
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + emp_id + "&status='Absent'&status='On Leave'&status='Pending'" }, listAbsent)
+
+
+    end_date = moment().endOf('month')
+    fetchFine({ url: url + "api/getTotalFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + emp_id }, getTotalFine)
+  }, [])
+  const ArrData = attendanceData.map((element, index) => {
+    return {
+      title: element.status,
+      date: element.datetime,
+      backgroundColor: element.status
+    }
+  })
+  var calData = [
+    {
+      p: 'No. Of Working',
+      h1: no_of_working,
+      bg: '#96503F'
+    },
+    {
+      p: 'Total Late Fine',
+      h1: totalFine,
+      bg: '#FFE247'
+    },
+    {
+      p: 'Total Fine',
+      h1: totalFine,
+      bg: '#8AFF88'
+    },
+    {
+      p: 'Total Commission',
+      h1: '00',
+      bg: '#C50303'
+    },
+    {
+      p: 'Total Off',
+      h1: off,
+      bg: '#80A4FF'
+    },
+  ]
+
+  const selectMonthFunc = (data) => {
+    let year = new Date().getFullYear()
+    var from_date = moment([year, data - 1])
+    var to_date = moment([year, data])
+    const listAttendance = (attendance) => {
+      setAttendanceData(attendance)
+    }
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&employee_id=" + id }, listAttendance)
+  }
   const tableHeadings = [
     { heading: 'Date' },
     { heading: 'Day' },
@@ -99,47 +192,21 @@ const OverallSalaryDetails = () => {
     setNewDate(new Date(e.target.value))
   }
 
-  const calData = [
-    {
-      p: 'No. Of Working',
-      h1: '29',
-      bg: '#96503F'
-    },
-    {
-      p: 'Total Late Fine',
-      h1: '262',
-      bg: '#FFE247'
-    },
-    {
-      p: 'Total Fine',
-      h1: '262',
-      bg: '#8AFF88'
-    },
-    {
-      p: 'Total Commission',
-      h1: '00',
-      bg: '#C50303'
-    },
-    {
-      p: 'Total Off',
-      h1: '03',
-      bg: '#80A4FF'
-    },
-  ]
+
 
 
   return (
     <React.Fragment>
       <Heading heading={'Salary Details'} />
-      <DetailsDivContainer data={employee_data} />
+      <DetailsDivContainer data={div_data} />
       <br /><br />
       <div className={classes.calender_container}>
-
         <div className={classes.actual_calender}>
-          <FullCal event={[
-            { title: 'event 1', date: '2023-03-01' },
-            { title: 'event 2', date: '2023-03-02' }
-          ]} />
+          <div className={classes.select_date_con}>
+           <LabeledInput type='date' id='select_date' title='Select Date' img={false} func2={selectMonthFunc} />
+          </div>
+          <br />
+          <FullCal event={ArrData} />
         </div>
       </div>
       <CalendarBottomDiv data={calData} />

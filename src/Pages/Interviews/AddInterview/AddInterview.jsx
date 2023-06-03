@@ -151,7 +151,9 @@ download.forEach((data)=>{
             "designation_id": designation,
             "reference_id": reference,
             "date_time": interviewDate,
-            "department_id": dept
+            "department_id": dept,
+            "hired_by_employee_id":hired_by
+
 
         }, { headers }).then((response) => {
             if (response) {

@@ -190,6 +190,7 @@ setInterviewData(response.data)
   const [obj, setObj] = useState({})
 
   const changeModalState = ([val, element]) => {
+   
     setNewVal(val)
     setObj(element)
   }
@@ -200,7 +201,7 @@ console.log(Data)
       <TileContainer Data={TileData} />
       <InterviewFilter data={data} data2={interviewData} changeDate={changeDate} changeByInterviewee={changeByInterviewee} changeByInterviewer={changeByInterviewer} />
       <MainTable func={changeModalState} Lnk4={true} link1={false} t3={'Interview Details'} App_Btn={true}  height={true} headings={tableHeadings} keys={tableKeys} link2={false}  data={data} />
-      <InterviewModal value={newval} setval={setNewVal} Obj={obj} />
+      <InterviewModal value={newval} setval={setNewVal} Obj={obj}  />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )

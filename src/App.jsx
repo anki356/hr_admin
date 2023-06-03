@@ -112,7 +112,7 @@ const App = () => {
               <Route exact path="/salary_details" element={<SalaryDetails />} />
               <Route exact path="/salary_slip" element={<SalarySlip />} />
               <Route exact path="/salary_certificate" element={<SalaryCertificate />} />
-              <Route exact path="/overall_salary_details" element={<OverallSalaryDetails />} />
+              <Route exact path="/overall_salary_details/:id" element={<OverallSalaryDetails />} />
 
               <Route exact path="/employee_transfer" element={<EmployeeTransfer />} />
               <Route exact path="/emp_transfer/:id/:employee_id" element={<Emp_Transfer />} />
