@@ -155,7 +155,7 @@ const MainTable = (props) => {
                             {tableHeadings.map((element, index) => (
                                 <th key={index}>{element.heading}</th>
                             ))}
-                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3 ?
+                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.Lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3 ?
                                 <th style={props.Btn ? { textAlign: "center" } : {}}>Action</th>
                                 : null}
                         </tr>
