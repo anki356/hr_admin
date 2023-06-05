@@ -172,7 +172,7 @@ const MainTable = (props) => {
                                     </td>
                                 ))}
                                 {
-                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
+                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" style={{color:'var(--bg)'}} onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
                                 }
                                 {
                                     props.Btn === true ? <td><button onClick={() => { clickHandler(val) }}>Out</button></td> : null
