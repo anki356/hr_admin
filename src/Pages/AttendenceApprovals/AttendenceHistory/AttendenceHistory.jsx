@@ -46,12 +46,14 @@ const AttendenceHistory = () => {
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const [div_data, setDivData] = useState([])
+  const [ArrData , setArrData] = useState([])
   const { sendRequest: fetchEmployeeDetails } = useHttp()
   const { sendRequest: fetchAttendance } = useHttp()
   const { sendRequest: fetchFine } = useHttp()
 
   const navigate = useNavigate()
   const [attendanceData, setAttendanceData] = useState([])
+  const [tableData, setTableData] = useState([])
   const [no_of_working, setNOOfWorking] = useState([])
   const [off, setOff] = useState(0)
   const [totalFine, setTotalFine] = useState(0)
@@ -127,7 +129,7 @@ const AttendenceHistory = () => {
 
   const tableKeys = ['date', 'day', 'time', 'no_of_shifts', 'status']
   const newData = []
-  attendanceData.forEach((data) => {
+  tableData.forEach((data) => {
     let obj = {}
     obj.date = data.datetime?.split("T")[0]
     obj.time = data.datetime?.split("T")[1].substring(0, 8)
@@ -200,27 +202,55 @@ const AttendenceHistory = () => {
       bg: '#80A4FF'
     },
   ]
+useEffect(()=>{
 
-  const ArrData = attendanceData.map((element, index) => {
+  setArrData( attendanceData.map((element, index) => {
     return {
       title: element.status,
       date: element.datetime,
       backgroundColor: element.status
     }
-  })
+  }))
+},[attendanceData])
 
   const selectMonthFunc = (data) => {
     let year = new Date().getFullYear()
     var from_date = moment([year, data - 1])
     var to_date = moment([year, data])
     const listAttendance = (attendance) => {
-      setAttendanceData(attendance)
+      setTableData(attendance)
     }
     fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") + "&employee_id=" + id }, listAttendance)
   }
 
   const getDate = (date) => {
-    console.log('here is yur current date', date)
+    const getTotalFine = (fineDetails) => {
+
+      if (fineDetails[0].amount !== null) {
+        setTotalFine(fineDetails[0].amount)
+      }
+    }
+    var from_date = moment(date).startOf('month')
+    var end_date = moment(date).endOf('month').add(1,'d')
+    const listAttendance = (attendance) => {
+      setAttendanceData(attendance)
+    }
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + id }, listAttendance)
+    const listWorkingdays = (attendance) => {
+      setNOOfWorking(attendance.length)
+    }
+    from_date = moment(date).startOf('month')
+    end_date = moment(date).endOf('month').add(1,'d')
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + id + "&status='Present'" }, listWorkingdays)
+    const listAbsent = (attendance) => {
+      setOff(attendance.length)
+    }
+    from_date = moment(date).startOf('month')
+    end_date = moment(date).endOf('month').add(1,'d')
+    fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + id + "&status='Absent'&status='On Leave'&status='Pending'" }, listAbsent)
+    from_date = moment(date).startOf('month')
+     end_date = moment(date).endOf('month').add(1,'d')
+    fetchFine({ url: url + "api/getTotalFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + id }, getTotalFine)
   }
 
   return (

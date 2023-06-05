@@ -209,7 +209,7 @@ const selectEntries=(data)=>{
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
-      <MainTable link1={'/loan_approvals'} Lnk3={true} link2={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
+      <MainTable link1={'/loan_approvals'} link4={false} link2={'/loan_details'} Lnk3={true}  App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
       {/* <AddLoanModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  /> */}
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

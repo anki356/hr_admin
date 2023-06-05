@@ -214,8 +214,8 @@ const AttendenceApprovals = () => {
       <Heading heading={'Attendance Approvals'} />
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
-      <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={false} />
+      <Filter data={data} isdate={true} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
+      <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={false} link4={false} />
       {/* <Entrypage selectEntries={selectEntries} selectPage={selectPage}/> */}
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

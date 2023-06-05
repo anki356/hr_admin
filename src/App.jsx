@@ -57,6 +57,10 @@ import View_Grade from './Pages/Grade/View_Grade/View_Grade';
 import AddBonus from './Pages/Bonus/AddBonus/AddBonus';
 import Add_Grade from './Pages/Grade/Add_Grade/Add_Grade';
 import Document from "./Pages/SalarySummary/SalarySummaryDetails/document"
+import LeaveDetails from "./Pages/LeaveManagement/LeaveApprovals/LeaveDetails"
+import LoanDetails from "./Pages/LoanEmi/LoanApprovals/LoanDetails"
+import AdvanceDetails from "./Pages/Advance/AdvanceApprovals/AdvanceDetails"
+import FineDetail from './Pages/FineManagement/FineApprovals/FineDetails';
 const App = () => {
 
   const urlPath = useLocation()
@@ -86,6 +90,7 @@ const App = () => {
               <Route exact path="/attendence_corrections_check" element={<Correction />} />
               <Route exact path="/advance" element={<Advance />} />
               <Route exact path="/advance_approvals/:id/:employee_id" element={<AdvanceApprovals />} />
+              <Route exact path="/advance_details/:id/:employee_id" element={<AdvanceDetails />} />
               <Route exact path="/add_advance" element={<AddAdvance />} />
 
               <Route exact path="/expense_approvals" element={<ExpenseApprovals />} />
@@ -101,6 +106,7 @@ const App = () => {
 
               <Route exact path="/fine_management" element={<FineManagement />} />
               <Route exact path="/fine_approvals/:id/:employee_id" element={<FineApprovals />} />
+              <Route exact path="/fine_details/:id/:employee_id" element={<FineDetail />} />
 
               <Route exact path="/leave_management" element={<LeaveManagement />} />
               <Route exact path="/leave_approvals/:id/:employee_id" element={<LeaveApprovals />} />
@@ -108,11 +114,13 @@ const App = () => {
               <Route exact path="/loan_emi" element={<LoanEmi />} />
               <Route exact path="/add_loan" element={<AddLoan />} />
               <Route exact path="/loan_approvals/:id/:employee_id" element={<LoanApprovals />} />
+              <Route exact path="/loan_details/:id/:employee_id" element={<LoanDetails />} />
 
               <Route exact path="/salary_details" element={<SalaryDetails />} />
               <Route exact path="/salary_slip" element={<SalarySlip />} />
               <Route exact path="/salary_certificate" element={<SalaryCertificate />} />
               <Route exact path="/overall_salary_details/:id" element={<OverallSalaryDetails />} />
+              <Route exact path="/leave_details/:id/:employee_id" element={<LeaveDetails />} />
 
               <Route exact path="/employee_transfer" element={<EmployeeTransfer />} />
               <Route exact path="/emp_transfer/:id/:employee_id" element={<Emp_Transfer />} />

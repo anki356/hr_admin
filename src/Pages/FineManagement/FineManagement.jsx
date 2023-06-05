@@ -193,7 +193,7 @@ if(employeeFilter.store_name!=''){
       <TileContainer Data={TileData} />
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk3={true} link1={'fine_approvals'} link2={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}/>
+      <MainTable func={changeModalState} Lnk3={true} link1={'/fine_approvals'} link2={'/fine_details'} link4={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}/>
       <AddFineModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

@@ -13,27 +13,26 @@ const EmployeeActualProfile = () => {
   const {id}=useParams()
   const url="http://127.0.0.1:9000/"
  const[employeeData,setEmployeeData] =useState([])
- const[employeeGrade,setEmployeeGrade]=useState([])
+ const[employeeGrade,setEmployeeGrade]=useState(0)
  useEffect(()=>{ const token = cookies.get('token')
  const headers={"Authorization":"Bearer "+token}
   axios.get("http://localhost:9000/api/getEmployeeDetails?id="+id,{headers}).then((response)=>{
     
   setEmployeeData(response.data.employeesResult[0])
-  if(response.data.employeesResult[0].role_name==='Salesman'){
+ 
   
     let from_date=moment().subtract(1,'month').startOf('month').format("YYYY-MM-DD")
     let to_date=moment().subtract(1,'month').endOf('month').format("YYYY-MM-DD")
-      axios.get("http://localhost:9000/api/getGrades?employee_id="+id+"&from_date="+from_date+"&to_date="+to_date+"&commission=3000",{headers}).then((response)=>{
+      axios.get("http://localhost:9000/api/getGradeByEmployeeID?employee_id="+id+"&from_date="+from_date+"&to_date="+to_date+"&commission=3000",{headers}).then((response)=>{
+     
+      if(response.data.length>0){
+
+          setEmployeeGrade(response.data.total_grades/20)
+        }
         
-     setEmployeeGrade(response.data.total_grades/20)
     })  
-    }
-    else if (response.data.employeesResult[0].role_name==='Floor Incharge'){
-      axios.get("http://localhost:9000/api/calculateGradesOtherThanSalesman?employee_id="+id+"&from_date="+from_date+"&to_date="+to_date,{headers}).then((response)=>{
-        
-     setEmployeeGrade(response.data.total_grades/20)
-    }) 
-    }
+    
+   
 })
 
 

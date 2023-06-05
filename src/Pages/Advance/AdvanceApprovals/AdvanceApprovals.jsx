@@ -76,9 +76,12 @@ const AdvanceApprovals = () => {
           value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'NO'
         }
       ])
-      setData([{
-        document: leaveDetails[0].file_upload_id
-      }])
+      if(leaveDetails[0].document!==null){
+
+        setData([{
+          document: leaveDetails[0]?.document
+        }])
+    }
     }
     fetchLeave({ url: url + "api/getAdvance?id=" + id }, listLeave)
   }, [])

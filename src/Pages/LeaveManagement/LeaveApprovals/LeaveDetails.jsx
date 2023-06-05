@@ -85,13 +85,15 @@ const LeaveApprovals = () => {
           value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'No'
         }
       ])
-      if(leaveDetails[0].document!==null){
+     if(leaveDetails[0].document!==null){
 
-        setData([{
-          document: leaveDetails[0]?.document
-        }])
+         setData([{
+           document: leaveDetails[0]?.document
+         }])
+     }
+     setReason(leaveDetails[0]?.reason)
     }
-    }
+   
     fetchLeave({ url: url + "api/getLeave?id=" + id }, listLeave)
   }, [])
 
@@ -141,11 +143,16 @@ const LeaveApprovals = () => {
       <div className='uni_container'>
         <h3 className='uni_heading'>Leave Information</h3>
         <AdditionalInfoContainer data={leave_info} />
-        <LabeledInput cls={true} id={'val'} title={'Reason If Rejected'} img={false} func2={setReason} />
+        <div >
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
+          <div>
+           {reason}
+          </div>
+        </div>
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} />
-      <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
+    
     </React.Fragment>
   )
 }

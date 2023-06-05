@@ -240,11 +240,13 @@ useEffect(()=>{
             value: response.data.employeesResult[0].account_number
         }  
     ])
+    console.log(response.data.documentResult)
     const data=response.data.documentResult
     if(data.length>0&& data!==undefined&&data!==null)
     {
 data.forEach((d)=>{
     d.created_on=d.created_on.split("T")[0].split("-").reverse().join("-")
+    d.document=d.name
 })
     
    
@@ -260,7 +262,7 @@ data.forEach((d)=>{
     
     setLoanData(response.data.loanResult)
     let loanThirdData=response.data.loanResult
-    setLoanId(loanThirdData[0].id)
+    setLoanId(loanThirdData[0]?.id)
     let array=[]
    loanThirdData.forEach((data)=>{
 if(data.status==='Paid'){

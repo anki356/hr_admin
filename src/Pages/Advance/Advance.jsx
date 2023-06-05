@@ -206,7 +206,7 @@ const Advance = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'}
         selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk3={true} link1={'/advance_approvals'} link2={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
+      <MainTable func={changeModalState} Lnk3={true} link1={'/advance_approvals'} link2={'/advance_details'} link4={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
 
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

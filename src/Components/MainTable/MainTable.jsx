@@ -15,10 +15,10 @@ const MainTable = (props) => {
     const clickHandler = (element) => {
         props.func([true, element])
     }
-    const restructureLoan=(month,e)=>{
+    const restructureLoan = (month, e) => {
         props.restructureLoan(month)
-       
-       }
+
+    }
     // Switch for data uploading
     const runSwitch = (element) => {
         switch (element) {
@@ -51,6 +51,25 @@ const MainTable = (props) => {
             default:
         }
     }
+    const setStatus = (num) => {
+        switch (num) {
+            case "Approved":
+                return <div className={classes.present}>{num}</div>
+            case "Rejected":
+                return <div className={classes.absent}>{num}</div>
+            case "Pending":
+                return <div className={classes.pending}>{num}</div>
+            case "Present":
+                return <div className={classes.present}>{num}</div>
+            case "Absent":
+                return <div className={classes.absent}>{num}</div>
+            case "On Leave":
+                return <div className={classes.absent}>{num}</div>
+            case "Paid":
+                return <div className={classes.present}>{num}</div>
+            default:
+        }
+    }
 
     const setCorrection = (num) => {
         const ret = num === null ? 'Done' : ''
@@ -80,34 +99,34 @@ const MainTable = (props) => {
                 return <div className={classes.present}>Approved</div>
         }
     }
-    const downloadLeaveData = (data,e) => {
-
+    const downloadLeaveData = (data, e) => {
         e.preventDefault()
-         fetch(data)
-             .then(response => {
-                 response.blob().then(blob => {
-                     let url = window.URL.createObjectURL(blob);
-                     let a = document.createElement('a');
-                     a.href = url;
-                     a.download = 'download';
-                     a.click();
-                     
-                 });
-                 
-         });
-     }
+        fetch(data)
+            .then(response => {
+
+                response.blob().then(blob => {
+                    let url = window.URL.createObjectURL(blob);
+                    let a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'download'
+                    a.click();
+
+                });
+
+            });
+    }
 
     // Table best divider for classes and all 
     const printData = (val, key, img) => {
         switch (key) {
             case 'name':
                 return <>
-                {/* <img src={img} alt="" /> */}
-                {val}</>
-                case 'date':
-                    return <>{val?.split("T")[0].split("-").reverse().join("-")}</>
-            case 'attendence':
-                return setAttendence(val)
+                    {/* <img src={img} alt="" /> */}
+                    {val}</>
+            case 'date':
+                return <>{val?.split("T")[0].split("-").reverse().join("-")}</>
+            case 'status':
+                return setStatus(val)
             case 'correction':
                 return val === null ? setCorrection(val) : val
             case 'loan_req':
@@ -120,7 +139,7 @@ const MainTable = (props) => {
                 return setApproval(val)
             case 'document':
                 console.log(val)
-                return  <a href="#" onClick={(event)=>downloadLeaveData("http://localhost:9000/"+val,event)} >Download file</a>
+                return <a href="#" onClick={(event) => downloadLeaveData("http://localhost:9000/" + val, event)} >Download file</a>
             default:
                 return val
         }
@@ -129,14 +148,14 @@ const MainTable = (props) => {
     return (
         <div className={classes.table_container}>
 
-            <div style={{width:props.wd}} className={` ${props.height ? classes.height : ''}`}>
-                <table className={`${classes.table} ${props.wd?classes.spl_t:''}`}>
+            <div style={{ width: props.wd }} className={` ${props.height ? classes.height : ''}`}>
+                <table className={`${classes.table} ${props.wd ? classes.spl_t : ''}`}>
                     <thead>
                         <tr>
                             {tableHeadings.map((element, index) => (
                                 <th key={index}>{element.heading}</th>
                             ))}
-                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true ?
+                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3 ?
                                 <th style={props.Btn ? { textAlign: "center" } : {}}>Action</th>
                                 : null}
                         </tr>
@@ -144,7 +163,7 @@ const MainTable = (props) => {
                     <tbody>
 
 
-                        {tableData.length>0&&tableData.map((val, index) => (
+                        {tableData.length > 0 && tableData.map((val, index) => (
                             <tr key={index}>
                                 {props.keys.map((element, index) => (
                                     <td key={index}
@@ -153,7 +172,7 @@ const MainTable = (props) => {
                                     </td>
                                 ))}
                                 {
-                                    val['restructure']=== true&&val['amount']!==0 &&index!==newData.length-1 ?<td key={index}> <a href="#" onClick={(e)=>restructureLoan(val['month'],e)}>Restructure</a> </td>: null
+                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
                                 }
                                 {
                                     props.Btn === true ? <td><button onClick={() => { clickHandler(val) }}>Out</button></td> : null
@@ -161,53 +180,53 @@ const MainTable = (props) => {
                                 {
                                     props.Lnk06 === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!==false?props.link1+"/"+val.attendance_id+"/"+val.employee_id:false} Btn={props.App_Btn} link2={props.link2+"/"+val.id} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false} Btn={props.App_Btn} link2={props.link2 + "/" + val.id} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
                                         </td> : null
                                 }
                                 {
                                     props.Lnk05 === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler}  Btn={props.App_Btn} link1={props.link1+"/"+val.id+"/"+val.employee_id} link2={props.link2} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} link1={props.link1 + "/" + val.id + "/" + val.employee_id} link2={props.link2} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
                                         </td> : null
                                 }
                                 {
                                     props.Lnk === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? val.status==='Pending'?props.link1+"/"+val.attendance_id+"/"+val.employee_id:false : false} Btn={props.App_Btn} link2={props.link2!==false?props.link2+"/"+val.employee_id:false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4 !== false ? props.link4 +"/"+val.id : false} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? val.status === 'Pending' ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false : false} Btn={props.App_Btn} link2={props.link2 !== false ? props.link2 + "/" + val.employee_id : false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4 !== false ? props.link4 + "/" + val.id : false} t4={props.t4} />
                                         </td> : null
                                 }
                                 {
                                     props.Lnk1 === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1!==false?props.link1+"/"+val.attendance_id+"/"+val.employee_id:false} Btn={props.App_Btn} link2={props.link2!==false?props.link2+"/"+val.id+"/"+val.employee_id:false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false} Btn={props.App_Btn} link2={props.link2 !== false ? props.link2 + "/" + val.id + "/" + val.employee_id : false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
                                         </td> : null
                                 }
                                 {
                                     props.Lnk2 === true ?
                                         <td>
-                                            <Link to={props.link1+"/"+val.id} className={classes.Lnk2}>View</Link>
+                                            <Link to={props.link1 + "/" + val.id} className={classes.Lnk2}>View</Link>
                                         </td> : null
                                 }
                                 {
                                     props.Lnk3 === true ?
-                                    <td>
-                                    <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={val.status==='Pending'?props.link1+"/"+val.id+"/"+val.employee_id:false} Btn={props.App_Btn} link2={props.link2?props.link2+"/"+val.id+"/"+val.employee_id:props.link2} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
-                                </td> : null
+                                        <td>
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={val.status === 'Pending' ? props.link1 + "/" + val.id + "/" + val.employee_id : false} Btn={props.App_Btn} link2={props.link2 ? props.link2 + "/" + val.id + "/" + val.employee_id : props.link2} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4} t4={props.t4} />
+                                        </td> : null
                                 }
                                 {
                                     props.Lnk04 === true ?
-                                    <td>
-                                    <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={false} Btn={props.App_Btn} link2={false} t1={props.t1} t2={props.t2} t3={props.t3} link4={true} t4={props.t4} />
-                                </td> : null
+                                        <td>
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={false} Btn={props.App_Btn} link2={false} t1={props.t1} t2={props.t2} t3={props.t3} link4={true} t4={props.t4} />
+                                        </td> : null
                                 }
                                 {
-                                    props.Lnk4===true?
-                                    <td>
-                                        <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} t3={props.t3} link2={props.link2} link1={props.link1} />
-                                    </td>
-                                    : null
+                                    props.Lnk4 === true ?
+                                        <td>
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} t3={props.t3} link2={props.link2} link1={props.link1} />
+                                        </td>
+                                        : null
                                 }
-                                
+
                             </tr>
                         ))}
                     </tbody>

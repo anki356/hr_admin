@@ -89,8 +89,8 @@ window.location.reload(false)
 
   const [data, setData] = useState([])
   const { sendRequest: fetchEmployeeDetails } = useHttp()
-  const { sendRequest: fetchLeave } = useHttp()
   const { sendRequest: fetchLoanHistory } = useHttp()
+  const { sendRequest: fetchLeave } = useHttp()
   const { id, employee_id } = useParams()
   const [div_data, setDivData] = useState([])
   const [leave_info, setLeaveInfo] = useState(null)
@@ -126,7 +126,6 @@ window.location.reload(false)
         title: 'Store Department',
         value: employeeDetails.employeesResult[0].store_department_name
       }])
-
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
@@ -174,6 +173,7 @@ window.location.reload(false)
           value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'NO'
         }
       ])
+      setReason(leaveDetails[0]?.reason)
       if(leaveDetails[0].document!==null){
 
         setData([{
@@ -182,10 +182,10 @@ window.location.reload(false)
     }
     }
     const listLoans=(loanDetails)=>{
-      setLoanData(loanDetails)
-    }
-    fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
+        setLoanData(loanDetails)
+      }
     fetchLoanHistory({ url: url + "api/getLoans?employee_id=" + employee_id }, listLoans)
+    fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
   }, [])
   // console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
@@ -233,7 +233,12 @@ window.location.reload(false)
       <div className='uni_container'>
         <h3 className='uni_heading'>Loan Information</h3>
         <AdditionalInfoContainer data={leave_info} />
-        <LabeledInput cls={true} id={'val'} title={'Reason If Rejected'} img={false} func2={setReason} />
+        <div >
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
+          <div>
+           {reason}
+          </div>
+        </div>
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={false} />
@@ -258,7 +263,7 @@ window.location.reload(false)
       </div>
       <br />
       <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData} height={true} />
-      <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
+     
     </React.Fragment>
   )
 }
