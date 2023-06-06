@@ -11,63 +11,14 @@ import useHttp from '../../../Hooks/use-http'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
-const employee_data = [{
-  "title": "Electrician",
-  "value": "Royall"
-}, {
-  "title": "Construction Manager",
-  "value": "Sayer"
-}, {
-  "title": "Electrician",
-  "value": "Aliza"
-}, {
-  "title": "Engineer",
-  "value": "Jemie"
-}, {
-  "title": "Subcontractor",
-  "value": "Jacklin"
-}, {
-  "title": "Subcontractor",
-  "value": "Garold"
-}, {
-  "title": "Engineer",
-  "value": "Dorry"
-}, {
-  "title": "Construction Expeditor",
-  "value": "Matias"
-}, {
-  "title": "Subcontractor",
-  "value": "Genevieve"
-}, {
-  "title": "Construction Foreman",
-  "value": "Catlin"
-}]
-
-const leave_info = [
-  {
-    title: 'Date',
-    value: '31 march To 3 April 2023'
-  },
-  {
-    title: 'Days',
-    value: '4 Days'
-  },
-  {
-    title: 'Recall Head',
-    value: 'Yes'
-  },
-  {
-    title: 'Head Approval',
-    value: 'Yes'
-  }
-]
+import { Link } from 'react-router-dom'
 const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
 const tableHeading = [{ heading: 'Documents' }]
 const tableKeys = ['document']
 
 
-const LoanApprovals = () => {
+const LoanDetails = () => {
   const cookies = new Cookies();
   const navigate = useNavigate()
   const token = cookies.get('token')
@@ -141,16 +92,16 @@ window.location.reload(false)
         }
 
       })
-      leaveDetails[0].loan_repayment.forEach((data) => {
-        if (data.status === 'Paid') {
-          data.restructure = false
-        }
-        else {
-          data.restructure = true
-        }
-      })
-      setLoanEMIData(leaveDetails[0].loan_repayment)
-      setLoanData(leaveDetails)
+    //   leaveDetails[0].loan_repayment.forEach((data) => {
+    //     if (data.status === 'Paid') {
+    //       data.restructure = false
+    //     }
+    //     else {
+    //       data.restructure = true
+    //     }
+    //   })
+    //   setLoanEMIData(leaveDetails[0].loan_repayment)
+    //   setLoanData(leaveDetails)
       setLeaveInfo([
         {
           title: 'Loan Amount',
@@ -182,9 +133,13 @@ window.location.reload(false)
     }
     }
     const listLoans=(loanDetails)=>{
+        loanDetails.forEach((data)=>{
+            data.start_month=monthArray[data.loan_repayment[0]?.month]
+        })
+        console.log(loanDetails)
         setLoanData(loanDetails)
       }
-    fetchLoanHistory({ url: url + "api/getLoans?employee_id=" + employee_id }, listLoans)
+    fetchLoanHistory({ url: url + "api/getLoansHistory?employee_id=" + employee_id }, listLoans)
     fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
   }, [])
   // console.log(data)
@@ -222,10 +177,9 @@ window.location.reload(false)
   const loan_table_headings = [
     { heading: 'Loan Amount' },
     { heading: 'Tenure' },
-    { heading: 'Start Month' },
-    { heading: 'Action' }
+    { heading: 'Start Month' }
   ]
-  const loan_table_keys = ['amount', 'month', 'status',]
+  const loan_table_keys = ['amount', 'tenure', 'start_month',]
   return (
     <React.Fragment>
       <Heading heading={'Loan Approvals'} />
@@ -243,7 +197,7 @@ window.location.reload(false)
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={false} />
       <br /><br />
-      <div className={classes.container}>
+      {/* <div className={classes.container}>
         <div>
           <div>Loan Amount</div>
           <div>{loanData[0]?.amount}</div>
@@ -260,12 +214,14 @@ window.location.reload(false)
           <div>Month</div>
           <div>{monthArray[loanEMIData[0]?.month]}</div>
         </div>
-      </div>
+      </div> */}
+
       <br />
-      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData} height={true} />
+      <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
+      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
      
     </React.Fragment>
   )
 }
 
-export default LoanApprovals 
+export default LoanDetails 

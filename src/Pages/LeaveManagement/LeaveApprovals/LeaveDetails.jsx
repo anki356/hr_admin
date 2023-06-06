@@ -12,7 +12,7 @@ import Cookies from 'universal-cookie'
 import moment from 'moment'
 
 import axios from 'axios'
-const LeaveApprovals = () => {
+const LeaveDetails = () => {
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const navigate = useNavigate()
@@ -157,4 +157,4 @@ const LeaveApprovals = () => {
   )
 }
 
-export default LeaveApprovals 
+export default LeaveDetails 

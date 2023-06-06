@@ -67,6 +67,8 @@ const MainTable = (props) => {
                 return <div className={classes.absent}>{num}</div>
             case "Paid":
                 return <div className={classes.present}>{num}</div>
+                case "Unpaid":
+                    return <div className={classes.absent}>{num}</div>
             default:
         }
     }
@@ -123,6 +125,10 @@ const MainTable = (props) => {
                 return <>
                     {/* <img src={img} alt="" /> */}
                     {val}</>
+            case 'tenure':
+                return <>
+                    {/* <img src={img} alt="" /> */}
+                    {val} months</>
             case 'date':
                 return <>{val?.split("T")[0].split("-").reverse().join("-")}</>
             case 'status':
@@ -155,7 +161,7 @@ const MainTable = (props) => {
                             {tableHeadings.map((element, index) => (
                                 <th key={index}>{element.heading}</th>
                             ))}
-                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3 ?
+                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3||props.restructure ?
                                 <th style={props.Btn ? { textAlign: "center" } : {}}>Action</th>
                                 : null}
                         </tr>

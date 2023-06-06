@@ -61,6 +61,8 @@ import LeaveDetails from "./Pages/LeaveManagement/LeaveApprovals/LeaveDetails"
 import LoanDetails from "./Pages/LoanEmi/LoanApprovals/LoanDetails"
 import AdvanceDetails from "./Pages/Advance/AdvanceApprovals/AdvanceDetails"
 import FineDetail from './Pages/FineManagement/FineApprovals/FineDetails';
+import LoanEMIDetails from './Pages/LoanEmi/LoanApprovals/LoanEMIDetails';
+import EMIAll from "./Pages/LoanEmi/LoanApprovals/EMIAll"
 const App = () => {
 
   const urlPath = useLocation()
@@ -110,12 +112,13 @@ const App = () => {
 
               <Route exact path="/leave_management" element={<LeaveManagement />} />
               <Route exact path="/leave_approvals/:id/:employee_id" element={<LeaveApprovals />} />
+              <Route exact path="/emi_details_all_loans/:employee_id" element={<EMIAll />} />
 
               <Route exact path="/loan_emi" element={<LoanEmi />} />
               <Route exact path="/add_loan" element={<AddLoan />} />
               <Route exact path="/loan_approvals/:id/:employee_id" element={<LoanApprovals />} />
               <Route exact path="/loan_details/:id/:employee_id" element={<LoanDetails />} />
-
+              <Route exact path="/loan_emi_details/:id" element={<LoanEMIDetails />} />
               <Route exact path="/salary_details" element={<SalaryDetails />} />
               <Route exact path="/salary_slip" element={<SalarySlip />} />
               <Route exact path="/salary_certificate" element={<SalaryCertificate />} />

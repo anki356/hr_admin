@@ -10,7 +10,7 @@ import useHttp from '../../../Hooks/use-http'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
-const FineApprovals = () => {
+const FineDetails = () => {
 
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
@@ -132,4 +132,4 @@ const FineApprovals = () => {
   )
 }
 
-export default FineApprovals
+export default FineDetails

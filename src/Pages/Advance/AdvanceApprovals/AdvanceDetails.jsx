@@ -13,7 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 
-const AdvanceApprovals = () => {
+const AdvanceDetails = () => {
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const navigate = useNavigate()
@@ -27,7 +27,8 @@ const AdvanceApprovals = () => {
   const [from_date, setFromDate] = useState(null)
   const [to_date, setToDate] = useState(null)
   const [reason, setReason] = useState(null)
-
+  const headers={"Authorization":"Bearer "+token}
+  const [advanceHistoryData, setAdvanceHistoryData] = useState([])
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
       setDivData([{
@@ -85,6 +86,12 @@ const AdvanceApprovals = () => {
     setReason(leaveDetails[0]?.reason)
     }
     fetchLeave({ url: url + "api/getAdvance?id=" + id }, listLeave)
+    axios.get(url+"api/getAdvanceHistory?employee_id="+employee_id, { headers }).then((response)=>{
+      response.data.forEach((data)=>{
+data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
+      })
+      setAdvanceHistoryData(response.data)
+    })
   }, [])
   console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
@@ -120,7 +127,13 @@ const AdvanceApprovals = () => {
 
 
   }
-
+  const historyTableHeadings = [
+    {heading:'Amount'},
+      {heading:'Request Date'},
+      {heading:'Status'},
+      {heading:'Status date'},
+  ]
+  const historyTableKeys = ['amount' , 'date','approval','status_date']
   return (
     <React.Fragment>
       <Heading heading={'Advance Approvals'} />
@@ -142,4 +155,4 @@ const AdvanceApprovals = () => {
   )
 }
 
-export default AdvanceApprovals 
+export default AdvanceDetails 

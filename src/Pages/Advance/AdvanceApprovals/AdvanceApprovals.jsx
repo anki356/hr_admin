@@ -18,6 +18,7 @@ const AdvanceApprovals = () => {
   const cookies = new Cookies();
   const navigate = useNavigate()
   const token = cookies.get('token')
+  const headers={"Authorization":"Bearer "+token}
   const [data, setData] = useState([])
   const { sendRequest: fetchEmployeeDetails } = useHttp()
   const { sendRequest: fetchLeave } = useHttp()
@@ -27,6 +28,7 @@ const AdvanceApprovals = () => {
   const [from_date, setFromDate] = useState(null)
   const [to_date, setToDate] = useState(null)
   const [reason, setReason] = useState(null)
+  const [advanceHistoryData, setAdvanceHistoryData] = useState([])
 
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
@@ -84,6 +86,12 @@ const AdvanceApprovals = () => {
     }
     }
     fetchLeave({ url: url + "api/getAdvance?id=" + id }, listLeave)
+    axios.get(url+"api/getAdvanceHistory?employee_id="+employee_id, { headers }).then((response)=>{
+      response.data.forEach((data)=>{
+data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
+      })
+      setAdvanceHistoryData(response.data)
+    })
   }, [])
   console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
@@ -119,6 +127,13 @@ const AdvanceApprovals = () => {
 
 
   }
+  const historyTableHeadings = [
+    {heading:'Amount'},
+      {heading:'Request Date'},
+      {heading:'Status'},
+      {heading:'Status date'},
+  ]
+  const historyTableKeys = ['amount' , 'date','approval','status_date']
 
   return (
     <React.Fragment>
@@ -131,6 +146,8 @@ const AdvanceApprovals = () => {
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} />
+      <h3 className='uni_heading'>Advance History</h3>
+      <MainTable headings={historyTableHeadings} keys={historyTableKeys} data={advanceHistoryData} height={true} />
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )

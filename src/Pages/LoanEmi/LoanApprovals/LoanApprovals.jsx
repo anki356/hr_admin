@@ -185,7 +185,7 @@ window.location.reload(false)
       setLoanData(loanDetails)
     }
     fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
-    fetchLoanHistory({ url: url + "api/getLoans?employee_id=" + employee_id }, listLoans)
+    fetchLoanHistory({ url: url + "api/getLoansHistory?employee_id=" + employee_id }, listLoans)
   }, [])
   // console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
@@ -257,7 +257,7 @@ window.location.reload(false)
         </div>
       </div>
       <br />
-      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData} height={true} />
+      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys}data={loanData} height={true} />
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )
