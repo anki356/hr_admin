@@ -161,7 +161,7 @@ const MainTable = (props) => {
                             {tableHeadings.map((element, index) => (
                                 <th key={index}>{element.heading}</th>
                             ))}
-                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3||props.restructure ?
+                            {props.Btn || props.Lnk || props.Lnk2 || props.Lnk4 === true || props.Lnk06 || props.lnk05 || props.Lnk04 || props.Lnk3 ?
                                 <th style={props.Btn ? { textAlign: "center" } : {}}>Action</th>
                                 : null}
                         </tr>
@@ -178,7 +178,7 @@ const MainTable = (props) => {
                                     </td>
                                 ))}
                                 {
-                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
+                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" style={{color:'var(--bg)'}} onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
                                 }
                                 {
                                     props.Btn === true ? <td><button onClick={() => { clickHandler(val) }}>Out</button></td> : null

@@ -342,13 +342,13 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
             <br />
             <h4 className={classes.h4_heading}>Loan</h4>
             <div className={classes.container}>
-                <div>Loan Amount</div>
+                <div className={classes.container_heading}>Loan Amount</div>
                 <div>{loanData[0]?.loan_amount}</div>
-                <div>Tenure</div>
+                <div className={classes.container_heading}>Tenure</div>
                 <div>{loanData[0]?.tenure}</div>
-                <div>Approval Status</div>
+                <div className={classes.container_heading}>Approval Status</div>
                 <div>{loanData[0]?.loan_status}</div>
-                <div>Month</div>
+                <div className={classes.container_heading}>Month</div>
                 <div>{monthArray[loanData[0]?.month]}</div>
             </div>
                               
