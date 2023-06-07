@@ -8,7 +8,7 @@ class Donutchart extends React.Component {
 
         this.state = {
 
-            series: [88],
+            series: [this.props.series],
             options: {
                 chart: {
                     type: 'radialBar',
@@ -60,7 +60,7 @@ class Donutchart extends React.Component {
         return (
             <ReactApexChart
                 options={this.state.options}
-                series={this.state.series}
+                series={[this.props.series]}
                 type="radialBar"
                 height={'100%'} />
         )

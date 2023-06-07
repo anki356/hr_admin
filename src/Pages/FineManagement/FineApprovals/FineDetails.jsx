@@ -26,6 +26,8 @@ const FineDetails = () => {
   const [to_date, setToDate] = useState(null)
   const [reason, setReason] = useState(null)
 
+  const [fineHistoryData, setFineHistoryData] = useState([])
+
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
       setDivData([{
@@ -79,6 +81,13 @@ const FineDetails = () => {
       }])
     }
     fetchLeave({ url: url + "api/getFine?id=" + id }, listLeave)
+    const headers = { "Authorization": "Bearer " + token }
+    axios.get(url+"api/getAdvanceHistory?employee_id="+employee_id, { headers }).then((response)=>{
+      response.data.forEach((data)=>{
+data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
+      })
+      setFineHistoryData(response.data)
+    })
   }, [])
   // console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
@@ -112,7 +121,13 @@ const FineDetails = () => {
 
 
   }
-
+  const historyTableHeadings = [
+    {heading:'Amount'},
+      {heading:'Request Date'},
+      {heading:'Status'},
+      {heading:'Status date'},
+  ]
+  const historyTableKeys = ['amount' , 'date','approval','status_date']
   return (
     <React.Fragment>
       <Heading heading={'Fine Approvals'} />
@@ -127,7 +142,7 @@ const FineDetails = () => {
           
         </div>
       </div>
-      
+      <MainTable headings={historyTableHeadings} keys={historyTableKeys} data={fineHistoryData} height={true} />
     </React.Fragment>
   )
 }

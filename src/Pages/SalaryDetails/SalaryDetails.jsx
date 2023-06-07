@@ -122,11 +122,11 @@ const selectEntries=(data)=>{
     {heading:'Employee ID'},
     {heading:'Floor'},
     {heading:'Monthly Salary'},
-    {heading:'Total Salary'}
+    {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_name', 'min_wages_as_per_rule','net_payable_salary'
+    'employee_name','empID','floor_name', 'min_wages_as_per_rule','status'
   ]
 
   const [newval, setNewVal] = useState(false)

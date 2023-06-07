@@ -6,7 +6,6 @@ import Filter from '../../Components/Filter/Filter'
 import classes from './sd.module.css'
 // Data for Table
 import useHttp from '../../Hooks/use-http'
-import Data from './data'
 import MainTable from '../../Components/MainTable/MainTable'
 import moment from 'moment'
 import axios from 'axios'
@@ -38,7 +37,13 @@ const [TileData,setTileData]=useState([])
 useEffect(()=>{
   const listSalary=(Salary)=>{
     Salary.forEach((data)=>{
-      data.month_days=moment().daysInMonth()
+      data.month_days=moment(date).subtract(1,'M').daysInMonth()
+      data.basic_salary=data.basic_salary.toFixed(2)
+      data.hra=data.hra.toFixed(2)
+      data.cash_incentive=data.cash_incentive.toFixed(2)
+      data.pf=data.pf?.toFixed(2)
+      data.esi=data.esi?.toFixed(2)
+      data.net_payable_salary=data.net_payable_salary.toFixed(2)
     })
     setSalary(Salary)
   }
@@ -61,6 +66,7 @@ if(employeeFilter.employee_query!=''){
     fetchSalary({url:queryString},listSalary)
   }
 },[date,employeeFilter,limit,offset])
+console.log(salary)
   // Table Headings, Data and Keys
   const tableHeadings=[
     {heading:'Employee Name'},

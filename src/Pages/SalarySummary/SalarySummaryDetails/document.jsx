@@ -36,7 +36,7 @@ useEffect(()=>{
             {
                 "title": 'Salary',
                 "val_a": Salary[0].net_salary,
-                "val_b":Salary[0].net_payable_salary
+                "val_b":Salary[0].net_payable_salary.toFixed(2)
             },
             {
                 'title': 'Monthly Days',
@@ -70,18 +70,18 @@ useEffect(()=>{
             },
             {
                 "title": 'Gross Salary',
-                "val_a": Salary[0].net_salary,
-                "val_b": Salary[0].net_salary
+                "val_a": Salary[0].net_salary.toFixed(2),
+                "val_b": Salary[0].net_salary.toFixed(2)
             },
             {
                 "title": 'ESIC',
-                "val_a": Salary[0].esi,
-                "val_b": Salary[0].esi
+                "val_a": Salary[0].esi.toFixed(2),
+                "val_b": Salary[0].esi.toFixed(2)
             },
             {
                 "title": 'EPF',
-                "val_a": Salary[0].pf,
-                "val_b": Salary[0].esi
+                "val_a": Salary[0].pf.toFixed(2),
+                "val_b": Salary[0].pf.toFixed(2)
             },
            
             {
@@ -96,13 +96,13 @@ useEffect(()=>{
             },
             {
                 "title": 'Net Pay Salary',
-                "val_a": '',
-                "val_b": Salary[0].net_payable_salary
+                "val_a": Salary[0].net_salary.toFixed(2),
+                "val_b": Salary[0].net_payable_salary.toFixed(2)
             },
             {
                 "title": 'Net Pay Incentive',
                 "val_a": '',
-                "val_b": Salary[0].cash_incentive
+                "val_b": Salary[0].cash_incentive.toFixed(2)
             },
         ])
        }
@@ -110,8 +110,8 @@ useEffect(()=>{
         setFixedData([
             {
                 "title": 'Salary',
-                "val_a": Salary[0].net_salary,
-                "val_b":Salary[0].net_payable_salary
+                "val_a": Salary[0].net_salary.toFixed(2),
+                "val_b":Salary[0].net_payable_salary.toFixed(2)
             },
             {
                 'title': 'Monthly Days',
@@ -145,8 +145,8 @@ useEffect(()=>{
             },
             {
                 "title": 'Gross Salary',
-                "val_a": Salary[0].net_salary,
-                "val_b": Salary[0].net_salary
+                "val_a": Salary[0].net_salary.toFixed(2),
+                "val_b": Salary[0].net_salary.toFixed(2)
             },
            
             {
@@ -161,13 +161,13 @@ useEffect(()=>{
             },
             {
                 "title": 'Net Pay Salary',
-                "val_a": '',
-                "val_b": Salary[0].net_payable_salary
+                "val_a": Salary[0].net_salary.toFixed(2),
+                "val_b": Salary[0].net_payable_salary.toFixed(2)
             },
             {
                 "title": 'Net Pay Incentive',
                 "val_a": '',
-                "val_b": Salary[0].cash_incentive
+                "val_b": Salary[0].cash_incentive.toFixed(2)
             },
         ])
        }
@@ -200,7 +200,7 @@ useEffect(()=>{
     
       }
       fetchSalary({url:url+"api/getSalary?id="+id},listSalary)
-      window.print()
+      
     //   navigate(-1)
 },[])
 console.log(fixed_data)
@@ -214,7 +214,10 @@ console.log(fixed_data)
 
     const table_keys = ['title', 'val_a', 'val_b']
 
-
+const Print=(e)=>{
+e.preventDefault()
+window.print()
+}
 
     return (
         <React.Fragment>
@@ -232,6 +235,7 @@ console.log(fixed_data)
                 ))}
             </div>
             <BottomButtonContainer func={true} cancel={'Cancel'} approve={'Download Summary'} cancelRequests={cancelRequests} func2={download} /> */}
+            <button className={classes.salary_history_btn} onClick={(e)=>Print(e)}>Print</button>
            </React.Fragment>
     )
 }

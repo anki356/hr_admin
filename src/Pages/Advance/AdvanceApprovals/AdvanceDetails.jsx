@@ -150,7 +150,7 @@ data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={true} />
-      
+      <MainTable headings={historyTableHeadings} keys={historyTableKeys} data={advanceHistoryData} height={true} />
     </React.Fragment>
   )
 }

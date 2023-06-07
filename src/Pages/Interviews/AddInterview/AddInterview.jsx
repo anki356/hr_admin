@@ -51,9 +51,9 @@ const AddInterview = () => {
             setEmployeeData(response.data)
         })
         axios.get(url + "api/getRoles", { headers }).then((response) => {
-            response.data = response.data.filter((data) => data.role_name !== 'Super Admin' && data.role_name !== 'Admin')
+            response.data = response.data.filter((data) => data.name !== 'Super Admin' && data.name !== 'Admin')
             response.data = response.data.filter((data, index, self) => {
-                let indexOne = self.findIndex((dataOne) => dataOne.role_name === data.role_name)
+                let indexOne = self.findIndex((dataOne) => dataOne.name === data.name)
                 console.log(indexOne)
                 if (indexOne === index) {
                     return data
@@ -198,7 +198,7 @@ download.forEach((data)=>{
                 {inputs.map((element, index) => {
                     return element.title !== 'Interviewer Name' && element.title !== 'Reference' & element.title !== 'Designation Interview For' & element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledInput func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} /> : element.title !== 'Reference' && element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='interviewer' title={'Interviewer'} data={interviewData} /> : element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='reference' title={'Reference'} data={employeeData} /> : element.title !== 'Hired By' && element.title !== 'Department'&& element.title !== 'Interview Date' ?
 
-                        <LabeledSelect cls={true} mr={true} usingid={true} selectedVal={element.func2} select_id='designation_interview_for' title={'Designation Interview For'} data={roleData} spl_name={'role_name'} />
+                        <LabeledSelect cls={true} mr={true} usingid={true} selectedVal={element.func2} select_id='designation_interview_for' title={'Designation Interview For'} data={roleData}  />
                         //  <select onChange={(e) => element.func2(e.target.value)} id='designation_interview_for' placeholder={'Designation Interview For'}  > {roleData.map((val, index) => (
                         //     <option key={index} value={val.id}>{val.role_name}</option>
                         // ))}</select> 

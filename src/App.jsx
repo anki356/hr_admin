@@ -63,6 +63,7 @@ import AdvanceDetails from "./Pages/Advance/AdvanceApprovals/AdvanceDetails"
 import FineDetail from './Pages/FineManagement/FineApprovals/FineDetails';
 import LoanEMIDetails from './Pages/LoanEmi/LoanApprovals/LoanEMIDetails';
 import EMIAll from "./Pages/LoanEmi/LoanApprovals/EMIAll"
+import EmployeeTransferDetails from './Pages/EmployeeTransfer/EmployeeTransferDetails';
 const App = () => {
 
   const urlPath = useLocation()
@@ -127,6 +128,7 @@ const App = () => {
 
               <Route exact path="/employee_transfer" element={<EmployeeTransfer />} />
               <Route exact path="/emp_transfer/:id/:employee_id" element={<Emp_Transfer />} />
+              <Route exact path="/emp_transfer_details/:id/:employee_id" element={<EmployeeTransferDetails />} />
 
               <Route exact path="/interviews" element={<Interviews />} />
               <Route exact path="/add_interview" element={<AddInterview />} />

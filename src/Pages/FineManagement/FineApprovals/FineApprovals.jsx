@@ -25,6 +25,7 @@ const FineApprovals = () => {
   const [from_date, setFromDate] = useState(null)
   const [to_date, setToDate] = useState(null)
   const [reason, setReason] = useState(null)
+  const [fineHistoryData, setFineHistoryData] = useState([])
 
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
@@ -78,6 +79,13 @@ const FineApprovals = () => {
       }])
     }
     fetchLeave({ url: url + "api/getFine?id=" + id }, listLeave)
+    const headers = { "Authorization": "Bearer " + token }
+    axios.get(url+"api/getFineHistory?employee_id="+employee_id, { headers }).then((response)=>{
+      response.data.forEach((data)=>{
+data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
+      })
+      setFineHistoryData(response.data)
+    })
   }, [])
   // console.log(data)
   const tableHeading = [{ heading: 'Documents' }]
@@ -111,7 +119,13 @@ const FineApprovals = () => {
 
 
   }
-
+  const historyTableHeadings = [
+    {heading:'Amount'},
+      {heading:'Request Date'},
+      {heading:'Status'},
+      {heading:'Status date'},
+  ]
+  const historyTableKeys = ['amount' , 'date','approval','status_date']
   return (
     <React.Fragment>
       <Heading heading={'Fine Approvals'} />
@@ -121,6 +135,7 @@ const FineApprovals = () => {
         <AdditionalInfoContainer data={leave_info} />
         <LabeledInput cls={true} id={'val'} title={'Reason If Rejected'} img={false} func2={setReason} />
       </div>
+      <MainTable headings={historyTableHeadings} keys={historyTableKeys} data={fineHistoryData} height={true} />
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )

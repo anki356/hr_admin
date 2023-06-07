@@ -165,7 +165,7 @@ setTileData( [
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <div className={classes.whole_table_c}
       >
-        <MainTable data={Data} height={true}  headings={tableHeadings} keys={tableKeys} link2={'/view_grade'} wd={'4100px'}  Lnk2={true} link1={'/view_grade'} />
+        <MainTable data={Data} height={true}  headings={tableHeadings} keys={tableKeys}  wd={'4100px'}  Lnk2={true} link1={'/view_grade'} />
       </div>
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>

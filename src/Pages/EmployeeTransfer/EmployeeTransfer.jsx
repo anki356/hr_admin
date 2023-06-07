@@ -133,7 +133,7 @@ const changeByDesignation = (data) => {
       <Heading heading={'Employee Transfer'} Btn_link={'/add_transfer'} Btn={'Transfer'} />
       <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
-      <MainTable func={changeModalState} Lnk3={true} link1={'/emp_transfer'} link2={false} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} wd={'4100px'} />
+      <MainTable func={changeModalState} Lnk3={true} link1={'/emp_transfer'} link2={'/emp_transfer_details'} link4={false} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} wd={'1000px'} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} />
     </React.Fragment>
   )
