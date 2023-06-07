@@ -20,7 +20,7 @@ import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import { useNavigate, useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
 import Cookies from 'universal-cookie'
-import moment from 'moment'
+import moment from 'moment-timezone'
 import axios from 'axios'
 const Tile = ({ date, view }) => {
 
@@ -289,9 +289,9 @@ function pay(){
   let year=new Date().getFullYear()
   let month=salary[0].month
 axios.patch(url+"api/paySalary/"+id,{
-  from_date:moment([year,month]).startOf('month'),
-  to_date:moment([year,month+1]).startOf('month'),
-  employee_id:salary[0].employee_id
+  from_date:moment.tz([year,month],"Asia/Calcutta").startOf('month'),
+  to_date:moment.tz([year,month+1],"Asia/Calcutta").startOf('month'),
+  employee_id:salary[0].emp_id
 },{headers}).then((response)=>{
   if(response){
 
@@ -327,7 +327,11 @@ function cancel(){
       <br />
       <GroupTable salary={salary} />
       <br /> <br />
-      <BottomButtonContainer approve={'Pay Salary'} cancel={'Notify Employee'} func={true} cancelRequests={cancel} func2={pay} />
+      {
+        salary.status==='Pending'?
+<BottomButtonContainer approve={'Pay Salary'} cancel={'Notify Employee'} func={true} cancelRequests={cancel} func2={pay} />:null
+      }
+      
 
     </React.Fragment>
   )

@@ -65,13 +65,13 @@ const OSD_Charts = (props) => {
           <div className={classes.circle_div2}><Donutchart series={Math.round((series*100).toFixed(2))}/></div>
           <div className={classes.circle_div3}>
             <div className={classes.circle_div3_div}>
-              <span>{series!==NaN?(series*100).toFixed(2):0}%</span>
+              <span>{series!==undefined?(series*100).toFixed(2):0}%</span>
               <div className={`${classes.circle_div3_inner_div}`}>
                 <div className={`${classes.colored}`}></div> Present
               </div>
             </div>
             <div className={classes.circle_div3_div}>
-              <span>{series!==NaN?(100-(series*100)).toFixed(2):100}%</span>
+              <span>{series!=undefined?(100-(series*100)).toFixed(2):100}%</span>
               <div className={classes.circle_div3_inner_div}>
                 <div></div> Present
               </div>

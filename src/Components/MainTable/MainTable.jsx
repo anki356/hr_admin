@@ -1,13 +1,13 @@
 import classes from './MainTable.module.css'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import HoverableTableActions from '../HoverableTableActions/HoverableTableActions'
 
 import DownloadIcon from '../../assets/download.png';
 const MainTable = (props) => {
 
     // const [rows, setRows] = useState(5)
-
+    const location = useLocation();
     const tableHeadings = props.headings
     const tableData = props.data
     const newData = tableData
@@ -198,9 +198,10 @@ const MainTable = (props) => {
                                 {
                                     props.Lnk === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? val.status === 'Pending' ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false : false} Btn={props.App_Btn} link2={props.link2 !== false ? props.link2 + "/" + val.employee_id : false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4 !== false ? props.link4 + "/" + val.id : false} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? val.status === 'Pending'||location.pathname==='/salary_details' ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false : false} Btn={props.App_Btn} link2={props.link2 !== false ? props.link2 + "/" + val.employee_id : false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4 !== false ? props.link4 + "/" + val.id : false} t4={props.t4} />
                                         </td> : null
                                 }
+                               
                                 {
                                     props.Lnk1 === true ?
                                         <td>
