@@ -35,6 +35,14 @@
     border-radius: var(--br);
     border: none;
     cursor: pointer;
+    background: #96503f;
+}
+.pagination_nav_btn:disabled{
+    background: #f0dede !important;
+    cursor: not-allowed;
+}
+.pagination_nav_btn  > img {
+    filter: invert(1);
 }
 .pagination_page_btn {
     margin: 0 5px;
