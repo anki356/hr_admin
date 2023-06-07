@@ -56,14 +56,12 @@ console.log(arr)
       {/* <LabeledInput cls={'wd50'} img={false} title={'PAN No.'} id={'pan_no'} /> */}
       
       <LabeledSelect title={'Fine Management'} select_id='fine_management' data={[{'name':'Yes'},{'name':'No'}]} cls={true} selectedVal={(data)=>props.changeFineMgmt(data)} />
-      <LabeledInput cls={'wd50'} img={false} title={'Bank Name'} id={'bank_name'} func2={(data) => props.changeBankName(data)} />
-      <LabeledInput cls={'wd50'} img={false} title={'Branch'} id={'branch'} func2={(data) => props.changeBranch(data)} />
-      <LabeledInput cls={'wd50'} img={false} title={'IFSC Code'} id={'ifsc_code'} func2={(data) => props.changeIFSC(data)} />
-      <LabeledInput cls={'wd50'} img={false} title={'Account No.'} id={'account_no'} func2={(data) => props.changeAcountNo(data)} />
-      <LabeledInput cls={'wd50'} img={false} title={'Min Wages'} id={'min_wages'} func2={(data) => props.changeMInWages(data)}/>
-      <LabeledInput cls={'wd50'} img={false} title={'UAN No'} id={'uan_no'} func2={(data) => props.changeUAN(data)}/>
-      <LabeledInput cls={'wd50'} img={false} title={'Base Salary'} id={'base_salary'} func2={(data) => props.changeBaseSalary(data)}/>
-      <LabeledSelect title={'Employee Type'} select_id='emp_type' data={selectData} cls={true} selectedVal={props.chanageEmpType} />
+
+      {props.formInput.map((element, index) => (
+        <LabeledInput key={index} cls={'wd50'} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title} />
+      ))}
+
+      <LabeledSelect  title={'Employee Type'} select_id='emp_type' data={selectData} cls={true} selectedVal={props.chanageEmpType} />
       <LabeledSelect title={'Mode of Pay'} select_id='mode' data={selectData2} cls={true} selectedVal={props.changeModeOfPay} />
       {/* <div className={classes.af}>
         <h5>Attach File</h5>
