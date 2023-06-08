@@ -19,7 +19,8 @@ const AddEmployee = () => {
     const cookies = new Cookies();
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-
+const [photo,setPhoto]=useState(null)
+const [data,setData]=useState([])
     const getEmpData = async (EmpId) => {
         try {
             const response = await fetch(`${url}api/getEmployeeDetails?id=${EmpId}`, {
@@ -33,7 +34,46 @@ const AddEmployee = () => {
                 throw new Error('Something is wrong!')
             }
             const result = await response.json()
-            console.log('our employee data', result);
+          console.log(result)
+           setName(result?.employeesResult[0]?.name)
+           setFatherName(result?.employeesResult[0]?.father_name)
+           setAadharNo(result?.employeesResult[0]?.aadhar_no)
+           setPanNo(result?.employeesResult[0]?.pan_no)
+           setPermamanentAddress(result?.employeesResult[0]?.permanent_address)
+           setLocalAddress(result?.employeesResult[0]?.local_address)
+           setEmergencyMobileNumber(result?.employeesResult[0]?.emergency_mobile_no)
+           setMobileNo(result?.employeesResult[0]?.mobile_no)
+           setGender(result?.employeesResult[0]?.gender)
+           setMaritalStatus(result?.employeesResult[0]?.marital_status)
+           result.employeesResult[0].dob=result?.employeesResult[0]?.dob.split("T")[0]
+           setDOB(result?.employeesResult[0]?.dob)
+           setDesignation(result?.employeesResult[0]?.role_id)
+           setDepartment(result?.employeesResult[0]?.department_id)
+           setSection(result?.employeesResult[0]?.store_department_id)
+           setStore(result?.employeesResult[0]?.store_id)
+           setFloor(result?.employeesResult[0]?.floor_id)
+           setHiredBy(result?.employeesResult[0]?.hired_by_employee_id)
+           setHeadEmployee(result?.employeesResult[0]?.head_employee_id)
+           setSupervisor(result?.employeesResult[0]?.supervisor_id)
+           setHiringFrom(result?.employeesResult[0]?.lead_from)
+           setJobLocation(result?.employeesResult[0]?.location)
+           result.employeesResult[0].hiring_date_time=result?.employeesResult[0]?.hiring_date_time.split("T")[0]
+           setLeadDate(result?.employeesResult[0]?.hiring_date_time)
+           setESI(result?.employeesResult[0]?.esi_no)
+           setEpf(result?.employeesResult[0]?.epf_no)
+           setFineMgmt(result?.employeesResult[0]?.fine_management)
+           setBankName(result?.employeesResult[0]?.bank_name)
+           setBranch(result?.employeesResult[0]?.branch)
+           setIFSC(result?.employeesResult[0]?.ifsc)
+           setAcountNo(result?.employeesResult[0]?.account_number)
+           setMinWages(result?.employeesResult[0]?.min_wages_as_per_rule)
+           setBaseSalary(result?.employeesResult[0]?.amount)
+           setUAN(result?.employeesResult[0]?.uan_no)
+           setModeOfPay(result?.employeesResult[0]?.sub_type)
+           setEmpType(result?.employeesResult[0]?.type)
+           setQualification(result?.employeesResult[0]?.qualification)
+           setData(result?.documentResult)
+           setPhoto(result?.employeesResult[0]?.photo)
         } catch (error) {
             console.log(error);
         }
@@ -46,7 +86,7 @@ const AddEmployee = () => {
         }
     }, [parameter])
 
-
+   
     const navigate = useNavigate()
     const [num, setNum] = useState(1)
     const [name, setName] = useState(null)
@@ -91,7 +131,7 @@ const AddEmployee = () => {
     const incNum = () => {
         num < 3 ?
             setNum(prev => { return prev + 1 }) :
-            add()
+            id?edit():add()
     }
     const add = () => {
         console.log(lead_date)
@@ -133,6 +173,7 @@ const AddEmployee = () => {
                 "floor_id": floor,
                 "store_id": store,
                 "photo": download[0],
+                "supervisor_id":superVisor,
                 "document": download.filter((data, index) => {
                     return index !== 0
                 })
@@ -450,12 +491,14 @@ const AddEmployee = () => {
             case 2:
                 return <AddEmployee_form2 formSelect={form2Selects} formInput={form2Input} />
             case 3:
-                return <AddEmployee_form3 formInput={form3Input} changeAcountNo={changeAcountNo} changeBankName={changeBankName} changeBranch={changeBranch} changeIFSC={changeIFSC} changeModeOfPay={changeModeOfPay} changeFineMgmt={changeFineMgmt} newFile={newFile} changeMInWages={changeMInWages} chanageEmpType={chanageEmpType} changeBaseSalary={setBaseSalary} changeUAN={setUAN} />
+                return <AddEmployee_form3 formInput={form3Input}  changeModeOfPay={changeModeOfPay} mode_of_pay={mode_of_pay} changeFineMgmt={changeFineMgmt} fine_mgmt={fine_mgmt} newFile={newFile}  chanageEmpType={chanageEmpType} emp_type={emp_type} edit={true} data={data} photo={photo}/>
 
             default: return <h1>nothing</h1>
         }
     }
-
+const edit=()=>{
+    
+}
 
     return (
         <React.Fragment>
