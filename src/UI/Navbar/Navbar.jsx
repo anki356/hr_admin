@@ -5,10 +5,12 @@ import I1 from '../../assets/clock.png'
 import I2 from '../../assets/data.png'
 import Bell from '../../assets/noti.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Cookies from 'universal-cookie'
+import NotificationBox from './NotificationBox/NotificationBox'
 
 const Navbar = (props) => {
+  const [notificationBox, setNotificationBox] = useState(false)
 
   // Used for navigation
   const navigate = useNavigate()
@@ -45,13 +47,15 @@ const Navbar = (props) => {
 
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!token) {
       navigate('/admin_login')
     }
-  },[])
+  }, [])
 
   return (
+    <>
+    <NotificationBox visibility={notificationBox} overlayFunc={setNotificationBox} />
     <nav className={classes.navbar}>
       <div className={classes.nav_logo}>
         <img src={Img} alt="" />
@@ -70,7 +74,7 @@ const Navbar = (props) => {
             <img src={I1} alt="" />
             <span>{date.toLocaleTimeString()}</span>
           </div>
-          <div className={classes.notification_bell}>
+          <div onClick={e => setNotificationBox(!notificationBox)} className={classes.notification_bell}>
             <img src={Bell} alt="" />
           </div>
           <button onClick={sidebarHandler} className={classes.sidebar_open_btn}>
@@ -81,7 +85,7 @@ const Navbar = (props) => {
         </div>
       </div>
     </nav>
-
+    </>
   )
 }
 
