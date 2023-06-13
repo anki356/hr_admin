@@ -10,10 +10,12 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEffect } from 'react'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddEmployee = () => {
 
     const [isIdExist, setIdExist] = useState(false)
+    const[empId,setEmpId]=useState(null)
     const url = "http://localhost:9000/"
     const parameter = useParams()
     const cookies = new Cookies();
@@ -41,8 +43,8 @@ const [data,setData]=useState([])
            setPanNo(result?.employeesResult[0]?.pan_no)
            setPermamanentAddress(result?.employeesResult[0]?.permanent_address)
            setLocalAddress(result?.employeesResult[0]?.local_address)
-           setEmergencyMobileNumber(result?.employeesResult[0]?.emergency_mobile_no)
-           setMobileNo(result?.employeesResult[0]?.mobile_no)
+           setEmergencyMobileNumber(result?.employeesResult[0]?.emergency_number)
+           setMobileNo(result?.employeesResult[0]?.phone)
            setGender(result?.employeesResult[0]?.gender)
            setMaritalStatus(result?.employeesResult[0]?.marital_status)
            result.employeesResult[0].dob=result?.employeesResult[0]?.dob.split("T")[0]
@@ -61,7 +63,7 @@ const [data,setData]=useState([])
            setLeadDate(result?.employeesResult[0]?.hiring_date_time)
            setESI(result?.employeesResult[0]?.esi_no)
            setEpf(result?.employeesResult[0]?.epf_no)
-           setFineMgmt(result?.employeesResult[0]?.fine_management)
+           setFineMgmt(result?.employeesResult[0]?.fine_management===1?'Yes':'No')
            setBankName(result?.employeesResult[0]?.bank_name)
            setBranch(result?.employeesResult[0]?.branch)
            setIFSC(result?.employeesResult[0]?.ifsc)
@@ -74,6 +76,7 @@ const [data,setData]=useState([])
            setQualification(result?.employeesResult[0]?.qualification)
            setData(result?.documentResult)
            setPhoto(result?.employeesResult[0]?.photo)
+           setWeekOff(result?.employeesResult[0].week_off)
         } catch (error) {
             console.log(error);
         }
@@ -82,6 +85,7 @@ const [data,setData]=useState([])
     useEffect(() => {
         const EmpId = parameter?.id
         if (EmpId) {
+           setEmpId(EmpId)
             return getEmpData(EmpId)
         }
     }, [parameter])
@@ -105,7 +109,7 @@ const [data,setData]=useState([])
     const [section, setSection] = useState(null)
     const [floor, setFloor] = useState(null)
     const [store, setStore] = useState(null)
-
+    const [week_off, setWeekOff]=useState(null)
     const [head_employee, setHeadEmployee] = useState(null)
     const [hiredBy, setHiredBy] = useState(null)
     const [hiring_from, setHiringFrom] = useState(null)
@@ -129,13 +133,17 @@ const [data,setData]=useState([])
 
     const [download, setDownload] = useState([])
     const incNum = () => {
+        event.preventDefault()
+       
         num < 3 ?
             setNum(prev => { return prev + 1 }) :
-            id?edit():add()
+            empId!==null?edit():add()
     }
+    
     const add = () => {
+        event.preventDefault()
         console.log(lead_date)
-        if (download.length > 1) {
+        if (download.length > 2) {
             axios.post(url + "api/addEmployee", {
                 "name": name,
                 "father_name": father_name,
@@ -174,20 +182,28 @@ const [data,setData]=useState([])
                 "store_id": store,
                 "photo": download[0],
                 "supervisor_id":superVisor,
+                "week_off":week_off,
                 "document": download.filter((data, index) => {
                     return index !== 0
                 })
 
 
             }, { headers }).then((response) => {
-                if (response) {
-                    navigate(-1)
+                if (response.status===200) {
+                    navigate("/employee_details")
+                    // navigate(-1)
+                }
+                else{
+                    console.log(response.data.error)
                 }
             })
+        }else{
+            toast("Please upload minimum 1 photo and 2 additional documents as pan card and aadhar card scanned copy");
         }
 
     }
-    const decNum = () => {
+    const decNum = (event) => {
+        event.preventDefault()
         num > 1 ?
             setNum(prev => { return prev - 1 }) :
             setNum(1)
@@ -302,6 +318,9 @@ const [data,setData]=useState([])
     function changeBaseSalary(data) {
         setBaseSalary(data)
     }
+    function changeWeekOff(data) {
+        setWeekOff(data)
+    }
 
 
     const form1Functions = [
@@ -363,49 +382,66 @@ const [data,setData]=useState([])
             function:changeDepartment,
             value:department,
             title:'Department',
-            num:2
+            num:2,
+            required:true
+            
+        },
+        {
+            function:changeWeekOff,
+            value:week_off,
+            title:'Week OFF',
+            num:8,
+            required:true
+            
         },
         {
             function:changeDesignation,
             value:designation,
             title:'Designation',
-            num:1
+            num:1,
+            required:true
         },
         {
             function:changeHeadEmployee,
             value:head_employee,
             title:'Head Employee',
-            num:6
+            num:6,
+            required:true
         },
         {
             function:changeHiredBy,
             value:hiredBy,
             title:'Hired By',
-            num:6
+            num:6,
+            required:true
         },
         {
             function:changeSupervisor,
             value:superVisor,
             title:'Supervisor',
-            num:7
+            num:7,
+            required:true
         },
         {
             function:changeFloor,
             value:floor,
             title:'Floor',
-            num:3
+            num:3,
+            required:true
         },
         {
             function:changeStore,
             value:store,
             title:'Store',
-            num:4
+            num:4,
+            required:true
         },
         {
             function:changeSection,
             value:section,
             title:'Section',
-            num:5
+            num:5,
+            required:true
         }
     ]
 
@@ -413,33 +449,39 @@ const [data,setData]=useState([])
         {
             function:changeHiringFrom,
             value:hiring_from,
-            title:'Hiring From'
+            title:'Hiring From',
+            required:true
         },
         {
             function:changeJobLocation,
             value:job_location,
-            title:'Job Location'
+            title:'Job Location',
+            required:true
         },
         {
             function:changeLeadDate,
             value:lead_date,
             title:'Lead Date',
-            type:'date'
+            type:'date',
+            required:true
         },
         {
             function:changeESI,
             value:esi,
-            title:'ESI'
+            title:'ESI',
+            required:false
         },
         {
             function:changePF,
             value:epf,
-            title:'PF'
+            title:'PF',
+            required:false
         },
         {
             function:changeQualification,
             value:qualification,
-            title:'Qualification'
+            title:'Qualification',
+            required:true
         }
     ]
 
@@ -447,37 +489,44 @@ const [data,setData]=useState([])
         {
             function:changeBankName,
             value:bank_name,
-            title:'Bank Name'
+            title:'Bank Name',
+            required:true
         },
         {
             function:changeBranch,
             value:branch,
-            title:'Branch'
+            title:'Branch',
+            required:true
         },
         {
             function:changeIFSC,
             value:ifsc,
             title:'IFSC',
+            required:true
         },
         {
             function:changeAcountNo,
             value:account_no,
-            title:'Account N0.'
+            title:'Account N0.',
+            required:true
         },
         {
             function:changeMInWages,
             value:min_wages,
-            title:'Min Wages'
+            title:'Min Wages',
+            required:true
         },
         {
             function:changeUAN,
             value:uan_no,
-            title:'UAN No.'
+            title:'UAN No.',
+            required:false
         },
         {
             function:changeBaseSalary,
             value:base_salary,
-            title:'Base Salary'
+            title:'Base Salary',
+            required:true
         },
     ]
 
@@ -497,17 +546,82 @@ const [data,setData]=useState([])
         }
     }
 const edit=()=>{
+    let formData={"name": name,
+    "father_name": father_name,
+    "aadhar_no": aadhar_no,
+    "pan_no": pan_no,
+    "local_address": local_address,
+    "permanent_address": permanent_address,
+    "emergency_no": emergency_mobile_no,
+    "phone": mobile_no,
+    "dob": dob,
+    "marital_status": marital_status,
+    "gender": gender,
+    "qualification": qualification,
+    "store_department_id": section,
+    "designation_id": designation,
+    "department_id": department,
+    "hiring_date_time": lead_date,
+    "lead_from": hiring_from,
+    "head_employee_id": head_employee,
+    "hired_by_employee_id": hiredBy,
+    "location": job_location,
+    "bank_name": bank_name,
+    "branch": branch,
+    "ifsc": ifsc,
+    "account_number": account_no,
+    "epf_no": epf,
+    "esi_no": esi,
+    "role_id": designation,
+    "uan_no": uan_no,
+    "fine_management": fine_mgmt === 'Yes' ? 1 : 0,
+    "min_wages_as_per_rule": min_wages,
+    "sub_type": mode_of_pay,
+    "type": emp_type,
+    "base_salary": base_salary,
+    "floor_id": floor,
+    "store_id": store,
+    "week_off":week_off,
+    "supervisor_id":superVisor,
+}
+if(download.length>0){
+    formData.photo=download[0]
     
+}
+if(download.length>1){
+    formData.document=download.filter((data, index) => {
+        return index !== 0
+    })
+
+    
+}
+    axios.patch(url+'api/editEmployee/'+empId,{
+        
+       ...formData
+
+    },{headers}).then((response)=>{
+        if(response.status===200){
+            navigate('/employee_details')
+        }
+    })
 }
 
     return (
         <React.Fragment>
             <Heading heading={parameter.id ? 'Edit Employee' : 'Add Employee'} />
+            <ToastContainer></ToastContainer>
             <StepBar value={num} />
-            <div className={classes.rendered_page}>
+           
+            <form className={classes.rendered_page} onSubmit={(event)=>incNum(event)} >
                 {renderPage(num)}
-            </div>
-            <BottomButtonContainer cancel={'Back'} approve={'Continue'} func={true} func2={incNum} cancelRequests={decNum} />
+                <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> decNum(event)  }>back</button>
+      <button type={'submit'}  className={classes.accept} >Continue</button>
+    </div>
+            
+            </form>
+          
         </React.Fragment>
     )
 }

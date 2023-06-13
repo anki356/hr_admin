@@ -15,6 +15,7 @@ import AddAdvanceModal from '../../Components/AllModals/AddAdvanceModal'
 
 const Advance = () => {
   const url = "http://localhost:9000/"
+  
   // Here is our data for tile in the page
   const [date, setDate] = useState(null)
   const [data, setData] = useState([])

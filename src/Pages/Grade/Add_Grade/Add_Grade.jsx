@@ -6,7 +6,8 @@ import GradeRangeSlider from '../../../Components/GradeRangeSlider/GradeRangeSli
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
 import { useState } from 'react'
 import Cookies from 'universal-cookie'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 
@@ -77,6 +78,7 @@ const [employee_id,setEmployeeId]=useState(null)
   }
   function add(){
     const headers={"Authorization":"Bearer "+token}
+    
     axios.post(url+"api/addGradesForFI",{
 "employee_id":employee_id,
 "grade_1st":grade_1st,

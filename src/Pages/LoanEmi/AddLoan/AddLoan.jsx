@@ -11,6 +11,9 @@ import InpFile from '../../../Components/InpFile/InpFile'
 import axios from 'axios'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 import { useNavigate, useLocation } from 'react-router-dom'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddLoan = () => {
     const navigate = useNavigate()
     const Location = useLocation()
@@ -104,6 +107,30 @@ const AddLoan = () => {
     function add(e) {
         e.preventDefault()
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
+        let requiredFields=[]
+        if(employee_id===null){
+requiredFields.push("Employee ID")
+        }
+        
+        if(amount===null){
+requiredFields.push("Amount")
+        }
+        if(tenure===null){
+requiredFields.push("Tenure")
+        }
+        if(document===null){
+            requiredFields.push("Document")
+        }
+        if(month===null){
+            requiredFields.push("Month")
+        }
+        if(fieldValues.length===0){
+            requiredFields.push("Amount")
+        }
+
+
+       
+if(requiredFields.length===0){
         axios.post(url + "api/addLoan", {
             "employee_id": employee_id,
             "date": moment().format("YYYY-MM-DD HH:mm:ss"),
@@ -123,7 +150,19 @@ const AddLoan = () => {
             }
         })
 
+    }else{
+        let arrayString=''
+        requiredFields.forEach((data,index)=>{
+            if (index!==requiredFields.length-1){
+                arrayString+=data+","
+            }
+            else{
+                arrayString+=data
+            }
+        })
+        toast("Following Fields are required " +arrayString)
     }
+}
 
 
     const recallHandler = () => {
@@ -133,7 +172,9 @@ const AddLoan = () => {
     }
     return (
         <React.Fragment>
-            <Heading heading={'Add Loan'} /><ExpenseSearchBar func={searchHandler} />
+            <Heading heading={'Add Loan'} />
+            <ToastContainer></ToastContainer>
+            <ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
             <form className={classes.form}>
                 <LabeledInput id={'loan'} title={'Loan'} img={false} func2={setAmount} />
@@ -171,7 +212,7 @@ const AddLoan = () => {
                 </div>
                 <div className={classes.file_con}>
                     <h3 className={classes.file_con_label}>Attach File</h3>
-                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} />
+                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} id={'file'} />
                 </div>
 
                 {fieldValues.map((value, index) => (

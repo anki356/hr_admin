@@ -10,7 +10,7 @@ import Cookies from 'universal-cookie'
 import useHttp from '../../../Hooks/use-http'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
-
+import { Link } from 'react-router-dom'
 const employee_data = [{
   "title": "Electrician",
   "value": "Royall"
@@ -172,6 +172,10 @@ window.location.reload(false)
         {
           title: 'Head Approval',
           value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'NO'
+        },{
+          
+          title: 'Request Date',
+          value: leaveDetails[0].date.split("T")[0].split("-").reverse().join("-")
         }
       ])
       if(leaveDetails[0].document!==null){
@@ -222,10 +226,9 @@ window.location.reload(false)
   const loan_table_headings = [
     { heading: 'Loan Amount' },
     { heading: 'Tenure' },
-    { heading: 'Start Month' },
-    { heading: 'Action' }
+    { heading: 'Start Month' }
   ]
-  const loan_table_keys = ['amount', 'month', 'status',]
+  const loan_table_keys = ['amount', 'tenure', 'start_month',]
   return (
     <React.Fragment>
       <Heading heading={'Loan Approvals'} />
@@ -238,7 +241,7 @@ window.location.reload(false)
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={false} />
       <br /><br />
-      <div className={classes.container}>
+      {/* <div className={classes.container}>
         <div>
           <div>Loan Amount</div>
           <div>{loanData[0]?.amount}</div>
@@ -255,9 +258,11 @@ window.location.reload(false)
           <div>Month</div>
           <div>{monthArray[loanEMIData[0]?.month]}</div>
         </div>
-      </div>
+      </div> */}
       <br />
-      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys}data={loanData} height={true} />
+      <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
+      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
+     
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )

@@ -34,13 +34,15 @@ const LabeledInput = (props) => {
   // const returnValue = 
 
   return (
+      
     <div className={`${classes.input_div} ${props.cls ? classes.wd50 : ''}`} style={props.mr ? { marginRight: '0' } : {}}>
       <label htmlFor={props.id}>{props.title}</label>
-      <input type={inputType} placeholder={props.ph} id={props.id} step={1} value={props.value ? props.value : value} disabled={props?.disabled} onChange={valueHandler} />
+      <input type={inputType} required={props?.required} placeholder={props.ph} id={props.id} step={1} value={props.value ? props.value : value} disabled={props?.disabled} onChange={valueHandler} />
       {props.img === false ? '' :
         <img src={vec} className={classes.img2} alt="" />
       }
     </div>
+     
 
   )
 }

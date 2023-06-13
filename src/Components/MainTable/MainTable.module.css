@@ -62,8 +62,7 @@
 .name_feild {
   color: #96503f !important;
   font-weight: 500;
-  text-decoration: underline;
-  cursor: pointer;
+  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -101,6 +100,7 @@
 }
 
 .attendence {
+  
 }
 .present,
 .loan_req {

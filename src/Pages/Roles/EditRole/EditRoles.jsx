@@ -77,7 +77,7 @@ navigate(-1)
     }
     return (
         <React.Fragment>
-            <Heading heading='View Details' />
+            <Heading heading='Edit Roles' />
             <div className={classes.container}>
                 {inputs.map((element, index) => (
                     <LabeledInput title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>

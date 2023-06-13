@@ -5,16 +5,21 @@ import useHttp from '../../../Hooks/use-http'
 import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 import Heading from '../../../Components/Heading/Heading'
+import classes from './LoanApprovals.module.css'
 const LoanEMIDetails = () => {
 const {id}=useParams()
 const cookies=new Cookies()
 const token=cookies.get('token')
 const [loanEMIData,setLoanEMIData]=useState([])
+const [loanData,setLoanData]=useState([])
 const headers = { "Authorization": "Bearer " + token }
+
 const url = "http://localhost:9000/"
+const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 useEffect(()=>{
 axios.get(url + "api/getLoan?id=" + id,{headers}).then((response)=>{
-    const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    
+    setLoanData(response.data)
     response.data[0].loan_repayment.forEach(element => {
         element.month=monthArray[element.month]
     });
@@ -30,15 +35,39 @@ setLoanEMIData(response.data[0].loan_repayment)
 })
 },[])
 const table_headings = [
-    { heading: 'Loan Amount' },
+    { heading: 'EMI Amount' },
     { heading: 'Month' },
     { heading: 'Status' }
   ]
 const tableKeys=['amount','month','status','restructure']
+const restructureLoan = (month) => {
+
+
+  const headers = { "Authorization": "Bearer " + token }
+  axios.post("http://localhost:9000/api/restructureLoans", {
+    loan_id: id,
+    month: month
+  }, { headers }).then((response) => {
+if(response){
+window.location.reload(false)
+}
+  })
+
+}
 return(
     <React.Fragment>
           <Heading heading={'Loan EMI Details'} />
-         <MainTable headings={table_headings} keys={tableKeys} data={loanEMIData} height={false} />
+          <div className={classes.container}>
+                <div className={classes.container_heading}>Loan Amount</div>
+                <div>{loanData[0]?.amount}</div>
+                <div className={classes.container_heading}>Tenure</div>
+                <div>{loanData[0]?.tenure}</div>
+                <div className={classes.container_heading}>Approval Status</div>
+                <div>{loanData[0]?.status}</div>
+                <div className={classes.container_heading}>Start Month</div>
+                <div>{loanEMIData[0]?.month}</div>
+            </div>
+         <MainTable restructureLoan={restructureLoan} headings={table_headings} keys={tableKeys} data={loanEMIData} height={false} />
     </React.Fragment>
 )
 

@@ -15,7 +15,7 @@ import BottomButtonContainer from '../../../Components/BottomButtonContainer/Bot
 import FullCalendar from '../../../Components/FullCalender/FullCal'
 import FullCal from '../../../Components/FullCalender/FullCal'
 import OSD_Charts from './OSD_Charts'
-
+import IncrementModal from "../../../Components/AllModals/IncrementModal"
 import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import { useNavigate, useParams } from 'react-router-dom';
 import useHttp from '../../../Hooks/use-http'
@@ -23,7 +23,7 @@ import Cookies from 'universal-cookie'
 import moment from 'moment-timezone'
 import axios from 'axios'
 const Tile = ({ date, view }) => {
-
+  
   const CurrentDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getUTCFullYear()}`
   switch (date.getDay()) {
     case 0:
@@ -66,8 +66,15 @@ const OverallSalaryDetails = () => {
   const [totalFine, setTotalFine] = useState(0)
 const [emp_id,setEmpID]=useState(null)
 const [salary,setSalary]=useState([])
-
+const [newval, setNewVal] = useState(false)
+  const [obj, setObj] = useState({})
   const { id } = useParams()
+  const [employee_details,setEmployeeDetails]=useState([])
+  const changeModalState = ([val, element]) => {
+   
+    setNewVal(val)
+    setObj(element)
+  }
   useEffect(()=>{
 
     setArrData( attendanceData.map((element, index) => {
@@ -112,6 +119,7 @@ const [salary,setSalary]=useState([])
       }
     }
     const listEmployeeDetails = (employeeDetails) => {
+      setEmployeeDetails(employeeDetails.employeesResult[0])
       setDivData([{
         title: "Name",
         value: employeeDetails.employeesResult[0].name
@@ -306,6 +314,8 @@ function cancel(){
   return (
     <React.Fragment>
       <Heading heading={'Salary Details'} />
+      <button className={classes.salary_history_btn} onClick={()=>changeModalState([true,employee_details])}>Increment</button>
+      <IncrementModal value={newval} setval={setNewVal} Obj={obj} ></IncrementModal>
       <DetailsDivContainer data={div_data} />
       <br /><br />
       <div className={classes.calender_container}>

@@ -2,10 +2,42 @@ import classes from './MainTable.module.css'
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import HoverableTableActions from '../HoverableTableActions/HoverableTableActions'
-
+import { CSVLink } from 'react-csv';
 import DownloadIcon from '../../assets/download.png';
-const MainTable = (props) => {
 
+const MainTable = (props) => {
+    const ExportButton = ({ data }) => {
+        // Transform data into CSV format
+       
+        let csvData=[]
+        if(data.length>0){
+            console.log(data)
+            
+             data.forEach((row,index) =>{let keyArray=Object.keys(row)
+                
+if(index===0){
+    let mainArray=[]
+    keyArray.forEach((key)=>{
+        mainArray.push(key)
+    })
+    csvData.push(mainArray)
+}
+
+let array=[]
+                keyArray.forEach((key)=>{
+                    array.push(row[key])
+                })
+                csvData.push(array)
+               });
+               console.log(csvData)
+        }
+      
+        return (
+          <CSVLink data={csvData} filename={"data.csv"}>
+            Export to Excel
+          </CSVLink>
+        );
+      };
     // const [rows, setRows] = useState(5)
     const location = useLocation();
     const tableHeadings = props.headings
@@ -150,10 +182,13 @@ const MainTable = (props) => {
                 return val
         }
     }
-
+   
+      
     return (
-        <div className={classes.table_container}>
 
+       
+        <div className={classes.table_container}>
+  <ExportButton data={tableData} />
             <div style={{ width: props.wd }} className={` ${props.height ? classes.height : ''}`}>
                 <table className={`${classes.table} ${props.wd ? classes.spl_t : ''}`}>
                     <thead>
@@ -229,7 +264,7 @@ const MainTable = (props) => {
                                 {
                                     props.Lnk4 === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} t3={props.t3} link2={props.link2} link1={props.link1} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} t3={props.t3} link2={props.link2+"/"+val.id} link1={props.link1+"/"+val.id} />
                                         </td>
                                         : null
                                 }

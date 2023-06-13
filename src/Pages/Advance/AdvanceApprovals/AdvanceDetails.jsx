@@ -14,6 +14,7 @@ import axios from 'axios'
 
 
 const AdvanceDetails = () => {
+  const [status,setStatus]=useState(null)
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const navigate = useNavigate()
@@ -58,6 +59,7 @@ const AdvanceDetails = () => {
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
+      setStatus(leaveDetails[0].status)
       console.log('here is our advance details', leaveDetails)
       setLeaveInfo([
         {
@@ -145,6 +147,12 @@ data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
           <div>
            {reason}
+          </div>
+        </div>
+        <div >
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
+          <div>
+           {status}
           </div>
         </div>
       </div>

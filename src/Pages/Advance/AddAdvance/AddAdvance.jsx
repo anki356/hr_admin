@@ -11,6 +11,8 @@ import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 import Heading from '../../../Components/Heading/Heading'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddAdvanceModal = (props) => {
     const url = "http://localhost:9000/"
     const cookies = new Cookies();
@@ -101,6 +103,21 @@ setNoData(true)
         // console.log(document);
 
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
+        let requiredFields=[]
+        if(employee_id===null){
+requiredFields.push("Employee ID")
+        }
+        
+        if(advance===null){
+requiredFields.push("Amount")
+        }
+       
+        if(document===null){
+            requiredFields.push("Document")
+        }
+        if(requiredFields.length===0){
+
+
         axios.post(url + "api/addAdvance", {
             employee_id: employee_id,
             date: moment().format("YYYY-MM-DD"),
@@ -119,12 +136,26 @@ setNoData(true)
             }
         })
     }
+    else{
+        let arrayString=''
+        requiredFields.forEach((data,index)=>{
+            if (index!==requiredFields.length-1){
+                arrayString+=data+","
+            }
+            else{
+                arrayString+=data
+            }
+        })
+        toast("Following Fields are required " +arrayString)
+    }
+    }
 
 
 
     return (
         <React.Fragment>
-            <Heading heading={'Add Advance'} /><ExpenseSearchBar func={searchHandler} />
+            <Heading heading={'Add Advance'} />
+            <ToastContainer></ToastContainer><ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
             <form className={classes.form}>
                 <LabeledInput id={'advance'} title={'Advance'} img={false} func2={setAdvance} />

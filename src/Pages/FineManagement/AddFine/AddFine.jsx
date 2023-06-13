@@ -11,7 +11,8 @@ import InpFile from '../../../Components/InpFile/InpFile'
 import axios from 'axios'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 import { useNavigate, useLocation } from 'react-router-dom'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import useHttp from '../../../Hooks/use-http'
 const AddLoan = () => {
     const navigate = useNavigate()
@@ -19,8 +20,8 @@ const AddLoan = () => {
     const url = "http://localhost:9000/"
     const [employee_data, setEmployeeData] = useState([])
     const [fileLabel, setFileLabel] = useState('')
-    const [fine, setFine] = useState('')
-    const [text, setText] = useState('')
+    const [fine, setFine] = useState(null)
+    const [text, setText] = useState(null)
     const [searchtext, setSearchText] = useState('')
     const [fieldValues, setFieldValues] = useState([]);
     const [noData, setNoData] = useState(false)
@@ -35,43 +36,49 @@ const AddLoan = () => {
         const headers = { "Authorization": "Bearer " + token }
         axios.get(url + "api/getEmployeeDetails?employee_query=" + data, { headers }).then((response) => {
             if (response.data.employeesResult.length > 0) {
-
-            setEmployeeId(response.data.employeesResult[0].id)
-            setEmployeeData([
-                {
-                    title:"Name",
-                    value:response.data.employeesResult[0].name
-                  },
-                {
-                    title:"Employee ID",
-                    value:response.data.employeesResult[0].empID
-                  },
-                  {
-              title:'SuperVisor Name',
-              value:response.data.headEmployeesResult[0]?.head_employee_name
-                  },{
-                    title:'Designation',
-              value:response.data.employeesResult[0].role_name
-                  },,{
-                    title:'Department',
-              value:response.data.employeesResult[0].department_name
-                  },{
-                    title:'Floor Name',
-              value:response.data.employeesResult[0].floor_name
-              
-                    }, {
-                      title: 'Gender',
-                      value: response.data.employeesResult[0].gender
-              
-                    }, {
-                      title: 'Store name',
-                      value: response.data.employeesResult[0].store_name
-                    }, {
-                      title: 'Store Department',
-                      value: response.data.employeesResult[0].store_department_name
-                    }
-            ])
+if(response.data.employeesResult[0].fine_management===1){
+    setEmployeeId(response.data.employeesResult[0].id)
+    setEmployeeData([
+        {
+            title:"Name",
+            value:response.data.employeesResult[0].name
+          },
+        {
+            title:"Employee ID",
+            value:response.data.employeesResult[0].empID
+          },
+          {
+      title:'SuperVisor Name',
+      value:response.data.headEmployeesResult[0]?.head_employee_name
+          },{
+            title:'Designation',
+      value:response.data.employeesResult[0].role_name
+          },,{
+            title:'Department',
+      value:response.data.employeesResult[0].department_name
+          },{
+            title:'Floor Name',
+      value:response.data.employeesResult[0].floor_name
+      
+            }, {
+              title: 'Gender',
+              value: response.data.employeesResult[0].gender
+      
+            }, {
+              title: 'Store name',
+              value: response.data.employeesResult[0].store_name
+            }, {
+              title: 'Store Department',
+              value: response.data.employeesResult[0].store_department_name
+            }
+    ])
     setNoData(false)
+}
+else{
+    setNoData(true)  //toastify
+}
+          
+   
 }
 else{
 setNoData(true)
@@ -104,10 +111,36 @@ setNoData(true)
 
     const formHandler = (e) => {
         e.preventDefault()
+        let requiredFields=[]
+        if(employee_id===null){
+requiredFields.push("Employee ID")
+        }
+        
+        if(fine===null){
+requiredFields.push("Fine Amount")
+        }
+       
+        if(text===null){
+            requiredFields.push("Reason")
+        }
+        if(requiredFields.length===0){
         sendRequest(reqConfig)
         setText('')
         cancel()
         setEmployeeData([])
+        }else{
+            let arrayString=''
+            requiredFields.forEach((data,index)=>{
+                if (index!==requiredFields.length-1){
+                    arrayString+=data+","
+                }
+                else{
+                    arrayString+=data
+                }
+            })
+            toast("Following Fields are required " +arrayString)
+        }
+       
     }
 
 
@@ -121,7 +154,9 @@ setNoData(true)
     }
     return (
         <React.Fragment>
-            <Heading heading={'Add Fine'} /><ExpenseSearchBar func={searchHandler} />
+            <Heading heading={'Add Fine'} />
+            <ToastContainer></ToastContainer>
+            <ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
             <form className={classes.form}>
 

@@ -12,7 +12,10 @@ import Cookies from 'universal-cookie'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import useHttp from '../../../Hooks/use-http'
-useHttp
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const AddTransfer = () => {
   const cookies = new Cookies()
   const token = cookies.get('token')
@@ -26,9 +29,9 @@ const AddTransfer = () => {
     const [floors, setFloors] = useState([])
     const [stores, setStores] = useState([])
     const [storeDepartments, setStoreDepartments] = useState([])
-    const [selectedFloor, setSelectedFloor] = useState('')
-    const [selectedStore, setSelectedStore] = useState('')
-    const [selectedStoreDepartments, setSelectedStoreDepartments] = useState('')
+    const [selectedFloor, setSelectedFloor] = useState(null)
+    const [selectedStore, setSelectedStore] = useState(null)
+    const [selectedStoreDepartments, setSelectedStoreDepartments] = useState(null)
     const [floor_id_from, setFloorIdFrom] = useState('')
     const [store_id_from, setStoreIdFrom] = useState('')
     const [store_department_id_from, setStoreDeptIdFrom] = useState('')
@@ -116,6 +119,22 @@ const [employee_id,setEmployeeId]=useState(null)
      },[])
 function add(){
     const headers={"Authorization":"Bearer "+token}
+    let requiredFields=[]
+    if(employee_id===null){
+requiredFields.push("Employee ID")
+    }
+    
+    if(selectedFloor===null){
+requiredFields.push("Floor")
+    }
+   
+    if(selectedStoreDepartments===null){
+        requiredFields.push("Store Department")
+    }
+    if(selectedStore===null){
+        requiredFields.push("Department")
+    }
+    if(requiredFields.length===0){
     axios.post(url+"api/addTransferWithStoreId",{
         "employee_id":employee_id,
         "floor_id_to":selectedFloor,
@@ -129,6 +148,18 @@ if(response){
     navigate(-1) 
 }
     })
+}else{
+    let arrayString=''
+        requiredFields.forEach((data,index)=>{
+            if (index!==requiredFields.length-1){
+                arrayString+=data+","
+            }
+            else{
+                arrayString+=data
+            }
+        })
+        toast("Following Fields are required " +arrayString)
+}
    
 }
 function cancel(){
@@ -142,6 +173,7 @@ function cancel(){
     return (
         <React.Fragment>
             <Heading heading={'Add Transfer'} />
+            <ToastContainer></ToastContainer>
             <ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
             <div className='uni_container'>

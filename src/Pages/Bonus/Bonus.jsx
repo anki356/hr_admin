@@ -49,7 +49,7 @@ const tableHeading = [
 ]
 const tableKeys = ['employee_name', 'basic_salary', 'financial_year', 'amount', 'pay_date']
 
-
+const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 const Bonus = () => {
   const [newval, setNewVal] = useState(false)
   const [obj, setObj] = useState({})
@@ -146,7 +146,7 @@ if(employeeFilter.store_name!=''){
             }
                     })
                     data.financial_year=data.created_on.split("T")[0].split("-")[0]
-                    data.pay_date=data.created_on.split("T")[0].split("-")[2]
+                    data.pay_date=data.created_on.split("T")[0].split("-").reverse().join("-").substring(0,5)
         }
        
       })

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from "react-router-dom";
 import AddEmployee from './Pages/AddEmployee/AddEmployee';
 import Advance from './Pages/Advance/Advance';
@@ -64,6 +64,7 @@ import FineDetail from './Pages/FineManagement/FineApprovals/FineDetails';
 import LoanEMIDetails from './Pages/LoanEmi/LoanApprovals/LoanEMIDetails';
 import EMIAll from "./Pages/LoanEmi/LoanApprovals/EMIAll"
 import EmployeeTransferDetails from './Pages/EmployeeTransfer/EmployeeTransferDetails';
+import RoleDetails from './Pages/Roles/RoleDetails';
 const App = () => {
 
   const urlPath = useLocation()
@@ -142,6 +143,7 @@ const App = () => {
               <Route exact path="/roles" element={<Roles />} />
               <Route exact path="/add_roles" element={<AddRoles />} />
               <Route exact path="/edit_roles/:id" element={<EditRoles />} />
+              <Route exact path="/role_details/:id" element={<RoleDetails />} />
 
 
               <Route exact path="/salary_summary" element={<SalarySummary />} />
@@ -162,7 +164,7 @@ const App = () => {
               <Route exact path='/download/:id' element={<Document />} />
 
               {/* Extra Pages */}
-              <Route exact path="/fine_details" element={<FineDetails />} />
+              <Route exact path="/fine_details/:id" element={<FineDetails />} />
               <Route exact path="/total_commission" element={<TotalCommission />} />
             </Routes>
           </main>

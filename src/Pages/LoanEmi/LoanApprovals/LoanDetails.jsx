@@ -22,20 +22,7 @@ const LoanDetails = () => {
   const cookies = new Cookies();
   const navigate = useNavigate()
   const token = cookies.get('token')
-  const restructureLoan = (month) => {
-
-
-    const headers = { "Authorization": "Bearer " + token }
-    axios.post("http://localhost:9000/api/restructureLoans", {
-      loan_id: id,
-      month: month
-    }, { headers }).then((response) => {
-if(response){
-window.location.reload(false)
-}
-    })
-
-  }
+ 
   const url = "http://localhost:9000/"
 
   const [data, setData] = useState([])
@@ -50,7 +37,7 @@ window.location.reload(false)
   const [reason, setReason] = useState(null)
   const [loanEMIData, setLoanEMIData] = useState([])
   const [loanData, setLoanData] = useState([])
-
+const [status,setStatus]=useState(null)
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
       setDivData([{
@@ -80,7 +67,7 @@ window.location.reload(false)
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
-
+setStatus(leaveDetails[0].status)
       let loan_emis = leaveDetails[0].loan_repayment.map((data) => data.amount)
       let loan_string = ''
       loan_emis.forEach((data, index) => {
@@ -193,6 +180,12 @@ window.location.reload(false)
            {reason}
           </div>
         </div>
+        <div >
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
+          <div>
+           {status}
+          </div>
+        </div>
       </div>
       <h3 className='uni_heading'>Attached File</h3>
       <MainTable headings={tableHeading} keys={tableKeys} data={data} height={false} />
@@ -218,7 +211,7 @@ window.location.reload(false)
 
       <br />
       <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
-      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
+      <MainTable  headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
      
     </React.Fragment>
   )

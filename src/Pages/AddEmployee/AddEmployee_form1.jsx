@@ -14,10 +14,12 @@ const AddEmployee_form1 = (props) => {
     const [marital_status,setMaritalStatus]=useState(null)
   return (
     <React.Fragment>
+      
       {props.formData.map((element,index)=>(
-        <LabeledInput key={index} cls={'wd50'} img={false} title={element.title} value={element.value} func2={(data)=>element.function(data)} type={element.type ? element.type :'text'} id={element.title} />
+        <LabeledInput required={true} key={index} cls={'wd50'} img={false} title={element.title} value={element.value} func2={(data)=>element.function(data)} type={element.type ? element.type :'text'} id={element.title} />
       ))}
-      <LabeledSelect cls={'wd50'}  selectedVal={props.changeGender} value={props.genderValue} img={false} title={'Gender'} id={'gender'} data={[{name:'Male'},{name:'Female'}]}   /> 
+      <LabeledSelect required={true} cls={'wd50'}  selectedVal={props.changeGender} value={props.genderValue} img={false} title={'Gender'} id={'gender'} data={[{name:'Male'},{name:'Female'}]}   /> 
+     
     </React.Fragment>
   )
 }

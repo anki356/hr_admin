@@ -10,23 +10,25 @@ import Img from '../../../assets/shop.png'
 import { useNavigate } from 'react-router-dom'
 import LabeledSelect from '../../../Components/LabeledSelect/LabeledSelect'
 import InpFile from '../../../Components/InpFile/InpFile'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddInterview = () => {
     const url = "http://localhost:9000/"
     const navigate = useNavigate()
     const cookies = new Cookies();
     const token = cookies.get('token')
-    const [name, setName] = useState([])
-    const [father_name, setfatherName] = useState([])
-    const [designation, setDesignation] = useState([])
-    const [hired_by, setHiredBy] = useState([])
-    const [reference, setReference] = useState([])
+    const [name, setName] = useState(null)
+    const [father_name, setfatherName] = useState(null)
+    const [designation, setDesignation] = useState(null)
+    const [hired_by, setHiredBy] = useState(null)
+    const [reference, setReference] = useState(null)
 
     const [interviewData, setInterviewData] = useState([])
-    const [interviewDate, setInterviewDate] = useState([])
-    const [interviewer, setInterviewer] = useState([])
-    const [salary, setSalary] = useState([])
-    const [dept, setDept] = useState([])
-    const [exp, setExp] = useState([])
+    const [interviewDate, setInterviewDate] = useState(null)
+    const [interviewer, setInterviewer] = useState(null)
+    const [salary, setSalary] = useState(null)
+    const [dept, setDept] = useState(null)
+    const [exp, setExp] = useState(null)
     const [remarks, setRemarks] = useState(null)
     const [fileLabel, setFileLabel] = useState([])
     const [download, setDownload] = useState([])
@@ -140,6 +142,40 @@ download.forEach((data)=>{
     obj.download.push(data)
 })
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
+        let requiredFields=[]
+        if(name===null){
+    requiredFields.push("Name")
+        }
+        
+        if(interviewer===null){
+    requiredFields.push("Interviewer")
+        }
+       
+        if(salary===null){
+            requiredFields.push("Salary Expected")
+        }
+        if(exp===null){
+            requiredFields.push("Experience")
+        }
+        if(designation===null){
+            requiredFields.push("Designation")
+        }
+        if(reference===null){
+            requiredFields.push("Reference")
+        }
+        if(interviewDate===null){
+            requiredFields.push("Interview Date time")
+        }
+        if(dept===null){
+            requiredFields.push("Department")
+        }
+        if(hired_by===null){
+            requiredFields.push("Hired by")
+        }
+        if(download.length<2){
+            requiredFields.push("Documents")
+        }
+        if(requiredFields.length===0){
         axios.post(url + "api/addInterview", {
            "fileLength":obj.download.length,
             "download":obj.download,
@@ -172,7 +208,18 @@ download.forEach((data)=>{
                 cancel()
             }
         })
-
+    }else{
+        let arrayString=''
+        requiredFields.forEach((data,index)=>{
+            if (index!==requiredFields.length-1){
+                arrayString+=data+","
+            }
+            else{
+                arrayString+=data
+            }
+        })
+        toast("Following Fields are required " +arrayString)
+    }
     }
     function cancel() {
         navigate(-1)
@@ -194,6 +241,7 @@ download.forEach((data)=>{
     return (
         <React.Fragment>
             <Heading heading={'Add Interview'} />
+            <ToastContainer></ToastContainer>
             <div className={classes.container}>
                 {inputs.map((element, index) => {
                     return element.title !== 'Interviewer Name' && element.title !== 'Reference' & element.title !== 'Designation Interview For' & element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledInput func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} /> : element.title !== 'Reference' && element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='interviewer' title={'Interviewer'} data={interviewData} /> : element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='reference' title={'Reference'} data={employeeData} /> : element.title !== 'Hired By' && element.title !== 'Department'&& element.title !== 'Interview Date' ?
@@ -216,17 +264,17 @@ download.forEach((data)=>{
 
                 <div className={classes.file_div}>
                     <h5 >Upload Document</h5>
-                    <InpFile label={fileLabel[0]} labelFunc={(data) => newLabel(data, 0)} fileHandler={(data) => newFile(data, 0)} />
+                    <InpFile id={0} label={fileLabel[0]} labelFunc={(data) => newLabel(data, 0)} fileHandler={(data) => newFile(data, 0)} />
                 </div>
                 <div className={classes.file_div}>
                     <h5 >Upload Document 2</h5>
-                    <InpFile label={fileLabel[1]} labelFunc={(data) => newLabel(data, 1)} fileHandler={(data) => newFile(data, 1)} />
+                    <InpFile label={fileLabel[1]} id={1} labelFunc={(data) => newLabel(data, 1)} fileHandler={(data) => newFile(data, 1)} />
                 </div>
                 <div className={classes.inp_con}>
                     {arr.map((element, index) => (
                         <div className={classes.file_div}>
                             <h5 >Upload Additional Document {element.id}</h5>
-                            <InpFile label={fileLabel[index + 2]} labelFunc={(data) => newLabel(data, index + 2)} fileHandler={(data) => newFile(data, index+2)} />
+                            <InpFile label={fileLabel[index + 2]} id={index+1} labelFunc={(data) => newLabel(data, index + 2)} fileHandler={(data) => newFile(data, index+2)} />
                         </div>
                     ))}
                 </div>

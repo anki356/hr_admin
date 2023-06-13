@@ -11,7 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const FineDetails = () => {
-
+  const [status,setStatus]=useState(null)
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const navigate = useNavigate()
@@ -57,6 +57,7 @@ const FineDetails = () => {
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
+      setStatus(leaveDetails[0].status)
       setLeaveInfo([
         {
           title: 'Fine Amount',
@@ -142,6 +143,12 @@ data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
           
         </div>
       </div>
+      <div >
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
+          <div>
+           {status}
+          </div>
+        </div>
       <MainTable headings={historyTableHeadings} keys={historyTableKeys} data={fineHistoryData} height={true} />
     </React.Fragment>
   )

@@ -16,6 +16,7 @@ import axios from 'axios'
 const AdvanceApprovals = () => {
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
+  
   const navigate = useNavigate()
   const token = cookies.get('token')
   const headers={"Authorization":"Bearer "+token}
@@ -60,6 +61,7 @@ const AdvanceApprovals = () => {
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)
     const listLeave = (leaveDetails) => {
       console.log('here is our advance details', leaveDetails)
+    
       setLeaveInfo([
         {
           title: 'Advance Amount',

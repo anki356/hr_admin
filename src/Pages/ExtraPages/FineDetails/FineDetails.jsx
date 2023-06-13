@@ -1,45 +1,80 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
 import Heading from '../../../Components/Heading/Heading'
 import MainTable from '../../../Components/MainTable/MainTable'
 import DetailsDivContainer from '../../../UI/DetailsDivContainers/DetailsDivContainer'
 import data from './data'
-
+import useHttp from '../../../Hooks/use-http'
+import Cookies from 'universal-cookie'
+import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import moment from 'moment'
 const FineDetails = () => {
+  const [div_data, setDivData] = useState([])
+  const { sendRequest: fetchEmployeeDetails } = useHttp()
+  const { sendRequest: fetchFine } = useHttp()
+  const[empId,setEmpId]=useState(null)
+  const [fine,setFine]=useState([])
+  const {id}=useParams()
+  const cookies = new Cookies();
+    const token = cookies.get('token')
+    const headers = { "Authorization": "Bearer " + token}
+  useEffect(()=>{
+    const url="http://localhost:9000/"
+    // if(token===null){
+    // navigate('/login')
+    // }
+    const headers={"Authorization":"Bearer "+token}
+    
+    
+    const listEmployee = (employeeDetails) => {
+      setDivData([{
+        title: "Name",
+        value: employeeDetails.employeesResult[0].name
+      }, {
+        title: 'SuperVisor Name',
+        value: employeeDetails.headEmployeesResult[0]?.head_employee_name
+      }, {
+        title: 'Designation',
+        value: employeeDetails.employeesResult[0].role_name
+      }, {
+        title: 'Floor Name',
+        value: employeeDetails.employeesResult[0].floor_name
 
-  const employee_data = [{
-    "title": "Electrician",
-    "value": "Royall"
-  }, {
-    "title": "Construction Manager",
-    "value": "Sayer"
-  }, {
-    "title": "Electrician",
-    "value": "Aliza"
-  }, {
-    "title": "Engineer",
-    "value": "Jemie"
-  }, {
-    "title": "Subcontractor",
-    "value": "Jacklin"
-  }, {
-    "title": "Subcontractor",
-    "value": "Garold"
-  }, {
-    "title": "Engineer",
-    "value": "Dorry"
-  }, {
-    "title": "Construction Expeditor",
-    "value": "Matias"
-  }, {
-    "title": "Subcontractor",
-    "value": "Genevieve"
-  }, {
-    "title": "Construction Foreman",
-    "value": "Catlin"
-  }]
+      }, {
+        title: 'Gender',
+        value: employeeDetails.employeesResult[0].gender
 
-  const tableKeys = ['date','day','fine','reason']
+      }, {
+        title: 'Store name',
+        value: employeeDetails.employeesResult[0].store_name
+      }, {
+        title: 'Store Department',
+        value: employeeDetails.employeesResult[0].store_department_name
+      }])
+      
+        setEmpId(employeeDetails.employeesResult[0].empID)
+  
+      }
+      
+      fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + id }, listEmployee)
+      const listFine=(Fine)=>{
+        console.log(Fine)
+        const dayArray=['Sunday','Monday','TuesDay','Wednesday','Thursday','Friday','Saturday']
+        Fine.forEach((data)=>{
+          console.log(moment())
+          let day=dayArray[moment(data.date).day()]
+          data.day=day
+        })
+        
+        setFine(Fine)
+        
+        
+      }
+      fetchFine({url:url+"api/getFineHistory?employee_id="+id},listFine)
+    },[])
+
+  const tableKeys = ['date','day','amount','reason']
   const tableHeading = [
     {heading:'Date'},
     {heading:'Day'},
@@ -50,10 +85,10 @@ const FineDetails = () => {
   return (
     <React.Fragment>
       <Heading heading={'Total Fines'} />
-      <DetailsDivContainer data={employee_data} />
+      <DetailsDivContainer data={div_data} />
       <br />
       <h3 className='uni_heading'>Fine Table</h3>
-      <MainTable height={true} headings={tableHeading} keys={tableKeys} data={data}  />
+      <MainTable height={true} headings={tableHeading} keys={tableKeys} data={fine}  />
       <BottomButtonContainer cancel={'Back'} approve={'Download Summary'}  />
     </React.Fragment>
   )

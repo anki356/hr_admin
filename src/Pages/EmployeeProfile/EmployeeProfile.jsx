@@ -10,7 +10,7 @@ import EmployeeBarGraph from './EmployeeBarGraph/EmployeeBarGraph'
 import DownloadDocuments from './Tables/DownloadDocuments/DownloadDocuments'
 import IncrementHistory from './Tables/IncementHistory/IncrementHistory'
 import SalaryHistory from './Tables/SalaryHistory/SalaryHistory'
-
+import { Link } from 'react-router-dom'
 
 import Cookies from 'universal-cookie'
 import { Route, useParams } from 'react-router-dom'
@@ -94,13 +94,11 @@ const advance_table_headings = [
 ]
 const advance_table_keys = ['amount' , 'advance_status'  , 'payment_status' ]
 const loan_table_headings = [
-    {heading:'EMI'},
-    {heading:'Approval'},
-    {heading:'Month'},
-    {heading:'Status'},
-    {heading:'Restructure'},
-]
-const loan_table_keys = ['amount' , 'loan_status' , 'month' , 'status', ]
+    { heading: 'Loan Amount' },
+    { heading: 'Tenure' },
+    { heading: 'Start Month' }
+  ]
+  const loan_table_keys = ['amount', 'tenure', 'start_month',]
 
 const EmployeeProfile = () => {
     const cookies = new Cookies();
@@ -130,6 +128,7 @@ const restructureLoan=(month)=>{
 
 }
 const {id}=useParams()
+const [employee_id,setEmployeeId]=useState(id)
 useEffect(()=>{
      const token = cookies.get('token')
  const headers={"Authorization":"Bearer "+token}
@@ -264,14 +263,14 @@ data.forEach((d)=>{
     let loanThirdData=response.data.loanResult
     setLoanId(loanThirdData[0]?.id)
     let array=[]
-   loanThirdData.forEach((data)=>{
-if(data.status==='Paid'){
-data.restructure=false
-}
-else{
-data.restructure=true
-}
-   })
+//    loanThirdData.forEach((data)=>{
+// if(data.status==='Paid'){
+// data.restructure=false
+// }
+// else{
+// data.restructure=true
+// }
+//    })
   
     console.log(loanThirdData)
     setEMILoanData(loanThirdData)
@@ -288,7 +287,7 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
    },[])
     return (
         <React.Fragment>
-            <Heading heading={'Employee Profile'} />
+            <Heading heading={'Employee Profile'} Btn_link={'/edit_employee'} Btn={'Employee'} isEdit={true} id={id}/>
             <div className={`${classes.container} uni_container`}>
                 <div className={classes.container_left}>
                     <EmployeeActualProfile />
@@ -341,7 +340,7 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
             <br />
             <br />
             <h4 className={classes.h4_heading}>Loan</h4>
-            <div className={classes.container}>
+            {/* <div className={classes.container}>
                 <div className={classes.container_heading}>Loan Amount</div>
                 <div>{loanData[0]?.loan_amount}</div>
                 <div className={classes.container_heading}>Tenure</div>
@@ -350,9 +349,10 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
                 <div>{loanData[0]?.loan_status}</div>
                 <div className={classes.container_heading}>Month</div>
                 <div>{monthArray[loanData[0]?.month]}</div>
-            </div>
+            </div> */}
                               
-<MainTable  restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanEMIData}   />
+            <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
+      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
             <br /><br />
             <IncrementHistory data={IncrementData} />
 

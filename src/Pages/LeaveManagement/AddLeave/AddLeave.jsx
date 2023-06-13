@@ -11,6 +11,8 @@ import InpFile from '../../../Components/InpFile/InpFile'
 import axios from 'axios'
 import ExpenseSearchBar from '../../../Components/ExpenseSearchBar/ExpenseSearchBar'
 import { useNavigate,useLocation } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const AddLeave = () => {
     const navigate=useNavigate()
     const Location=useLocation()
@@ -100,19 +102,54 @@ setNoData(true)
     function add(e){
         e.preventDefault()
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-        axios.post(url + "api/addLeave", {
-            employee_id: employee_id,
-            from_date: from_date,
-            to_date: to_date,
-            download: document,
-            recall_head: recall_head,
-            head_approval: approvalHead 
-        }, { headers }).then((response)=>{
-    if(response){
+        let requiredFields=[]
+        if(employee_id===null){
+requiredFields.push("Employee ID")
+        }
+        if(from_date===null){
+requiredFields.push("From Date")
+        }
+        if(to_date===null){
+requiredFields.push("To date")
+        }
+        if(document===null){
+requiredFields.push("Download")
+        }
+       
+if(requiredFields.length===0){
+
+    axios.post(url + "api/addLeave", {
+        employee_id: employee_id,
+        from_date: from_date,
+        to_date: to_date,
+        download: document,
+        recall_head: recall_head,
+        head_approval: approvalHead 
+    }, { headers }).then((response)=>{
+if(response.data.status===200){
+    
+    navigate(-1) 
+}
+
+else {
+    toast("Leave of this date Already added")
+}
+    })
+}
+else{
+    let arrayString=''
+    requiredFields.forEach((data,index)=>{
+        if (index!==requiredFields.length-1){
+            arrayString+=data+","
+        }
+        else{
+            arrayString+=data
+        }
+    })
+    toast("Following Fields are required " +arrayString)
+}
         
-        navigate(-1) 
-    }
-        })
+       
        
     }
     
@@ -126,6 +163,7 @@ setNoData(true)
    <React.Fragment>
     <Heading heading={'Add Leave'} /><ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
+    <ToastContainer></ToastContainer>
     <form className={classes.form}>
         <LabeledInput type='date' title='Leave From' id='leave_from' img={false} func2={setFromDate}   />
         <LabeledInput type='date' title='Leave To' id='leave_to' img={false} func2={setToDate}   />
@@ -162,7 +200,7 @@ setNoData(true)
         </div> */}
         <div className={classes.file_con}>
             <h3 className={classes.file_con_label}>Attach File</h3>
-            <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} />
+            <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} id={0} />
         </div>
        
        

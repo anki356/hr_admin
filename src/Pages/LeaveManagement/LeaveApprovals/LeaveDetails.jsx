@@ -26,6 +26,8 @@ const LeaveDetails = () => {
   const [from_date, setFromDate] = useState(null)
   const [to_date, setToDate] = useState(null)
   const [reason, setReason] = useState(null)
+  const [status,setStatus]=useState(null)
+
   useEffect(() => {
     const listEmployeeDetails = (employeeDetails) => {
       setDivData([{
@@ -57,6 +59,7 @@ const LeaveDetails = () => {
     const listLeave = (leaveDetails) => {
       setFromDate(leaveDetails[0].from_date)
       setToDate(leaveDetails[0].to_date)
+      setStatus(leaveDetails[0].status)
       let from_date = leaveDetails[0].from_date
       let to_date = leaveDetails[0].to_date
       let from_day = moment(from_date).date()
@@ -147,6 +150,12 @@ const LeaveDetails = () => {
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
           <div>
            {reason}
+          </div>
+        </div>
+        <div >
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
+          <div>
+           {status}
           </div>
         </div>
       </div>

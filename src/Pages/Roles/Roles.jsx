@@ -25,18 +25,17 @@ const Roles = () => {
   const tableHeadings = [
     { heading: 'Role' },
     { heading: 'Store' },
-    { heading: 'Floor' },
-    { heading: 'Permission Modules' }
+    { heading: 'Floor' }
   ]
 
   const tableKeys = [
-    'role_name', 'store_name', 'floor_name', 'permission_modules'
+    'name', 'store_name', 'floor_name'
   ]
 
   return (
     <React.Fragment>
       <Heading heading={'Roles'} Btn={'Role'} Btn_link={'/add_roles'} />
-      <MainTable data={roles} Lnk06={true} headings={tableHeadings} keys={tableKeys} link3={'/det'} link2={'/edit_roles'} t1='View Details' t2='Edit' lnk2={true} link1={'false'} />
+      <MainTable data={roles} Lnk4={true} headings={tableHeadings} keys={tableKeys}  link2={'/edit_roles'} t1='View Details' t2='Edit'  link1={'/role_details'} />
     </React.Fragment>
   )
 }

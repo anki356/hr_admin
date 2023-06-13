@@ -25,9 +25,9 @@ const EmployeeActualProfile = () => {
     let to_date=moment().subtract(1,'month').endOf('month').format("YYYY-MM-DD")
       axios.get("http://localhost:9000/api/getGradeByEmployeeID?employee_id="+id+"&from_date="+from_date+"&to_date="+to_date+"&commission=3000",{headers}).then((response)=>{
      
-      if(response.data.length>0){
+      if(response.data.length>0&response.data[0].Total!==null){
 
-          setEmployeeGrade(response.data.total_grades/20)
+          setEmployeeGrade(response.data[0].Total/20)
         }
         
     })  
