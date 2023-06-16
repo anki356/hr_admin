@@ -36,7 +36,7 @@ const AddInterview = () => {
     const [roleData, setRoleData] = useState([])
     const [deptData, setDeptData] = useState([])
 
-   
+
 
     const [arr, setArr] = useState([])
     const newLabel = (data, index) => {
@@ -135,17 +135,17 @@ const AddInterview = () => {
     ]
     function add(e) {
         e.preventDefault()
-      
-let obj={}
-obj.download=[]
-download.forEach((data)=>{
-    obj.download.push(data)
-})
+
+        let obj = {}
+        obj.download = []
+        download.forEach((data) => {
+            obj.download.push(data)
+        })
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-      
+
         axios.post(url + "api/addInterview", {
-           "fileLength":obj.download.length,
-            "download":obj.download,
+            "fileLength": obj.download.length,
+            "download": obj.download,
             "name": name,
             "interviewer_employee_id": interviewer,
             "expected_salary": salary,
@@ -156,11 +156,11 @@ download.forEach((data)=>{
             "reference_id": reference,
             "date_time": interviewDate,
             "department_id": dept,
-            "hired_by_employee_id":hired_by
+            "hired_by_employee_id": hired_by
 
 
         }, { headers }).then((response) => {
-            if (response.status===200) {
+            if (response.status === 200) {
                 setName('')
                 setDept('')
                 setDesignation('')
@@ -175,7 +175,7 @@ download.forEach((data)=>{
                 cancel()
             }
         })
-    
+
     }
     function cancel() {
         navigate(-1)
@@ -184,7 +184,7 @@ download.forEach((data)=>{
 
         setDownload(prevInputs => [...prevInputs, data]);
     }
-    
+
     const increaseFile = () => {
         const newFileInput = {
             id: arr.length + 1,
@@ -200,15 +200,15 @@ download.forEach((data)=>{
             <ToastContainer></ToastContainer>
             <form className={classes.container} onSubmit={add}>
                 {inputs.map((element, index) => {
-                    return element.title !== 'Interviewer Name' && element.title !== 'Reference' & element.title !== 'Designation Interview For' & element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledInput required={true}  func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} /> : element.title !== 'Reference' && element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect required={true}  usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='interviewer' title={'Interviewer'} data={interviewData} /> : element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect   usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='reference' title={'Reference'} data={employeeData} /> : element.title !== 'Hired By' && element.title !== 'Department'&& element.title !== 'Interview Date' ?
+                    return element.title !== 'Interviewer Name' && element.title !== 'Reference' & element.title !== 'Designation Interview For' & element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledInput required={true} func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} /> : element.title !== 'Reference' && element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect required={true} usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='interviewer' title={'Interviewer'} data={interviewData} /> : element.title !== 'Designation Interview For' && element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='reference' title={'Reference'} data={employeeData} /> : element.title !== 'Hired By' && element.title !== 'Department' && element.title !== 'Interview Date' ?
 
-                        <LabeledSelect required={true} cls={true} mr={true} usingid={true} selectedVal={element.func2} select_id='designation_interview_for' title={'Designation Interview For'} data={roleData}  />
+                        <LabeledSelect required={true} cls={true} mr={true} usingid={true} selectedVal={element.func2} select_id='designation_interview_for' title={'Designation Interview For'} data={roleData} />
                         //  <select onChange={(e) => element.func2(e.target.value)} id='designation_interview_for' placeholder={'Designation Interview For'}  > {roleData.map((val, index) => (
                         //     <option key={index} value={val.id}>{val.role_name}</option>
                         // ))}</select> 
 
-                        : element.title !== 'Department'&& element.title !== 'Interview Date' ? <LabeledSelect required={true}  usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='hired_by' title={'Hired By'} data={interviewData} /> : element.title !== 'Interview Date'? <LabeledSelect required={true}  cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='department' title={'Department'} data={deptData}  usingid={true}/>:
-                        <LabeledInput required={true}  func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} type={element.type}/>
+                        : element.title !== 'Department' && element.title !== 'Interview Date' ? <LabeledSelect required={true} usingid={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='hired_by' title={'Hired By'} data={interviewData} /> : element.title !== 'Interview Date' ? <LabeledSelect required={true} cls={true} mr={true} selectedVal={element.func2} img={Img} select_id='department' title={'Department'} data={deptData} usingid={true} /> :
+                            <LabeledInput required={true} func2={element.func2} title={element.title} id={element.id} key={index} cls={true} img={false} type={element.type} />
                 }
 
 
@@ -220,17 +220,17 @@ download.forEach((data)=>{
 
                 <div className={classes.file_div}>
                     <h5 >Upload Document</h5>
-                    <InpFile id={0} required={true}  label={fileLabel[0]} labelFunc={(data) => newLabel(data, 0)} fileHandler={(data) => newFile(data, 0)} />
+                    <InpFile id={0} required={true} label={fileLabel[0]} labelFunc={(data) => newLabel(data, 0)} fileHandler={(data) => newFile(data, 0)} />
                 </div>
                 <div className={classes.file_div}>
                     <h5 >Upload Document 2</h5>
-                    <InpFile required={true}  label={fileLabel[1]} id={1} labelFunc={(data) => newLabel(data, 1)} fileHandler={(data) => newFile(data, 1)} />
+                    <InpFile required={true} label={fileLabel[1]} id={1} labelFunc={(data) => newLabel(data, 1)} fileHandler={(data) => newFile(data, 1)} />
                 </div>
                 <div className={classes.inp_con}>
                     {arr.map((element, index) => (
                         <div className={classes.file_div}>
                             <h5 >Upload Additional Document {element.id}</h5>
-                            <InpFile required={true}  label={fileLabel[index + 2]} id={index+1} labelFunc={(data) => newLabel(data, index + 2)} fileHandler={(data) => newFile(data, index+2)} />
+                            <InpFile required={true} label={fileLabel[index + 2]} id={index + 1} labelFunc={(data) => newLabel(data, index + 2)} fileHandler={(data) => newFile(data, index + 2)} />
                         </div>
                     ))}
                 </div>
@@ -240,12 +240,11 @@ download.forEach((data)=>{
                     <input type="file" id='file' />
                 </div> */}
                 <div className={classes.btn_container}>
-      
-      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
-      <button type={'submit'}  className={classes.accept} >Add Interview</button>
-    </div>
+                    <button className={classes.cancel} onClick={(event) => cancel(event)}>Cancel</button>
+                    <button type={'submit'} className={classes.accept} >Add Interview</button>
+                </div>
             </form>
-           
+
         </React.Fragment>
     )
 }

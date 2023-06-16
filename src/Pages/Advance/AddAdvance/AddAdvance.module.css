@@ -5,7 +5,7 @@
   padding: 20px 0;
 }
 .form > div {
-  width: 48% ;
+  width: 100% ;
   margin-bottom: 20px;
   margin-right: 0;
 }
@@ -48,7 +48,7 @@
 .btn_container {
   display: flex;
   justify-content: end;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 .btn_container button {
   width: max-content;
@@ -68,4 +68,14 @@
   color: var(--bg);
   border: 1px solid #b5b5b5;
   background: white;
+}
+
+.rh_div{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.rh_div label{
+  margin-right: 20px;
 }

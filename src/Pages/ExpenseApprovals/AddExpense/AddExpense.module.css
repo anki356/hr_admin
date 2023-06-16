@@ -3,6 +3,7 @@
   margin-bottom: 20px;
   flex-wrap: wrap;
   row-gap: 15px;
+  justify-content: space-between;
 }
 .invisible {
   display: none;
@@ -22,10 +23,11 @@
 }
 
 .add_expense_seleecct_container {
-  width: 33%;
-  padding-right: 30px;
+  width: 49%;
+  /* padding-right: 30px; */
 }
-.add_expense_seleecct_container label {
+.add_expense_seleecct_container label,
+.textarea_container label {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 10px;
@@ -35,4 +37,12 @@
 .add_expense_seleecct_container > div,
 .add_expense_seleecct_container > div select {
   width: 100% !important;
+}
+
+
+.textarea_container{}
+.textarea_container label{}
+.textarea_container textarea{
+  color: #939393;
+  font-weight: 400;
 }

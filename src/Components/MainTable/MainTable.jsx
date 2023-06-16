@@ -8,36 +8,37 @@ import DownloadIcon from '../../assets/download.png';
 const MainTable = (props) => {
     const ExportButton = ({ data }) => {
         // Transform data into CSV format
-       
-        let csvData=[]
-        if(data.length>0){
-            console.log(data)
-            
-             data.forEach((row,index) =>{let keyArray=Object.keys(row)
-                
-if(index===0){
-    let mainArray=[]
-    keyArray.forEach((key)=>{
-        mainArray.push(key)
-    })
-    csvData.push(mainArray)
-}
 
-let array=[]
-                keyArray.forEach((key)=>{
+        let csvData = []
+        if (data.length > 0) {
+            console.log(data)
+
+            data.forEach((row, index) => {
+                let keyArray = Object.keys(row)
+
+                if (index === 0) {
+                    let mainArray = []
+                    keyArray.forEach((key) => {
+                        mainArray.push(key)
+                    })
+                    csvData.push(mainArray)
+                }
+
+                let array = []
+                keyArray.forEach((key) => {
                     array.push(row[key])
                 })
                 csvData.push(array)
-               });
-               console.log(csvData)
+            });
+            console.log(csvData)
         }
-      
+
         return (
-          <CSVLink data={csvData} filename={"data.csv"}>
-            Export to Excel
-          </CSVLink>
+            <CSVLink data={csvData} filename={"data.csv"} className={classes.exp_btn}>
+                Export to Excel
+            </CSVLink>
         );
-      };
+    };
     // const [rows, setRows] = useState(5)
     const location = useLocation();
     const tableHeadings = props.headings
@@ -99,8 +100,8 @@ let array=[]
                 return <div className={classes.absent}>{num}</div>
             case "Paid":
                 return <div className={classes.present}>{num}</div>
-                case "Unpaid":
-                    return <div className={classes.absent}>{num}</div>
+            case "Unpaid":
+                return <div className={classes.absent}>{num}</div>
             default:
         }
     }
@@ -182,13 +183,13 @@ let array=[]
                 return val
         }
     }
-   
-      
+
+
     return (
 
-       
+
         <div className={classes.table_container}>
-  <ExportButton data={tableData} />
+            <ExportButton data={tableData} />
             <div style={{ width: props.wd }} className={` ${props.height ? classes.height : ''}`}>
                 <table className={`${classes.table} ${props.wd ? classes.spl_t : ''}`}>
                     <thead>
@@ -213,7 +214,7 @@ let array=[]
                                     </td>
                                 ))}
                                 {
-                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" style={{color:'var(--bg)'}} onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
+                                    val['restructure'] === true && val['amount'] !== 0 && index !== newData.length - 1 ? <td key={index}> <a href="#" style={{ color: 'var(--bg)' }} onClick={(e) => restructureLoan(val['month'], e)}>Restructure</a> </td> : null
                                 }
                                 {
                                     props.Btn === true ? <td><button onClick={() => { clickHandler(val) }}>Out</button></td> : null
@@ -233,10 +234,10 @@ let array=[]
                                 {
                                     props.Lnk === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? val.status === 'Pending'||location.pathname==='/salary_details' ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false : false} Btn={props.App_Btn} link2={props.link2 !== false ? props.link2 + "/" + val.employee_id : false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4 !== false ? props.link4 + "/" + val.id : false} t4={props.t4} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} link1={props.link1 !== false ? val.status === 'Pending' || location.pathname === '/salary_details' ? props.link1 + "/" + val.attendance_id + "/" + val.employee_id : false : false} Btn={props.App_Btn} link2={props.link2 !== false ? props.link2 + "/" + val.employee_id : false} t1={props.t1} t2={props.t2} t3={props.t3} link4={props.link4 !== false ? props.link4 + "/" + val.id : false} t4={props.t4} />
                                         </td> : null
                                 }
-                               
+
                                 {
                                     props.Lnk1 === true ?
                                         <td>
@@ -264,7 +265,7 @@ let array=[]
                                 {
                                     props.Lnk4 === true ?
                                         <td>
-                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} t3={props.t3} link2={props.link2+"/"+val.id} link1={props.link1+"/"+val.id} />
+                                            <HoverableTableActions Element={val} onClickFunc={clickHandler} Btn={props.App_Btn} t3={props.t3} link2={props.link2 + "/" + val.id} link1={props.link1 + "/" + val.id} />
                                         </td>
                                         : null
                                 }

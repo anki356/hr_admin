@@ -59,9 +59,6 @@ const Pagination = (props) => {
             </div>
             <div className={classes.pagination_container}>
                 <button onClick={backPageHandler} className={classes.pagination_nav_btn} disabled={isActive===1?true:false} ><img src={leftarrow} alt="Left Arrow"  /></button>
-                {/* {BtnArray.map((element, index) => (
-                    element
-                ))} */}
                 <button  className={`${classes.pagination_page_btn}`}>{isActive}</button>
                 <button onClick={nextPageHandler} className={classes.pagination_nav_btn} disabled={isActive >= last_page?true:false}><img src={rightarrow} alt="Right Arrow"   /></button>
             </div>
