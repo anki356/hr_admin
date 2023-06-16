@@ -227,7 +227,7 @@ const ExpenseApprovals = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'} d3={true} title3={'Expense Type'} selectByCategory={selectCategory} selectByFloor={selectByFloor}  selectByStore={selectByStore} />
       <Filter data={Data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk3={true} link2={'/expense_details'} link1={'/expense_approval'} />
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }
