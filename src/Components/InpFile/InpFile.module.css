@@ -1,5 +1,7 @@
 .input {
-    display: none;
+    /* display: none; */
+    /* visibility: hidden; */
+    opacity: 0;
 }
 .label {
     border: 1px solid #b7b3b3;

@@ -105,49 +105,33 @@ setNoData(true)
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
         let requiredFields=[]
         if(employee_id===null){
-requiredFields.push("Employee ID")
+            toast("Employee must be present")
         }
+      else{
+
+          axios.post(url + "api/addAdvance", {
+              employee_id: employee_id,
+              date: moment().format("YYYY-MM-DD"),
+              amount: advance,
+              download: document,
+              recall_head: recall_head,
+              head_approval: approval_head
+          }, { headers }).then((response) => {
+              if (response) {
+                  setAdvance('')
+                  setDocument('')
+                  setRecallHead('')
+                  setApprovalHead('')
+                  setFileLabel('')
+                  cancel()
+              }
+          })
+      }  
         
-        if(advance===null){
-requiredFields.push("Amount")
-        }
-       
-        if(document===null){
-            requiredFields.push("Document")
-        }
-        if(requiredFields.length===0){
 
 
-        axios.post(url + "api/addAdvance", {
-            employee_id: employee_id,
-            date: moment().format("YYYY-MM-DD"),
-            amount: advance,
-            download: document,
-            recall_head: recall_head,
-            head_approval: approval_head
-        }, { headers }).then((response) => {
-            if (response) {
-                setAdvance('')
-                setDocument('')
-                setRecallHead('')
-                setApprovalHead('')
-                setFileLabel('')
-                cancel()
-            }
-        })
-    }
-    else{
-        let arrayString=''
-        requiredFields.forEach((data,index)=>{
-            if (index!==requiredFields.length-1){
-                arrayString+=data+","
-            }
-            else{
-                arrayString+=data
-            }
-        })
-        toast("Following Fields are required " +arrayString)
-    }
+    
+    
     }
 
 
@@ -157,22 +141,26 @@ requiredFields.push("Amount")
             <Heading heading={'Add Advance'} />
             <ToastContainer></ToastContainer><ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
-            <form className={classes.form}>
-                <LabeledInput id={'advance'} title={'Advance'} img={false} func2={setAdvance} />
+            <form className={classes.form} onSubmit={add}>
+                <LabeledInput id={'advance'} title={'Advance'} img={false} func2={setAdvance} required={true} />
 
                 <div className={classes.form_input_div}>
                     <label htmlFor="abh">Approve By Head</label>
-                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)}>
+                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)} required={true} >
                         <option selected={approval_head === true} value={true}>Yes</option>
                         <option selected={approval_head === false} value={false}>No</option>
                     </select>
                 </div>
                 <div className={classes.file_con}>
                     <h3 className={classes.file_con_label}>Attach File</h3>
-                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} />
+                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} required={true} id={1}  />
                 </div>
-                <div className={classes.form_input_div} value={recall_head} >Recall Head<span><input type="checkbox" onChange={recallHandler} /></span></div>
-                <BottomButtonContainer cancel={'Cancel'} approve={'Add Advance'} func={true} cancelRequests={cancel} func2={add} />
+                <div className={classes.form_input_div} value={recall_head} >Recall Head<span><input   type="checkbox" onChange={recallHandler} /></span></div>
+                <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Advance</button>
+    </div>
             </form>
 
 

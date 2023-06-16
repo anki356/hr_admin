@@ -120,17 +120,21 @@ setNoData(true)
         <React.Fragment>
             <Heading heading={'Add Bonus'} /><ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
-            <form className={classes.form}>
-            <div className={classes.form_input_div}  >Bonus Amount<span><input type="text" value={bonus} onChange={(e)=>setBonus(e.target.value)} /></span></div>
+            <form className={classes.form} onSubmit={add}>
+            <div className={classes.form_input_div}  >Bonus Amount<span><input type="text" required={true} value={bonus} onChange={(e)=>setBonus(e.target.value)} /></span></div>
                 <div className={classes.file_con}>
                     <h3 className={classes.file_con_label}>Attach File</h3>
-                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} />
+                    <InpFile label={fileLabel} labelFunc={setFileLabel} required={true} fileHandler={newFile} />
                 </div>
-                
+                <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Bonus</button>
+    </div>
                 
               
             </form>
-            <BottomButtonContainer cancel={'Cancel'} approve={'Add Bonus'} func={true} cancelRequests={cancel} func2={add} />
+           
 
         </React.Fragment>
 

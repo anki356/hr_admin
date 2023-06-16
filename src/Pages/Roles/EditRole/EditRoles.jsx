@@ -40,21 +40,24 @@ axios.get(url+"api/getStores",{headers}).then((response)=>{
             id: 'role',
             ph: '',
             value:role_name,
-            func:setRoleName
+            func:setRoleName,
+            required:true
         },
         {
             title: 'Password',
             id: 'password',
             ph: '',
             value:password,
-            func:setPassword
+            func:setPassword,
+            required:false
         },
         {
             title: 'Username',
             id: 'username',
             ph: '',
             value:username,
-            func:setUsername
+            func:setUsername,
+            required:false
         },
     ]
     function edit(){
@@ -78,9 +81,10 @@ navigate(-1)
     return (
         <React.Fragment>
             <Heading heading='Edit Roles' />
+            <form onSubmit={edit}>
             <div className={classes.container}>
                 {inputs.map((element, index) => (
-                    <LabeledInput title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
+                    <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
                 ))}
                <div className={classes.store_div}>
                     <label htmlFor='floor'>Floor</label>
@@ -101,7 +105,13 @@ navigate(-1)
                     </select>
                 </div>
             </div>
-            <BottomButtonContainer cancel='Back' approve='Edit Role' func={true} cancelRequests={cancel} func2={edit} />
+            <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Edit Role</button>
+    </div>
+            </form>
+           
         </React.Fragment>
     )
 }

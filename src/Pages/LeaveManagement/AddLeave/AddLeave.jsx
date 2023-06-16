@@ -101,23 +101,12 @@ setNoData(true)
     }
     function add(e){
         e.preventDefault()
-        const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-        let requiredFields=[]
-        if(employee_id===null){
-requiredFields.push("Employee ID")
-        }
-        if(from_date===null){
-requiredFields.push("From Date")
-        }
-        if(to_date===null){
-requiredFields.push("To date")
-        }
-        if(document===null){
-requiredFields.push("Download")
-        }
-       
-if(requiredFields.length===0){
 
+        const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
+        if(employee_id===null){
+            toast("Employee Must Be Present")
+        }
+else{
     axios.post(url + "api/addLeave", {
         employee_id: employee_id,
         from_date: from_date,
@@ -135,23 +124,14 @@ else {
     toast("Leave of this date Already added")
 }
     })
+
 }
-else{
-    let arrayString=''
-    requiredFields.forEach((data,index)=>{
-        if (index!==requiredFields.length-1){
-            arrayString+=data+","
-        }
-        else{
-            arrayString+=data
-        }
-    })
-    toast("Following Fields are required " +arrayString)
-}
-        
-       
-       
+
+    
     }
+       
+       
+    
     
     
     const recallHandler = () => {
@@ -164,23 +144,23 @@ else{
     <Heading heading={'Add Leave'} /><ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
     <ToastContainer></ToastContainer>
-    <form className={classes.form}>
-        <LabeledInput type='date' title='Leave From' id='leave_from' img={false} func2={setFromDate}   />
-        <LabeledInput type='date' title='Leave To' id='leave_to' img={false} func2={setToDate}   />
+    <form className={classes.form} onSubmit={add}>
+        <LabeledInput type='date' title='Leave From' id='leave_from' img={false} func2={setFromDate} required={true}  />
+        <LabeledInput type='date' title='Leave To' id='leave_to' img={false} func2={setToDate} required={true}    />
     {/* <div className={classes.form_input_div}>Leave From <span>
     <input value={from_date} placeholder="DD/MM/YYYY" onInput={(e) => setFromDate(e.target.value)} type="date" /></span></div> */}
     {/* <div className={classes.form_input_div}>Leave to <span>
     <input type="date" placeholder="DD/MM/YYYY" value={to_date} onInput={(e) => setToDate(e.target.value)} /></span></div> */}
         <div className={classes.form_input_div}>
             <label htmlFor="abh">Approve By Head</label>
-            <select id='abh' onChange={(e)=>setApprovalHead(e.target.value)}>
+            <select id='abh' onChange={(e)=>setApprovalHead(e.target.value)} required={true} >
                 <option selected={approvalHead===true} value={true}>Yes</option>
                 <option selected={approvalHead===false} value={false}>No</option>
             </select>
         </div>
         <div className={classes.form_input_div} value={recall_head} >
             <label htmlFor="recall">Recall Head</label>
-            <div style={{marginTop:'10px'}}><input type="checkbox" onChange={recallHandler} id='recall' /></div></div>
+            <div style={{marginTop:'10px'}}><input type="checkbox" onChange={recallHandler} id='recall'   /></div></div>
         {/* <div className={classes.form_input_div}>
             <label htmlFor="month">Select Month</label>
             <select id='month' onChange={(e)=>setMonth(e.target.value)}>
@@ -200,13 +180,17 @@ else{
         </div> */}
         <div className={classes.file_con}>
             <h3 className={classes.file_con_label}>Attach File</h3>
-            <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} id={0} />
+            <InpFile required={true} label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} id={1} />
         </div>
-       
+        <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Leave</button>
+    </div>
        
    
+    
     </form>
-    <BottomButtonContainer cancel={'Cancel'} approve={'Add Leave'} func={true} cancelRequests={cancel} func2={add}/>
    </React.Fragment>
   )
 }

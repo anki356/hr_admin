@@ -111,35 +111,20 @@ setNoData(true)
 
     const formHandler = (e) => {
         e.preventDefault()
-        let requiredFields=[]
-        if(employee_id===null){
-requiredFields.push("Employee ID")
-        }
-        
-        if(fine===null){
-requiredFields.push("Fine Amount")
-        }
        
-        if(text===null){
-            requiredFields.push("Reason")
-        }
-        if(requiredFields.length===0){
+        if(employee_id===null){  
+            toast("Employee Must Be Present")
+    }
+        
+        
+        else{
         sendRequest(reqConfig)
         setText('')
         cancel()
         setEmployeeData([])
-        }else{
-            let arrayString=''
-            requiredFields.forEach((data,index)=>{
-                if (index!==requiredFields.length-1){
-                    arrayString+=data+","
-                }
-                else{
-                    arrayString+=data
-                }
-            })
-            toast("Following Fields are required " +arrayString)
         }
+           
+            
        
     }
 
@@ -158,22 +143,22 @@ requiredFields.push("Fine Amount")
             <ToastContainer></ToastContainer>
             <ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={formHandler}>
 
                 {/* <div className={classes.form_input_div}>
                     Fine<span><input type="text" value={fine} onChange={e => setFine(e.target.value)} /></span>
                 </div> */}
-                <LabeledInput title={'Fine'} id={'fine'} img={false} type={'number'} func2={setFine} />
+                <LabeledInput title={'Fine'} id={'fine'} img={false} type={'number'} func2={setFine} required={true}/>
                 <div className={classes.form_input_div}>
                     <label htmlFor="abh">Approve By Head</label>
-                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)}>
+                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)} required={true}>
                         <option selected={approvalHead === true} value={true}>Yes</option>
                         <option selected={approvalHead === false} value={false}>No</option>
                     </select>
                 </div>
-                <div className={`${classes.form_input_div} ${classes.w100}`}>
+                <div className={`${classes.form_input_div} ${classes.w100}`} >
                     <label id='text'>Reason</label>
-                    <textarea id='text' onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea>
+                    <textarea id='text' required={true} onChange={e => setText(e.target.value)} value={text} placeholder='Type Here...'></textarea>
                 </div>
                 
                 <div className={`${classes.form_input_div} ${classes.flex}`} value={recall_head} >
@@ -182,10 +167,14 @@ requiredFields.push("Fine Amount")
                 </div>
 
 
-
+                <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Fine</button>
+    </div>
 
             </form>
-            <BottomButtonContainer cancel={'Cancel'} approve={'Add Fine'} func={true} cancelRequests={cancel} func2={formHandler} />
+          
         </React.Fragment>
     )
 }

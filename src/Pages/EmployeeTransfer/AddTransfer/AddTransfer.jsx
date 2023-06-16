@@ -117,24 +117,15 @@ const [employee_id,setEmployeeId]=useState(null)
         fetchStoreDepartments({ url: 'http://localhost:9000/api/getStoreDep' }, listStoreDepartments)
 
      },[])
-function add(){
+function add(e){
     const headers={"Authorization":"Bearer "+token}
-    let requiredFields=[]
+  e.preventDefault()
     if(employee_id===null){
-requiredFields.push("Employee ID")
+        toast("Employee Must Be Present")
     }
     
-    if(selectedFloor===null){
-requiredFields.push("Floor")
-    }
-   
-    if(selectedStoreDepartments===null){
-        requiredFields.push("Store Department")
-    }
-    if(selectedStore===null){
-        requiredFields.push("Department")
-    }
-    if(requiredFields.length===0){
+   else{
+    
     axios.post(url+"api/addTransferWithStoreId",{
         "employee_id":employee_id,
         "floor_id_to":selectedFloor,
@@ -148,19 +139,8 @@ if(response){
     navigate(-1) 
 }
     })
-}else{
-    let arrayString=''
-        requiredFields.forEach((data,index)=>{
-            if (index!==requiredFields.length-1){
-                arrayString+=data+","
-            }
-            else{
-                arrayString+=data
-            }
-        })
-        toast("Following Fields are required " +arrayString)
+
 }
-   
 }
 function cancel(){
     const navigate=useNavigate()
@@ -176,25 +156,29 @@ function cancel(){
             <ToastContainer></ToastContainer>
             <ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
-            <div className='uni_container'>
+            <form className='uni_container' onSubmit={add}>
                 <div className={classes.inner_container}>
                     <div className={classes.add_expense_seleecct_container}>
                         <label htmlFor="slt">Change Floor</label>
-                        <SelectTag usingid={true} data={floors} title={'Floor'} selectedVal={setSelectedFloor} img={Img} />
+                        <SelectTag required={true} usingid={true} data={floors} title={'Floor'} selectedVal={setSelectedFloor} img={Img} />
                     </div>
                     <div className={classes.add_expense_seleecct_container}>
                     <label htmlFor="slt">Change Store</label>
-                        <SelectTag  usingid={true}data={stores} title={'Store'} selectedVal={setSelectedStore} img={Img} />
+                        <SelectTag required={true}  usingid={true}data={stores} title={'Store'} selectedVal={setSelectedStore} img={Img} />
                     </div>
                     <div className={classes.add_expense_seleecct_container}>
                     <label htmlFor="slt"> Change Department</label>
-                        <SelectTag  usingid={true} data={storeDepartments} title={'Store Departments'} selectedVal={setSelectedStoreDepartments} img={Img} />
+                        <SelectTag required={true}  usingid={true} data={storeDepartments} title={'Store Departments'} selectedVal={setSelectedStoreDepartments} img={Img} />
                     </div>
                    
                 </div>
-               
-            </div>
-            <BottomButtonContainer cancel={'Cancel'} approve={'Add Transfer'} func={true} func1={cancel} func2={add}/>
+                <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Transfer</button>
+    </div>
+            </form>
+           
         </React.Fragment>
     )
 }

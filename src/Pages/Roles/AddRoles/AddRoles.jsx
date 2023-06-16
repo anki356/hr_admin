@@ -34,41 +34,48 @@ axios.get(url+"api/getStores",{headers}).then((response)=>{
             id: 'role',
             ph: '',
             value:role_name,
-            func:setRoleName
+            func:setRoleName,
+            required:true
         },
         {
             title: 'Password',
             id: 'password',
             ph: '',
             value:password,
-            func:setPassword
+            func:setPassword,
+            required:false
         },
         {
             title: 'Username',
             id: 'username',
             ph: '',
             value:username,
-            func:setUsername
+            func:setUsername,
+            required:false
         },
        
     ]
-    function add(){
+    function add(e){
         const headers = { "Authorization": "Bearer " + token }
+        e.preventDefault()
 axios.post(url+"api/addRole",{
 role_name:role_name,
 floor_id:floor_name,
 store_id:store_name,
 },{headers}).then((response)=>{
     if(response){
-        axios.post(url+"api/auth/register",{
-            role:role_name,
-            username:username,
-            password:password
-        },{headers}).then((responseOne)=>{
-            if(responseOne){
-                navigate(-1)
-            }
-        })
+        if(username!==undefined&&username!==null&&username!==''&&password!==undefined&&password!==null&&password!==''){
+
+            axios.post(url+"api/auth/register",{
+                role:role_name,
+                username:username,
+                password:password
+            },{headers}).then((responseOne)=>{
+                if(responseOne){
+                    navigate(-1)
+                }
+            })
+        }
     }
 })
     }
@@ -80,9 +87,10 @@ navigate(-1)
   return (
     <React.Fragment>
         <Heading heading='Add Role' />
+        <form onSubmit={add}>
         <div className={classes.container}>
             {inputs.map((element,index)=>(
-                <LabeledInput title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
+                <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
             ))}
             <div className={classes.store_div}>
                     <label htmlFor='floor'>Floor</label>
@@ -103,7 +111,13 @@ navigate(-1)
                     </select>
                 </div>
         </div>
-        <BottomButtonContainer cancel='Back' approve='Add Role' func={true} cancelRequests={cancel} func2={add} />
+        <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Role</button>
+    </div>
+        </form>
+       
     </React.Fragment>
   )
 }

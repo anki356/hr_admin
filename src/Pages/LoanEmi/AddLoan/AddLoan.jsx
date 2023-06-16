@@ -107,61 +107,38 @@ const AddLoan = () => {
     function add(e) {
         e.preventDefault()
         const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-        let requiredFields=[]
+      
         if(employee_id===null){
-requiredFields.push("Employee ID")
+            toast("Employee must be present")
         }
         
-        if(amount===null){
-requiredFields.push("Amount")
-        }
-        if(tenure===null){
-requiredFields.push("Tenure")
-        }
-        if(document===null){
-            requiredFields.push("Document")
-        }
-        if(month===null){
-            requiredFields.push("Month")
-        }
-        if(fieldValues.length===0){
-            requiredFields.push("Amount")
-        }
+      else{
+
+          axios.post(url + "api/addLoan", {
+              "employee_id": employee_id,
+              "date": moment().format("YYYY-MM-DD HH:mm:ss"),
+              "amount": amount,
+              "tenure": tenure,
+              "recall_head": recall_head,
+              "download": document,
+              "approval_status": "Pending",
+              "month": Number(month) - 1,
+              "amount_array": fieldValues,
+              "head_approval": approvalHead
+    
+          }, { headers }).then((response) => {
+              if (response) {
+    
+                  navigate(-1)
+              }
+          })
+      }
 
 
        
-if(requiredFields.length===0){
-        axios.post(url + "api/addLoan", {
-            "employee_id": employee_id,
-            "date": moment().format("YYYY-MM-DD HH:mm:ss"),
-            "amount": amount,
-            "tenure": tenure,
-            "recall_head": recall_head,
-            "download": document,
-            "approval_status": "Pending",
-            "month": Number(month) - 1,
-            "amount_array": fieldValues,
-            "head_approval": approvalHead
 
-        }, { headers }).then((response) => {
-            if (response) {
 
-                navigate(-1)
-            }
-        })
-
-    }else{
-        let arrayString=''
-        requiredFields.forEach((data,index)=>{
-            if (index!==requiredFields.length-1){
-                arrayString+=data+","
-            }
-            else{
-                arrayString+=data
-            }
-        })
-        toast("Following Fields are required " +arrayString)
-    }
+    
 }
 
 
@@ -176,20 +153,20 @@ if(requiredFields.length===0){
             <ToastContainer></ToastContainer>
             <ExpenseSearchBar func={searchHandler} />
             {searchtext === '' && noData ? '' : noData ? <h6>NO User Found</h6> : <DetailsDivContainer data={employee_data} />}
-            <form className={classes.form}>
-                <LabeledInput id={'loan'} title={'Loan'} img={false} func2={setAmount} />
-                <LabeledInput id={'loan_tenure'} title={'Loan Tenure'} img={false} func2={handleNumFieldsChange} />
+            <form className={classes.form} onSubmit={add}>
+                <LabeledInput id={'loan'} title={'Loan'} img={false} func2={setAmount} required={true}/>
+                <LabeledInput id={'loan_tenure'} title={'Loan Tenure'} img={false} required={true} func2={handleNumFieldsChange} />
                 <div className={classes.form_input_div}>
                     <label htmlFor="abh">Approve By Head</label>
-                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)}>
-                        <option selected={approvalHead === true} value={true}>Yes</option>
+                    <select id='abh' onChange={(e) => setApprovalHead(e.target.value)} required={true}>
+                        <option selected={approvalHead === true} value={true} >Yes</option>
                         <option selected={approvalHead === false} value={false}>No</option>
                     </select>
                 </div>
                 
                 <div className={classes.form_input_div}>
                     <label htmlFor="month">Select Month</label>
-                    <select id='month' onChange={(e) => setMonth(e.target.value)}>
+                    <select id='month' onChange={(e) => setMonth(e.target.value)} required={true}>
                         <option selected value='1'>Janaury</option>
                         <option value='2'>February</option>
                         <option value='3'>March</option>
@@ -204,26 +181,30 @@ if(requiredFields.length===0){
                         <option value='12'>December</option>
                     </select>
                 </div>
-                <div className={classes.form_input_div} value={recall_head} >
+                <div className={classes.form_input_div} value={recall_head}  >
                     <label htmlFor="recall">Recall Head</label>
                     <div className={classes.recall_div}>
-                        <input type="checkbox" onChange={recallHandler} id='recall' />
+                        <input type="checkbox" onChange={recallHandler} id='recall'  />
                     </div>
                 </div>
                 <div className={classes.file_con}>
                     <h3 className={classes.file_con_label}>Attach File</h3>
-                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} id={'file'} />
+                    <InpFile label={fileLabel} labelFunc={setFileLabel} fileHandler={newFile} id={'file'} required={true}/>
                 </div>
 
                 {fieldValues.map((value, index) => (
                     <div key={index}>
 
-                        <LabeledInput id={'loan_emi'} title={'Loan EMI ' + (index + 1)} img={false} func2={(data) => handleFieldValueChange(data, index)} />
+                        <LabeledInput id={'loan_emi'} title={'Loan EMI ' + (index + 1)} img={false} func2={(data) => handleFieldValueChange(data, index)} required={true} />
                     </div>
                 ))}
-
+<div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Loan</button>
+    </div>
             </form>
-            <BottomButtonContainer cancel={'Cancel'} approve={'Add Loan'} func={true} cancelRequests={cancel} func2={add} />
+           
         </React.Fragment>
     )
 }

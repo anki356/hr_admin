@@ -83,3 +83,8 @@
     color: #96503f;
     display: block;
   }
+  .cancel {
+    color: var(--bg);
+    border: 1px solid #b5b5b5;
+    background: white;
+  }

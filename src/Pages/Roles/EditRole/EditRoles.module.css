@@ -42,3 +42,27 @@
 .store_div select:focus-visible {
   outline: 1px solid var(--bg);
 }
+.btn_container {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+  }
+  .btn_container button {
+    width: max-content;
+    padding: 0 20px;
+    height: 40px;
+    margin-left: 10px;
+    border-radius: var(--br);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .accept {
+    background: var(--bg);
+    color: white;
+    border: 1px solid var(--bg);
+  }
+  .cancel {
+    color: var(--bg);
+    border: 1px solid #b5b5b5;
+    background: white;
+  }

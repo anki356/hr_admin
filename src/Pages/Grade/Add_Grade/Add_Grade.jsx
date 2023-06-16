@@ -78,7 +78,11 @@ const [employee_id,setEmployeeId]=useState(null)
   }
   function add(){
     const headers={"Authorization":"Bearer "+token}
-    
+    if(employee_id===null){
+      toast("Employee Must Be Present")
+  }
+  
+ else{
     axios.post(url+"api/addGradesForFI",{
 "employee_id":employee_id,
 "grade_1st":grade_1st,
@@ -90,9 +94,11 @@ const [employee_id,setEmployeeId]=useState(null)
       }
     })
   }
+  }
   return (
     <React.Fragment>
         <Heading heading={'Add Grade'} />
+        <ToastContainer></ToastContainer>
         <ExpenseSearchBar func={searchHandler} />
             {searchtext === ''&& noData ? '' :noData?<h6>NO User Found</h6>: <DetailsDivContainer data={employee_data} />}
         <GradeRangeSlider label={'Behaviour With Customer'} selectValue={setGrade1st} />
