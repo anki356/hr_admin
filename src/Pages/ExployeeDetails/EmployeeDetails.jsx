@@ -185,7 +185,7 @@ const selectEntries=(data)=>{
       <DropDownFilter Btn={'Add Employee'} Lnk={'/add_employee'} title1={'Floor'} title2={'Store'}  selectByFloor={selectByFloor}  selectByStore={selectByStore}   />
       <Filter data={Data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk2={true} link1={'/employee_profile'} />
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

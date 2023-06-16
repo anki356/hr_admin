@@ -7,22 +7,25 @@ import leftarrow from '../../assets/left_arrow.png'
 
 const Pagination = (props) => {
 
-    const count = 50;
-    const limit = 10;
-    const last_page = count/limit
+    const count = props.total;
+    const limit = props.limit;
+    const last_page = count / limit 
+
+    console.log('our total', count);
 
     const [page, setPage] = useState(1)
     const [isActive, setActive] = useState(1)
 
     const [selectedOption, setSelectedOption] = useState(10)
+
     const backPageHandler = () => {
-        
         setActive((isActive) => { return isActive - 1 })
+        props.selectPage(isActive-1)
     }
 
     const nextPageHandler = () => {
-       
         setActive((isActive) => { return isActive + 1 })
+        props.selectPage(isActive+1)
     }
 
     let BtnArray = [];
@@ -58,9 +61,11 @@ const Pagination = (props) => {
                 </select>
             </div>
             <div className={classes.pagination_container}>
-                <button onClick={backPageHandler} className={classes.pagination_nav_btn} disabled={isActive===1?true:false} ><img src={leftarrow} alt="Left Arrow"  /></button>
-                <button  className={`${classes.pagination_page_btn}`}>{isActive}</button>
-                <button onClick={nextPageHandler} className={classes.pagination_nav_btn} disabled={isActive >= last_page?true:false}><img src={rightarrow} alt="Right Arrow"   /></button>
+                <button onClick={backPageHandler} className={classes.pagination_nav_btn} disabled={isActive === 1 ? true : false} ><img src={leftarrow} alt="Left Arrow" /></button>
+
+                <button className={`${classes.pagination_page_btn}`}>{isActive}</button>
+
+                <button onClick={nextPageHandler} className={classes.pagination_nav_btn} disabled={isActive >= last_page ? true : false}><img src={rightarrow} alt="Right Arrow" /></button>
             </div>
         </div>
     )

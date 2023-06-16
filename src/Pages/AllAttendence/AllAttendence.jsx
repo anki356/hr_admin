@@ -37,6 +37,7 @@ const AllAttendence = () => {
       setData(attendance)
     }
     const listTotal = (attendance) => {
+      // Total length of data
       setTotal(attendance.length)
     }
     fetchPendingAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset  }, listAttendance)
@@ -238,7 +239,7 @@ const AllAttendence = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} isdate={true} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link2={'/attendence_history'} link1={false} link4={false}/>
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage}    total={total} offset={offset} limit={limit} />
     </React.Fragment>
   )
 }
