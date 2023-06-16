@@ -22,7 +22,7 @@ const ExpenseApprovals = () => {
   const [totalEmpGrantedNum,setTotalEmpGrantedNum]=useState(0)
   const [totalPending,setTotalPending]=useState(0)
   const [totalPendingNum,setTotalPendingNum]=useState(0)
-  
+  const [total,setTotal]=useState(0)
   const [totalOuts,setTotalOuts]=useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
     employee_query:'',
@@ -123,6 +123,27 @@ const ExpenseApprovals = () => {
           setData(expenses)
         }
         fetchExpenses({ url: getString }, listExpenses) 
+        getString=url+"api/getExpenses?store_name="+employeeFilter.store_name
+      if(employeeFilter.employee_query!=''){
+        getString+="&employee_query="+employeeFilter.employee_query
+  }
+        if(employeeFilter.role_name!=''){
+          getString+='&role_name='+employeeFilter.role_name
+        }
+        if(employeeFilter.floor_name!=''){
+          getString+="&floor_name="+employeeFilter.floor_name
+        }
+        if(employeeFilter.category_name!=''){
+          getString+="&category_name="+employeeFilter.category_name
+        }
+        if(date!=null){
+          let from_date=moment(date)
+          getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+        }
+        const listTotal = (expenses) => {
+          setTotal(expenses.length)
+        }
+        fetchExpenses({ url: getString }, listTotal) 
 
     }
   

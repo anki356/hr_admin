@@ -21,7 +21,7 @@ const EmployeeDetails = () => {
   const [date,setDate]=useState(null)
   const [limit,setLimit]=useState(10)
   const [offset,setOffset]=useState(0)
-  
+  const [total,setTotal]=useState(0)
  
   const [totalEmpGrantedNum,setTotalEmpGrantedNum]=useState(0)
   const [totalPending,setTotalPending]=useState(0)
@@ -97,6 +97,25 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
             setData(Employees)
           }
           fetchEmployees({ url: getString }, listEmployees) 
+          getString=url+"api/getEmployees?store_name="+employeeFilter.store_name
+      if(employeeFilter.employee_query!=''){
+        getString+="&employee_query="+employeeFilter.employee_query
+  }
+        if(employeeFilter.role_name!=''){
+          getString+='&role_name='+employeeFilter.role_name
+        }
+        if(employeeFilter.floor_name!=''){
+          getString+="&floor_name="+employeeFilter.floor_name
+        }
+       
+        if(date!=null){
+          let from_date=moment(date)
+          getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+        }
+        const listTotal = (Employees) => {
+            setData(Employees)
+          }
+          fetchEmployees({ url: getString }, listTotal) 
       }
       // axios.get(getString,{headers}).then((response)=>{
       //       setData(response.data)

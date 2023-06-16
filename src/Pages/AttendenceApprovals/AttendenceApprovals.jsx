@@ -18,6 +18,8 @@ const AttendenceApprovals = () => {
   const [data, setData] = useState([])
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
+  
+  const [total,setTotal]=useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
     employee_query: '',
     floor_name: "",
@@ -36,6 +38,10 @@ const AttendenceApprovals = () => {
       setData(attendance)
     }
     fetchPendingAttendance({ url: url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='By Mistake'" }, listAttendance)
+    const listTotal = (attendance) => {
+      setTotal(attendance.length)
+    }
+    fetchPendingAttendance({ url: url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&type='By Mistake'" }, listTotal)
     from_date = moment(date)
     axios.get("http://localhost:9000/api/getTotal?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&status='Present'", { headers }).then((response) => {
       const todayPresent = response.data[0]?.count_id
@@ -150,7 +156,24 @@ const AttendenceApprovals = () => {
       setData(attendance)
     }
     fetchPendingAttendance({ url: getString }, listAttendance)
+    getString = url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") +  "&type='By Mistake'"
+    if (employeeFilter.employee_query != '') {
+      getString += "&employee_query=" + employeeFilter.employee_query
+    }
+    if (employeeFilter.role_name != '') {
+      getString += '&role_name=' + employeeFilter.role_name
+    }
+    if (employeeFilter.floor_name != '') {
+      getString += "&floor_name=" + employeeFilter.floor_name
+    }
+    if (employeeFilter.store_name != '') {
+      getString += "&store_name=" + employeeFilter.store_name
+    }
 
+    const listTotal = (attendance) => {
+      setData(attendance)
+    }
+    fetchPendingAttendance({ url: getString }, listTotal)
 
     // axios.get(getString,{headers}).then((response)=>{
     //       setData(response.data)
