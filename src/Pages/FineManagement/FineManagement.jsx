@@ -31,6 +31,7 @@ const tableKeys = [
 
 const FineManagement = () => {
 
+  const [total,setTotal]=useState(0)
   const [newval, setNewVal] = useState(false)
   const [obj, setObj] = useState({})
   const [SuperVisor, setSuperVisor] = useState(null)
@@ -131,6 +132,25 @@ if(employeeFilter.store_name!=''){
       setData(attendance)
     }
     fetchPendingAttendance({ url: getString }, listAttendance)
+    getString = url + "api/getFines?store_name="+employeeFilter.store_name
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
+}
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
+    }
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
+    }
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+    }
+    const listTotal = (attendance) => {
+      setTotal(attendance.length)
+    }
+    fetchPendingAttendance({ url: getString }, listTotal)
   }
 
 

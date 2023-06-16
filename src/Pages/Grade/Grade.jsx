@@ -27,6 +27,7 @@ const [date, setDate] = useState(new Date())
     role_name: "",
     store_name: ""
   })
+  
   useEffect(()=>{
     const headers = { "Authorization": "Bearer " + token }
 let from_date=moment()
@@ -37,6 +38,13 @@ axios.get(url+"api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to
     data.out_of_40=data.grade_1st_avg+data.grade_2nd_avg+data.grade_3rd_avg+data.grade_4th_avg
   data.out_of_60=(data.WD_Grade+data.COM_Grade+data.Fine_Marks)*2})
 setData(response.data)
+})
+from_date=moment()
+from_date=from_date.startOf('month')
+to_date=moment().endOf('month').add(1,'d')
+axios.get(url+"api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") ,{headers}).then((response)=>{
+ 
+setTotal(response.data.length)
 })
 axios.get(url+"api/calculateAverageGrade",{headers}).then((response)=>{
   axios.get(url+"api/isGraded",{headers}).then((responseOne)=>{
@@ -114,7 +122,24 @@ setTileData( [
       data.out_of_60=(data.WD_Grade+data.COM_Grade+data.Fine_Marks)*2})
     setData(response.data)
     })
-   
+    from_date = moment(date).startOf('month')
+    to_date=moment(date).endOf('month').add(1,'d')
+    getString = url + "api/getGrades?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + to_date.format("YYYY-MM-DD") 
+      if (employeeFilter.employee_query != '') {
+        getString += "&employee_query=" + employeeFilter.employee_query
+      }
+      if (employeeFilter.role_name != '') {
+        getString += '&role_name=' + employeeFilter.role_name
+      }
+      if (employeeFilter.floor_name != '') {
+        getString += "&floor_name=" + employeeFilter.floor_name
+      }
+      if (employeeFilter.store_name != '') {
+        getString += "&store_name=" + employeeFilter.store_name
+      }
+      axios.get(getString,{headers}).then((response)=>{
+        setTotal(response.data.length)
+      })
   
   }, [date, limit, offset, employeeFilter])
   const selectByStore = (data) => {

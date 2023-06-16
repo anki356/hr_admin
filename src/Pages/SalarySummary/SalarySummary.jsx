@@ -32,7 +32,7 @@ const [TileData,setTileData]=useState([])
     store_name:""
   })
   // Here is our data for tile in the page
-  
+  const [total,setTotal]=useState(0)
  
 useEffect(()=>{
   const listSalary=(Salary)=>{
@@ -64,6 +64,25 @@ if(employeeFilter.employee_query!=''){
   }
 
     fetchSalary({url:queryString},listSalary)
+    const listTotal=(salary)=>{
+      setTotal(salary.length)
+    }
+    queryString=url+"api/getAllSalary?month="+(date.getMonth()-1)
+    if(employeeFilter.employee_query!=''){
+      queryString+="&employee_query="+employeeFilter.employee_query
+    }
+      if(employeeFilter.role_name!=''){
+        queryString+='&role_name='+employeeFilter.role_name
+      }
+      if(employeeFilter.floor_name!=''){
+        queryString+="&floor_name="+employeeFilter.floor_name
+      }
+      
+      if(employeeFilter.store_name!==''){
+        queryString+="&store_name="+employeeFilter.store_name
+      }
+    
+        fetchSalary({url:queryString},listTotal)
   }
 },[date,employeeFilter,limit,offset])
 console.log(salary)

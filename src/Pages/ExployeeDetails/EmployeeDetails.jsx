@@ -113,7 +113,7 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
           getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
         }
         const listTotal = (Employees) => {
-            setData(Employees)
+            setTotal(Employees.length)
           }
           fetchEmployees({ url: getString }, listTotal) 
       }

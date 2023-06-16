@@ -38,6 +38,7 @@ const AttendenceApprovals = () => {
       setData(attendance)
     }
     fetchPendingAttendance({ url: url + "api/getAttendanceCorrectionRequests?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&type='By Mistake'" }, listAttendance)
+    from_date = moment(date)
     const listTotal = (attendance) => {
       setTotal(attendance.length)
     }

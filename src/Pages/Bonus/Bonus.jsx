@@ -71,6 +71,7 @@ const Bonus = () => {
   const { sendRequest: fetchBonus } = useHttp()
   const [TileData, setTileData] = useState([])
   const token = cookies.get('token')
+  const [total,setTotal]=useState(0)
   useEffect(() => {
  
     const headers = { "Authorization": "Bearer " + token }
@@ -154,6 +155,26 @@ if(employeeFilter.store_name!=''){
       setData(Bonus.bonusResult)
     }
     fetchBonus({ url: getString }, listBonus)
+    getString = url + "api/getBonus?store_name="+employeeFilter.store_name
+  if(employeeFilter.employee_query!=''){
+    getString+="&employee_query="+employeeFilter.employee_query
+}
+    if(employeeFilter.role_name!=''){
+      getString+='&role_name='+employeeFilter.role_name
+    }
+    if(employeeFilter.floor_name!=''){
+      getString+="&floor_name="+employeeFilter.floor_name
+    }
+   
+    if(date!=null){
+      let from_date=moment(date)
+      getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+    }
+    const listTotal = (Bonus) => {
+      
+      setTotal(Bonus.bonusResult.length)
+    }
+    fetchBonus({ url: getString }, listTotal)
   }
 
    

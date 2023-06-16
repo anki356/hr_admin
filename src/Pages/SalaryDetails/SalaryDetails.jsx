@@ -31,6 +31,7 @@ const SalaryDetails = () => {
     role_name:"",
     store_name:""
   })
+  const [total,setTotal]=useState(0)
   // Here is our data for tile in the page
  
   const selectByStore=(data)=>{
@@ -144,6 +145,10 @@ const selectEntries=(data)=>{
       })
       setSalary(Salary)
     }
+    const listTotal=(Salary)=>{
+     
+      setTotal(Salary.length)
+    }
     if(date!==null){
   let queryString=url+"api/getAllSalary?month="+(date.getMonth()-1)+"&limit="+limit+"&offset="+offset
   if(employeeFilter.employee_query!=''){
@@ -161,6 +166,22 @@ const selectEntries=(data)=>{
     }
   
       fetchSalary({url:queryString},listSalary)
+      queryString=url+"api/getAllSalary?month="+(date.getMonth()-1)
+  if(employeeFilter.employee_query!=''){
+    queryString+="&employee_query="+employeeFilter.employee_query
+  }
+    if(employeeFilter.role_name!=''){
+      queryString+='&role_name='+employeeFilter.role_name
+    }
+    if(employeeFilter.floor_name!=''){
+      queryString+="&floor_name="+employeeFilter.floor_name
+    }
+    
+    if(employeeFilter.store_name!==''){
+      queryString+="&store_name="+employeeFilter.store_name
+    }
+  
+      fetchSalary({url:queryString},listTotal)
     }
   },[date,employeeFilter,limit,offset])
  
