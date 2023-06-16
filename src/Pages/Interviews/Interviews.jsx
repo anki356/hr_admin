@@ -22,6 +22,7 @@ const Interviews = () => {
   const [interviewData,setInterviewData]=useState([])
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
+  const [total,setTotal]=useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
     interviewer_name: '',
     floor_name: "",
@@ -45,7 +46,14 @@ setInterviewData(response.data)
       })
       setData(interview)
     }
-    fetchInterview({ url: url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset + "&status='Pending'" }, listInterview)
+    fetchInterview({ url: url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") + "&limit=" + limit + "&offset=" + offset  }, listInterview)
+    from_date = moment()
+    const listTotal = (interview) => {
+
+     
+      setTotal(interview.length)
+    }
+    fetchInterview({ url: url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD")   }, listTotal)
     from_date = moment()
     axios.get(url + "api/getTotalInterviews?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD"), { headers }).then((response) => {
 
@@ -128,7 +136,28 @@ setInterviewData(response.data)
       setData(interview)
     }
     fetchInterview({ url: getString }, listInterview)
+    from_date = moment(date)
 
+  getString = url + "api/getInterview?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + from_date.add(1, 'd').format("YYYY-MM-DD") +  "&status='Pending'"
+    if (employeeFilter.interviewer_name != '') {
+      getString += "&interviewer_name=" + employeeFilter.interviewer_name
+    }
+    if (employeeFilter.interviewee_name != '') {
+      getString += '&interviewee_name=' + employeeFilter.interviewee_name
+    }
+    if (employeeFilter.floor_name != '') {
+      getString += "&floor_name=" + employeeFilter.floor_name
+    }
+    if (employeeFilter.store_name != '') {
+      getString += "&store_name=" + employeeFilter.store_name
+    }
+
+    const listTotal = (interview) => {
+
+      
+      setTotal(interview.length)
+    }
+    fetchInterview({ url: getString }, listTotal)
   }, [date, limit, offset, employeeFilter])
   const selectByStore = (data) => {
 

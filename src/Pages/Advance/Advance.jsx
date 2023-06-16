@@ -27,6 +27,8 @@ const Advance = () => {
     role_name: "",
     store_name: ""
   })
+  
+  const [total,setTotal]=useState(0)
   const cookies = new Cookies();
   const { sendRequest: fetchAdvance } = useHttp()
   const [TileData, setTileData] = useState([])
@@ -120,6 +122,26 @@ const Advance = () => {
           setData(advance)
         }
         fetchAdvance({ url: getString }, listAdvance)
+        getString = url + "api/getAdvances?store_name="+employeeFilter.store_name
+      if(employeeFilter.employee_query!=''){
+        getString+="&employee_query="+employeeFilter.employee_query
+    }
+        if(employeeFilter.role_name!=''){
+          getString+='&role_name='+employeeFilter.role_name
+        }
+        if(employeeFilter.floor_name!=''){
+          getString+="&floor_name="+employeeFilter.floor_name
+        }
+       
+        if(date!=null){
+          let from_date=moment(date)
+          getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+        }
+       
+        const listTotal = (advance) => {
+          setTotal(advance.length)
+        }
+        fetchAdvance({ url: getString }, listTotal)
 
       }  
   

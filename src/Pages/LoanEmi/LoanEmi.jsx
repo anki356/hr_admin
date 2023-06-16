@@ -27,6 +27,8 @@ const LoanEmi = () => {
     role_name:"",
     store_name:""
   })
+  
+  const [total,setTotal]=useState(0)
   const cookies = new Cookies();
   
   const token = cookies.get('token')
@@ -111,7 +113,25 @@ const LoanEmi = () => {
         setData(loan)
       }
       fetchLoan({ url: getString }, listLoan) 
-      
+      getString=url+"api/getLoans?store_name="+employeeFilter.store_name
+      if(employeeFilter.employee_query!=''){
+        getString+="&employee_query="+employeeFilter.employee_query
+    }
+        if(employeeFilter.role_name!=''){
+          getString+='&role_name='+employeeFilter.role_name
+        }
+        if(employeeFilter.floor_name!=''){
+          getString+="&floor_name="+employeeFilter.floor_name
+        }
+       
+        if(date!=null){
+          let from_date=moment(date)
+          getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+        }
+          const listTotal = (loan) => {
+            setTotal(loan.length)
+          }
+          fetchLoan({ url: getString }, listTotal) 
     }
       // axios.get(getString,{headers}).then((response)=>{
       //       setData(response.data)

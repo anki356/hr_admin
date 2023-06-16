@@ -25,6 +25,8 @@ const LeaveManagement = () => {
   const [data, setData] = useState([])
   const [limit, setLimit] = useState(10)
   const [offset, setOffset] = useState(0)
+  
+  const [total,setTotal]=useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
     employee_query: '',
     floor_name: "",
@@ -118,7 +120,25 @@ if(employeeFilter.store_name!=''){
       setData(leave)
     }
     fetchLeaves({ url: getString }, listLeave)
-
+    getString = url + "api/getLeaves?store_name="+employeeFilter.store_name
+    if(employeeFilter.employee_query!=''){
+      getString+="&employee_query="+employeeFilter.employee_query
+  }
+      if(employeeFilter.role_name!=''){
+        getString+='&role_name='+employeeFilter.role_name
+      }
+      if(employeeFilter.floor_name!=''){
+        getString+="&floor_name="+employeeFilter.floor_name
+      }
+     
+      if(date!=null){
+        let from_date=moment(date)
+        getString+="&from_date="+from_date.format("YYYY-MM-DD")+"&to_date="+from_date.add(1,'d').format("YYYY-MM-DD")
+      }
+      const listTotal = (leave) => {
+        setTotal(leave.length)
+      }
+      fetchLeaves({ url: getString }, listTotal)
 
 
 }
