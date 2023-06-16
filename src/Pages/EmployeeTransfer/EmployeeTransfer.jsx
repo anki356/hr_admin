@@ -158,7 +158,7 @@ const changeByDesignation = (data) => {
       <div className={classes.whole_table_c}>
       <MainTable func={changeModalState} Lnk3={true} link1={'/emp_transfer'} link2={'/emp_transfer_details'} link4={false} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} wd={'2000px'} />
       </div>
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

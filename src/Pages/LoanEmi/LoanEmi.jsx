@@ -231,7 +231,7 @@ const selectEntries=(data)=>{
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable link1={'/loan_approvals'} link4={false} link2={'/loan_details'} Lnk3={true}  App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
       {/* <AddLoanModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  /> */}
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

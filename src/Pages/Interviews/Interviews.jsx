@@ -231,7 +231,7 @@ console.log(Data)
       <InterviewFilter data={data} data2={interviewData} changeDate={changeDate} changeByInterviewee={changeByInterviewee} changeByInterviewer={changeByInterviewer} />
       <MainTable func={changeModalState} Lnk4={true} link1={false} t3={'Interview Details'} App_Btn={true}  height={true} headings={tableHeadings} keys={tableKeys} link2={false}  data={data} />
       <InterviewModal value={newval} setval={setNewVal} Obj={obj}  />
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

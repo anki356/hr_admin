@@ -210,7 +210,7 @@ const selectEntries=(data)=>{
       <div className={classes.whole_table_c}>
       <MainTable wd={'3000px'} data={salary} height={true} Lnk2={isView} headings={tableHeadings} keys={tableKeys} link1={'/salary_summary_details'} link2={false} />
       </div>
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

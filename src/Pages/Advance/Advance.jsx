@@ -231,7 +231,7 @@ const Advance = () => {
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk3={true} link1={'/advance_approvals'} link2={'/advance_details'} link4={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
 
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

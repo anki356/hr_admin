@@ -224,7 +224,7 @@ if(employeeFilter.store_name!=''){
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk3={true} link2={'/leave_details'} link1={'/leave_approvals'} link4={false} />
       <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  />
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

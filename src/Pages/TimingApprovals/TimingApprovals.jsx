@@ -205,7 +205,7 @@ const TimingApprovals = () => {
       <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/timing_approve'} link2={false} App_Btn={false}  />
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }

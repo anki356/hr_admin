@@ -192,7 +192,7 @@ setTileData( [
       >
         <MainTable data={Data} height={true}  headings={tableHeadings} keys={tableKeys}  wd={'4100px'}  Lnk2={true} link1={'/view_grade'} />
       </div>
-      <Pagination selectEntries={selectEntries} selectPage={selectPage} />
+      <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />
     </React.Fragment>
   )
 }
