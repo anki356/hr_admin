@@ -21,6 +21,7 @@ const [date, setDate] = useState(new Date())
   const cookies = new Cookies();
   const token = cookies.get('token')
   const [TileData, setTileData] = useState([])
+  const [total,setTotal] = useState(0)
   const [employeeFilter, setEmployeeFilter] = useState({
     employee_query: '',
     floor_name: "",

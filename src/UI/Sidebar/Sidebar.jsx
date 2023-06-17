@@ -13,6 +13,7 @@ import Report from '../../assets/Desk.png'
 import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useEffect, useState } from 'react'
+import { RxCross2 } from "react-icons/rx";
 
 const Sidebar = (props) => {
   const url = "http://localhost:9000/"
@@ -33,9 +34,11 @@ const Sidebar = (props) => {
   }, [])
   return (
     <div className={classes.sidebar}>
-      <Link className={classes.navbar_logo} to='/'><img src={Img} alt="logo" />
-        <button onClick={() => { props.onSideberBtn() }}>x</button>
-      </Link>
+      <div className={classes.sidebar_header_top}>
+        <Link className={classes.navbar_logo} to='/'><img src={Img} alt="logo" /></Link>
+        <button onClick={() => { props.onSideberBtn() }}><RxCross2 /></button>
+      </div>
+
 
       <ul className={classes.sidebar_ul}>
         {permissions.includes('Attendance') && <li>
