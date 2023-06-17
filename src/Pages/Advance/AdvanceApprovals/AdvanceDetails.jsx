@@ -145,13 +145,13 @@ data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
         <AdditionalInfoContainer data={leave_info} />
         <div >
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
-          <div>
+          <div style={{marginTop:'10px',color:'var(--bg)',fontWeight:'500'}}>
            {reason}
           </div>
         </div>
         <div >
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
-          <div>
+          <div style={{marginTop:'10px',color:'var(--bg)',fontWeight:'500'}}>
            {status}
           </div>
         </div>

@@ -79,9 +79,9 @@ const LoanApprovals = () => {
       loan_id: id,
       month: month
     }, { headers }).then((response) => {
-if(response){
-window.location.reload(false)
-}
+      if (response) {
+        window.location.reload(false)
+      }
     })
 
   }
@@ -172,20 +172,20 @@ window.location.reload(false)
         {
           title: 'Head Approval',
           value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'NO'
-        },{
-          
+        }, {
+
           title: 'Request Date',
           value: leaveDetails[0].date.split("T")[0].split("-").reverse().join("-")
         }
       ])
-      if(leaveDetails[0].document!==null){
+      if (leaveDetails[0].document !== null) {
 
         setData([{
           document: leaveDetails[0]?.document
         }])
+      }
     }
-    }
-    const listLoans=(loanDetails)=>{
+    const listLoans = (loanDetails) => {
       setLoanData(loanDetails)
     }
     fetchLeave({ url: url + "api/getLoan?id=" + id }, listLeave)
@@ -260,9 +260,9 @@ window.location.reload(false)
         </div>
       </div> */}
       <br />
-      <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
+      <Link to={'/emi_details_all_loans/' + employee_id} className='uni_link'>View All</Link>
       <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
-     
+
       <BottomButtonContainer cancel={'Reject'} approve={'Approve'} func={true} cancelRequests={cancel} func2={approve} />
     </React.Fragment>
   )

@@ -50,7 +50,7 @@ const AddEmployee_form2 = (props) => {
       setStoreData(response.data)
     })
   }, [])
-let dayArray=['Sunday','Monday','TuesDay','Wednesday','Thursday','Friday','Saturday']
+  let dayArray = ['Sunday', 'Monday', 'TuesDay', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
   const selectDataType = (number) => {
     switch (number) {
       case 1:
@@ -67,12 +67,12 @@ let dayArray=['Sunday','Monday','TuesDay','Wednesday','Thursday','Friday','Satur
         return employeeData
       case 7:
         return supervisorData
-case 8:
-  return dayArray.map((data)=>{
-    let obj={}
-    obj.name=data
-    return obj
-  })
+      case 8:
+        return dayArray.map((data) => {
+          let obj = {}
+          obj.name = data
+          return obj
+        })
       default:
         return []
     }
@@ -80,14 +80,22 @@ case 8:
 
   return (
     <React.Fragment>
-      
+
       {props.formSelect.map((element, index) => (
-        <LabeledSelect key={index} cls={'wd50'} required={element.required} usingid={element.value!=='week_off'} selectedVal={element.function} value={element.value} img={false} title={element.title} id={element.title} data={selectDataType(element.num)}  />
+        <LabeledSelect key={index} cls={'wd50'} required={element.required} usingid={element.value !== 'week_off'} selectedVal={element.function} value={element.value} img={false} title={element.title} id={element.title} data={selectDataType(element.num)} />
       ))}
 
       {props.formInput.map((element, index) => (
-        <LabeledInput key={index} cls={'wd50'} required={element.required} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title}  />
+        <LabeledInput key={index} cls={'wd50'} required={element.required} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title} />
       ))}
+
+      {(props.spl_key == 8 || props.spl_key == 3) && props.spl.map((element, index) => (
+        <LabeledInput key={index} cls={'wd50'} required={element.required} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title} />
+      ))}
+
+      {props.spl_key == 9 && 
+        <LabeledInput cls={'wd50'} required={props.spl[1].required} img={false} title={props.spl[1].title} value={props.spl[1].value} func2={(data) => props.spl[1].function(data)} type={props.spl[1].type ? props.spl[1].type : 'text'} id={props.spl[1].title} />
+      }
 
     </React.Fragment>
   )

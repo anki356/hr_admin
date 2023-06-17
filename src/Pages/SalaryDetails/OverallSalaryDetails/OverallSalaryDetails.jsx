@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import Heading from '../../../Components/Heading/Heading'
 import classes from './OverallSalaryDetails.module.css'
 import ExtraDetailsDiv from '../../../Components/ExtraDetails/ExtraDetailsDiv'
@@ -23,7 +23,7 @@ import Cookies from 'universal-cookie'
 import moment from 'moment-timezone'
 import axios from 'axios'
 const Tile = ({ date, view }) => {
-  
+
   const CurrentDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getUTCFullYear()}`
   switch (date.getDay()) {
     case 0:
@@ -50,66 +50,66 @@ const OverallSalaryDetails = () => {
   const { sendRequest: fetchSalary } = useHttp()
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
-  const token=cookies.get('token')
+  const token = cookies.get('token')
   const headers = { "Authorization": "Bearer " + token }
   const [div_data, setDivData] = useState([])
   const { sendRequest: fetchEmployeeDetails } = useHttp()
   const { sendRequest: fetchAttendance } = useHttp()
   const { sendRequest: fetchFine } = useHttp()
   const { sendRequest: fetchSalarySummary } = useHttp()
-  const [ArrData , setArrData] = useState([])
+  const [ArrData, setArrData] = useState([])
   const navigate = useNavigate()
   const [attendanceData, setAttendanceData] = useState([])
   const [summaryData, setSummaryData] = useState([])
   const [no_of_working, setNOOfWorking] = useState([])
   const [off, setOff] = useState(0)
   const [totalFine, setTotalFine] = useState(0)
-const [emp_id,setEmpID]=useState(null)
-const [salary,setSalary]=useState([])
-const [newval, setNewVal] = useState(false)
+  const [emp_id, setEmpID] = useState(null)
+  const [salary, setSalary] = useState([])
+  const [newval, setNewVal] = useState(false)
   const [obj, setObj] = useState({})
   const { id } = useParams()
-  const [employee_details,setEmployeeDetails]=useState([])
+  const [employee_details, setEmployeeDetails] = useState([])
   const changeModalState = ([val, element]) => {
-   
+
     setNewVal(val)
     setObj(element)
   }
-  useEffect(()=>{
+  useEffect(() => {
 
-    setArrData( attendanceData.map((element, index) => {
+    setArrData(attendanceData.map((element, index) => {
       return {
         title: element.status,
         date: element.datetime,
         backgroundColor: element.status
       }
     }))
-  },[attendanceData])
+  }, [attendanceData])
   useEffect(() => {
-   
-    const dayArray=['Sunday','Monday','TuesDay','Wednesday','Thursday','Friday','Saturday']
-   
-      const listSalarySummary=(Summary)=>{
-        Summary.forEach((data)=>{
 
-          data.date=data.check_in_datetime.split("T")[0].split("-").reverse().join("-")
-          data.time=data.check_in_datetime.split("T")[1].substring(0,8)
-          data.day=dayArray[moment(data.check_in_datetime).day()]
-          data.commission=0
-        })
-  
-        setSummaryData(Summary)
-        
-      }
-      let from_date=moment().subtract(1,"M").startOf('month')
-      let end_date=moment().startOf('month')
-      if(emp_id!==null){
+    const dayArray = ['Sunday', 'Monday', 'TuesDay', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-        fetchSalarySummary({url:url+"api/getSalarySummary?employee_id="+emp_id+"&from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD")},listSalarySummary)
-      }
-    
-    
-    
+    const listSalarySummary = (Summary) => {
+      Summary.forEach((data) => {
+
+        data.date = data.check_in_datetime.split("T")[0].split("-").reverse().join("-")
+        data.time = data.check_in_datetime.split("T")[1].substring(0, 8)
+        data.day = dayArray[moment(data.check_in_datetime).day()]
+        data.commission = 0
+      })
+
+      setSummaryData(Summary)
+
+    }
+    let from_date = moment().subtract(1, "M").startOf('month')
+    let end_date = moment().startOf('month')
+    if (emp_id !== null) {
+
+      fetchSalarySummary({ url: url + "api/getSalarySummary?employee_id=" + emp_id + "&from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") }, listSalarySummary)
+    }
+
+
+
   }, [emp_id])
   useEffect(() => {
     const getTotalFine = (fineDetails) => {
@@ -145,32 +145,32 @@ const [newval, setNewVal] = useState(false)
         value: employeeDetails.employeesResult[0].store_department_name
       }])
     }
-    const dayArray=['Sunday','Monday','TuesDay','Wednesday','Thursday','Friday','Saturday']
-    const listSalary=(Salary)=>{
+    const dayArray = ['Sunday', 'Monday', 'TuesDay', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    const listSalary = (Salary) => {
       setSalary(Salary)
       fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + Salary[0].emp_id }, listEmployeeDetails)
-      setEmpID(Salary[0].emp_id )
-      const listSalarySummary=(Summary)=>{
-        Summary.forEach((data)=>{
+      setEmpID(Salary[0].emp_id)
+      const listSalarySummary = (Summary) => {
+        Summary.forEach((data) => {
 
-          data.date=data.check_in_datetime.split("T")[0].split("-").reverse().join("-")
-          data.time=data.check_in_datetime.split("T")[1].substring(0,8)
-          data.day=dayArray[moment(data.check_in_datetime).day()]
-          data.commission=0
+          data.date = data.check_in_datetime.split("T")[0].split("-").reverse().join("-")
+          data.time = data.check_in_datetime.split("T")[1].substring(0, 8)
+          data.day = dayArray[moment(data.check_in_datetime).day()]
+          data.commission = 0
         })
-  
-        setSummaryData(Summary)
-        
-      }
-      from_date=moment().subtract(1,"M").startOf('month')
-      end_date=moment().startOf('month')
-      if(emp_id!==null){
 
-        fetchSalarySummary({url:url+"api/getSalarySummary?employee_id="+emp_id+"&from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD")},listSalarySummary)
+        setSummaryData(Summary)
+
+      }
+      from_date = moment().subtract(1, "M").startOf('month')
+      end_date = moment().startOf('month')
+      if (emp_id !== null) {
+
+        fetchSalarySummary({ url: url + "api/getSalarySummary?employee_id=" + emp_id + "&from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") }, listSalarySummary)
       }
     }
-    fetchSalary({url:url+"api/getSalary?id="+id},listSalary)
-    
+    fetchSalary({ url: url + "api/getSalary?id=" + id }, listSalary)
+
     const listAttendance = (attendance) => {
       setAttendanceData(attendance)
     }
@@ -193,7 +193,7 @@ const [newval, setNewVal] = useState(false)
 
     end_date = moment().endOf('month')
     fetchFine({ url: url + "api/getTotalFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + emp_id }, getTotalFine)
-    
+
   }, [])
   console.log(summaryData)
   const getDate = (date) => {
@@ -204,7 +204,7 @@ const [newval, setNewVal] = useState(false)
       }
     }
     var from_date = moment(date).startOf('month')
-    var end_date = moment(date).endOf('month').add(1,'d')
+    var end_date = moment(date).endOf('month').add(1, 'd')
     const listAttendance = (attendance) => {
       setAttendanceData(attendance)
     }
@@ -213,16 +213,16 @@ const [newval, setNewVal] = useState(false)
       setNOOfWorking(attendance.length)
     }
     from_date = moment(date).startOf('month')
-    end_date = moment(date).endOf('month').add(1,'d')
+    end_date = moment(date).endOf('month').add(1, 'd')
     fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + emp_id + "&status='Present'" }, listWorkingdays)
     const listAbsent = (attendance) => {
       setOff(attendance.length)
     }
     from_date = moment(date).startOf('month')
-    end_date = moment(date).endOf('month').add(1,'d')
+    end_date = moment(date).endOf('month').add(1, 'd')
     fetchAttendance({ url: url + "api/getAttendance?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.format("YYYY-MM-DD") + "&employee_id=" + emp_id + "&status='Absent'&status='On Leave'&status='Pending'" }, listAbsent)
     from_date = moment(date).startOf('month')
-     end_date = moment(date).endOf('month').add(1,'d')
+    end_date = moment(date).endOf('month').add(1, 'd')
     fetchFine({ url: url + "api/getTotalFines?from_date=" + from_date.format("YYYY-MM-DD") + "&to_date=" + end_date.add(1, 'd').format("YYYY-MM-DD") + "&employee_id=" + emp_id }, getTotalFine)
   }
   var calData = [
@@ -287,34 +287,34 @@ const [newval, setNewVal] = useState(false)
     setNewDate(new Date(e.target.value))
   }
 
-  function download(){
+  function download() {
 
-    navigate("/download/"+id)
-    
-     
- }
-function pay(){
-  let year=new Date().getFullYear()
-  let month=salary[0].month
-axios.patch(url+"api/paySalary/"+id,{
-  from_date:moment.tz([year,month],"Asia/Calcutta").startOf('month'),
-  to_date:moment.tz([year,month+1],"Asia/Calcutta").startOf('month'),
-  employee_id:salary[0].emp_id
-},{headers}).then((response)=>{
-  if(response){
+    navigate("/download/" + id)
 
-    navigate(-1)
+
   }
-})
-}
-function cancel(){
+  function pay() {
+    let year = new Date().getFullYear()
+    let month = salary[0].month
+    axios.patch(url + "api/paySalary/" + id, {
+      from_date: moment.tz([year, month], "Asia/Calcutta").startOf('month'),
+      to_date: moment.tz([year, month + 1], "Asia/Calcutta").startOf('month'),
+      employee_id: salary[0].emp_id
+    }, { headers }).then((response) => {
+      if (response) {
 
-}
+        navigate(-1)
+      }
+    })
+  }
+  function cancel() {
+
+  }
 
   return (
     <React.Fragment>
       <Heading heading={'Salary Details'} />
-      <button className={classes.salary_history_btn} onClick={()=>changeModalState([true,employee_details])}>Increment</button>
+      <button className={classes.salary_history_btn} onClick={() => changeModalState([true, employee_details])}>Increment</button>
       <IncrementModal value={newval} setval={setNewVal} Obj={obj} ></IncrementModal>
       <DetailsDivContainer data={div_data} />
       <br /><br />
@@ -324,11 +324,11 @@ function cancel(){
            <LabeledInput type='date' id='select_date' title='Select Date' img={false} func2={selectMonthFunc} />
           </div> */}
           <br />
-          <FullCal dateFunc={getDate} event={ArrData}  />
+          <FullCal dateFunc={getDate} event={ArrData} />
         </div>
       </div>
       <CalendarBottomDiv data={calData} />
-      <OSD_Charts emp_id={emp_id}/>
+      <OSD_Charts emp_id={emp_id} />
       <br />
       <h3 className='uni_heading'>Salary History</h3>
       {/* <DropDownFilter title1={'Floor'} title2={'Store'} /> */}
@@ -338,10 +338,10 @@ function cancel(){
       <GroupTable salary={salary} />
       <br /> <br />
       {
-        salary.status==='Pending'?
-<BottomButtonContainer approve={'Pay Salary'} cancel={'Notify Employee'} func={true} cancelRequests={cancel} func2={pay} />:null
+        salary.status === 'Pending' ?
+          <BottomButtonContainer approve={'Pay Salary'} cancel={'Notify Employee'} func={true} cancelRequests={cancel} func2={pay} /> : null
       }
-      
+
 
     </React.Fragment>
   )

@@ -10,6 +10,7 @@
   border: 1px solid #dcd8d8;
   border-radius: var(--br);
   margin-bottom: 30px;
+  position: relative;
   /* display: none; */
 }
 .calender_div {

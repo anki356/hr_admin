@@ -1,4 +1,4 @@
-import React,{ useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import BottomButtonContainer from '../../../Components/BottomButtonContainer/BottomButtonContainer'
 import Heading from '../../../Components/Heading/Heading'
 import LabeledInput from '../../../Components/LabeledInput/LabeledInput'
@@ -11,7 +11,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import axios from 'axios'
 
 const FineDetails = () => {
-  const [status,setStatus]=useState(null)
+  const [status, setStatus] = useState(null)
   const url = "http://localhost:9000/"
   const cookies = new Cookies();
   const navigate = useNavigate()
@@ -75,17 +75,17 @@ const FineDetails = () => {
           title: 'Head Approval',
           value: leaveDetails[0].head_approval === 1 ? 'Yes' : 'NO'
         }
-    ])
-    setReason(leaveDetails[0]?.rejection_reason)
+      ])
+      setReason(leaveDetails[0]?.rejection_reason)
       setData([{
         document: leaveDetails[0].file_upload_id
       }])
     }
     fetchLeave({ url: url + "api/getFine?id=" + id }, listLeave)
     const headers = { "Authorization": "Bearer " + token }
-    axios.get(url+"api/getAdvanceHistory?employee_id="+employee_id, { headers }).then((response)=>{
-      response.data.forEach((data)=>{
-data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
+    axios.get(url + "api/getAdvanceHistory?employee_id=" + employee_id, { headers }).then((response) => {
+      response.data.forEach((data) => {
+        data.status_date = data.status_date?.split("T")[0].split("-").reverse().join("-")
       })
       setFineHistoryData(response.data)
     })
@@ -123,12 +123,12 @@ data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
 
   }
   const historyTableHeadings = [
-    {heading:'Amount'},
-      {heading:'Request Date'},
-      {heading:'Status'},
-      {heading:'Status date'},
+    { heading: 'Amount' },
+    { heading: 'Request Date' },
+    { heading: 'Status' },
+    { heading: 'Status date' },
   ]
-  const historyTableKeys = ['amount' , 'date','approval','status_date']
+  const historyTableKeys = ['amount', 'date', 'approval', 'status_date']
   return (
     <React.Fragment>
       <Heading heading={'Fine Approvals'} />
@@ -137,18 +137,20 @@ data.status_date=data.status_date?.split("T")[0].split("-").reverse().join("-")
         <h3 className='uni_heading'>Advance Information</h3>
         <AdditionalInfoContainer data={leave_info} />
         <div >
-          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
-         
-           {reason}
-          
+          <h5 style={{ marginTop: '20px', fontSize: '16px' }}>Reasons & Remarks</h5>
+          <div style={{ marginTop: '10px', color: 'var(--bg)', fontWeight: '500' }}>
+
+            {reason}
+          </div>
+
+        </div>
+      <div >
+        <h5 style={{ marginTop: '20px', fontSize: '16px' }}>Status</h5>
+        <div style={{ marginTop: '10px', color: 'var(--bg)', fontWeight: '500' }}>
+          {status}
         </div>
       </div>
-      <div >
-          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
-          <div>
-           {status}
-          </div>
-        </div>
+      </div>
       <MainTable headings={historyTableHeadings} keys={historyTableKeys} data={fineHistoryData} height={true} />
     </React.Fragment>
   )

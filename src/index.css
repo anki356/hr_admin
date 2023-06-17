@@ -31,6 +31,12 @@
   margin-bottom: 20px;
 }
 
+.uni_link {
+  color: var(--bg);
+  margin-bottom: 10px;
+  display: block;
+  font-weight: 500;
+}
 
 @media screen and (max-width: 1000px) {
 }

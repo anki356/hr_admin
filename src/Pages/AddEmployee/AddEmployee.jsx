@@ -15,14 +15,14 @@ import 'react-toastify/dist/ReactToastify.css';
 const AddEmployee = () => {
 
     const [isIdExist, setIdExist] = useState(false)
-    const[empId,setEmpId]=useState(null)
+    const [empId, setEmpId] = useState(null)
     const url = "http://localhost:9000/"
     const parameter = useParams()
     const cookies = new Cookies();
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
-const [photo,setPhoto]=useState(null)
-const [data,setData]=useState([])
+    const [photo, setPhoto] = useState(null)
+    const [data, setData] = useState([])
     const getEmpData = async (EmpId) => {
         try {
             const response = await fetch(`${url}api/getEmployeeDetails?id=${EmpId}`, {
@@ -36,47 +36,47 @@ const [data,setData]=useState([])
                 throw new Error('Something is wrong!')
             }
             const result = await response.json()
-          console.log(result)
-           setName(result?.employeesResult[0]?.name)
-           setFatherName(result?.employeesResult[0]?.father_name)
-           setAadharNo(result?.employeesResult[0]?.aadhar_no)
-           setPanNo(result?.employeesResult[0]?.pan_no)
-           setPermamanentAddress(result?.employeesResult[0]?.permanent_address)
-           setLocalAddress(result?.employeesResult[0]?.local_address)
-           setEmergencyMobileNumber(result?.employeesResult[0]?.emergency_number)
-           setMobileNo(result?.employeesResult[0]?.phone)
-           setGender(result?.employeesResult[0]?.gender)
-           setMaritalStatus(result?.employeesResult[0]?.marital_status)
-           result.employeesResult[0].dob=result?.employeesResult[0]?.dob.split("T")[0]
-           setDOB(result?.employeesResult[0]?.dob)
-           setDesignation(result?.employeesResult[0]?.role_id)
-           setDepartment(result?.employeesResult[0]?.department_id)
-           setSection(result?.employeesResult[0]?.store_department_id)
-           setStore(result?.employeesResult[0]?.store_id)
-           setFloor(result?.employeesResult[0]?.floor_id)
-           setHiredBy(result?.employeesResult[0]?.hired_by_employee_id)
-           setHeadEmployee(result?.employeesResult[0]?.head_employee_id)
-           setSupervisor(result?.employeesResult[0]?.supervisor_id)
-           setHiringFrom(result?.employeesResult[0]?.lead_from)
-           setJobLocation(result?.employeesResult[0]?.location)
-           result.employeesResult[0].hiring_date_time=result?.employeesResult[0]?.hiring_date_time.split("T")[0]
-           setLeadDate(result?.employeesResult[0]?.hiring_date_time)
-           setESI(result?.employeesResult[0]?.esi_no)
-           setEpf(result?.employeesResult[0]?.epf_no)
-           setFineMgmt(result?.employeesResult[0]?.fine_management===1?'Yes':'No')
-           setBankName(result?.employeesResult[0]?.bank_name)
-           setBranch(result?.employeesResult[0]?.branch)
-           setIFSC(result?.employeesResult[0]?.ifsc)
-           setAcountNo(result?.employeesResult[0]?.account_number)
-           setMinWages(result?.employeesResult[0]?.min_wages_as_per_rule)
-           setBaseSalary(result?.employeesResult[0]?.amount)
-           setUAN(result?.employeesResult[0]?.uan_no)
-           setModeOfPay(result?.employeesResult[0]?.sub_type)
-           setEmpType(result?.employeesResult[0]?.type)
-           setQualification(result?.employeesResult[0]?.qualification)
-           setData(result?.documentResult)
-           setPhoto(result?.employeesResult[0]?.photo)
-           setWeekOff(result?.employeesResult[0].week_off)
+            console.log(result)
+            setName(result?.employeesResult[0]?.name)
+            setFatherName(result?.employeesResult[0]?.father_name)
+            setAadharNo(result?.employeesResult[0]?.aadhar_no)
+            setPanNo(result?.employeesResult[0]?.pan_no)
+            setPermamanentAddress(result?.employeesResult[0]?.permanent_address)
+            setLocalAddress(result?.employeesResult[0]?.local_address)
+            setEmergencyMobileNumber(result?.employeesResult[0]?.emergency_number)
+            setMobileNo(result?.employeesResult[0]?.phone)
+            setGender(result?.employeesResult[0]?.gender)
+            setMaritalStatus(result?.employeesResult[0]?.marital_status)
+            result.employeesResult[0].dob = result?.employeesResult[0]?.dob.split("T")[0]
+            setDOB(result?.employeesResult[0]?.dob)
+            setDesignation(result?.employeesResult[0]?.role_id)
+            setDepartment(result?.employeesResult[0]?.department_id)
+            setSection(result?.employeesResult[0]?.store_department_id)
+            setStore(result?.employeesResult[0]?.store_id)
+            setFloor(result?.employeesResult[0]?.floor_id)
+            setHiredBy(result?.employeesResult[0]?.hired_by_employee_id)
+            setHeadEmployee(result?.employeesResult[0]?.head_employee_id)
+            setSupervisor(result?.employeesResult[0]?.supervisor_id)
+            setHiringFrom(result?.employeesResult[0]?.lead_from)
+            setJobLocation(result?.employeesResult[0]?.location)
+            result.employeesResult[0].hiring_date_time = result?.employeesResult[0]?.hiring_date_time.split("T")[0]
+            setLeadDate(result?.employeesResult[0]?.hiring_date_time)
+            setESI(result?.employeesResult[0]?.esi_no)
+            setEpf(result?.employeesResult[0]?.epf_no)
+            setFineMgmt(result?.employeesResult[0]?.fine_management === 1 ? 'Yes' : 'No')
+            setBankName(result?.employeesResult[0]?.bank_name)
+            setBranch(result?.employeesResult[0]?.branch)
+            setIFSC(result?.employeesResult[0]?.ifsc)
+            setAcountNo(result?.employeesResult[0]?.account_number)
+            setMinWages(result?.employeesResult[0]?.min_wages_as_per_rule)
+            setBaseSalary(result?.employeesResult[0]?.amount)
+            setUAN(result?.employeesResult[0]?.uan_no)
+            setModeOfPay(result?.employeesResult[0]?.sub_type)
+            setEmpType(result?.employeesResult[0]?.type)
+            setQualification(result?.employeesResult[0]?.qualification)
+            setData(result?.documentResult)
+            setPhoto(result?.employeesResult[0]?.photo)
+            setWeekOff(result?.employeesResult[0].week_off)
         } catch (error) {
             console.log(error);
         }
@@ -85,12 +85,12 @@ const [data,setData]=useState([])
     useEffect(() => {
         const EmpId = parameter?.id
         if (EmpId) {
-           setEmpId(EmpId)
+            setEmpId(EmpId)
             return getEmpData(EmpId)
         }
     }, [parameter])
 
-   
+
     const navigate = useNavigate()
     const [num, setNum] = useState(1)
     const [name, setName] = useState(null)
@@ -109,7 +109,7 @@ const [data,setData]=useState([])
     const [section, setSection] = useState(null)
     const [floor, setFloor] = useState(null)
     const [store, setStore] = useState(null)
-    const [week_off, setWeekOff]=useState(null)
+    const [week_off, setWeekOff] = useState(null)
     const [head_employee, setHeadEmployee] = useState(null)
     const [hiredBy, setHiredBy] = useState(null)
     const [hiring_from, setHiringFrom] = useState(null)
@@ -134,12 +134,12 @@ const [data,setData]=useState([])
     const [download, setDownload] = useState([])
     const incNum = () => {
         event.preventDefault()
-       
+
         num < 3 ?
             setNum(prev => { return prev + 1 }) :
-            empId!==null?edit():add()
+            empId !== null ? edit() : add()
     }
-    
+
     const add = () => {
         event.preventDefault()
         console.log(lead_date)
@@ -181,23 +181,23 @@ const [data,setData]=useState([])
                 "floor_id": floor,
                 "store_id": store,
                 "photo": download[0],
-                "supervisor_id":superVisor,
-                "week_off":week_off,
+                "supervisor_id": superVisor,
+                "week_off": week_off,
                 "document": download.filter((data, index) => {
                     return index !== 0
                 })
 
 
             }, { headers }).then((response) => {
-                if (response.status===200) {
+                if (response.status === 200) {
                     navigate("/employee_details")
                     // navigate(-1)
                 }
-                else{
+                else {
                     console.log(response.data.error)
                 }
             })
-        }else{
+        } else {
             toast("Please upload minimum 1 photo and 2 additional documents as pan card and aadhar card scanned copy");
         }
 
@@ -379,154 +379,157 @@ const [data,setData]=useState([])
 
     const form2Selects = [
         {
-            function:changeDepartment,
-            value:department,
-            title:'Department',
-            num:2,
-            required:true
-            
+            function: changeDepartment,
+            value: department,
+            title: 'Department',
+            num: 2,
+            required: true
+
         },
         {
-            function:changeWeekOff,
-            value:week_off,
-            title:'Week OFF',
-            num:8,
-            required:true
-            
+            function: changeWeekOff,
+            value: week_off,
+            title: 'Week OFF',
+            num: 8,
+            required: true
+
         },
         {
-            function:changeDesignation,
-            value:designation,
-            title:'Designation',
-            num:1,
-            required:true
+            function: changeDesignation,
+            value: designation,
+            title: 'Designation',
+            num: 1,
+            required: true
         },
         {
-            function:changeHeadEmployee,
-            value:head_employee,
-            title:'Head Employee',
-            num:6,
-            required:true
+            function: changeHeadEmployee,
+            value: head_employee,
+            title: 'Head Employee',
+            num: 6,
+            required: true
         },
         {
-            function:changeHiredBy,
-            value:hiredBy,
-            title:'Hired By',
-            num:6,
-            required:true
+            function: changeHiredBy,
+            value: hiredBy,
+            title: 'Hired By',
+            num: 6,
+            required: true
         },
         {
-            function:changeSupervisor,
-            value:superVisor,
-            title:'Supervisor',
-            num:7,
-            required:true
+            function: changeSupervisor,
+            value: superVisor,
+            title: 'Supervisor',
+            num: 7,
+            required: true
         },
         {
-            function:changeFloor,
-            value:floor,
-            title:'Floor',
-            num:3,
-            required:true
-        },
-        {
-            function:changeStore,
-            value:store,
-            title:'Store',
-            num:4,
-            required:true
-        },
-        {
-            function:changeSection,
-            value:section,
-            title:'Section',
-            num:5,
-            required:true
+            function: changeSection,
+            value: section,
+            title: 'Section',
+            num: 5,
+            required: false
         }
+    ]
+
+    const spl_form2_selects = [
+        {
+            function: changeFloor,
+            value: floor,
+            title: 'Floor',
+            num: 3,
+            required: true
+        },
+        {
+            function: changeStore,
+            value: store,
+            title: 'Store',
+            num: 4,
+            required: true
+        },
     ]
 
     const form2Input = [
         {
-            function:changeHiringFrom,
-            value:hiring_from,
-            title:'Hiring From',
-            required:true
+            function: changeHiringFrom,
+            value: hiring_from,
+            title: 'Hiring From',
+            required: true
         },
         {
-            function:changeJobLocation,
-            value:job_location,
-            title:'Job Location',
-            required:true
+            function: changeJobLocation,
+            value: job_location,
+            title: 'Job Location',
+            required: true
         },
         {
-            function:changeLeadDate,
-            value:lead_date,
-            title:'Lead Date',
-            type:'date',
-            required:true
+            function: changeLeadDate,
+            value: lead_date,
+            title: 'Lead Date',
+            type: 'date',
+            required: true
         },
         {
-            function:changeESI,
-            value:esi,
-            title:'ESI',
-            required:false
+            function: changeESI,
+            value: esi,
+            title: 'ESI',
+            required: false
         },
         {
-            function:changePF,
-            value:epf,
-            title:'PF',
-            required:false
+            function: changePF,
+            value: epf,
+            title: 'PF',
+            required: false
         },
         {
-            function:changeQualification,
-            value:qualification,
-            title:'Qualification',
-            required:true
+            function: changeQualification,
+            value: qualification,
+            title: 'Qualification',
+            required: true
         }
     ]
 
     const form3Input = [
         {
-            function:changeBankName,
-            value:bank_name,
-            title:'Bank Name',
-            required:true
+            function: changeBankName,
+            value: bank_name,
+            title: 'Bank Name',
+            required: true
         },
         {
-            function:changeBranch,
-            value:branch,
-            title:'Branch',
-            required:true
+            function: changeBranch,
+            value: branch,
+            title: 'Branch',
+            required: true
         },
         {
-            function:changeIFSC,
-            value:ifsc,
-            title:'IFSC',
-            required:true
+            function: changeIFSC,
+            value: ifsc,
+            title: 'IFSC',
+            required: true
         },
         {
-            function:changeAcountNo,
-            value:account_no,
-            title:'Account N0.',
-            required:true
+            function: changeAcountNo,
+            value: account_no,
+            title: 'Account N0.',
+            required: true
         },
         {
-            function:changeMInWages,
-            value:min_wages,
-            title:'Min Wages',
-            required:true
+            function: changeMInWages,
+            value: min_wages,
+            title: 'Min Wages',
+            required: true
         },
         {
-            function:changeUAN,
-            value:uan_no,
-            title:'UAN No.',
-            required:false
+            function: changeUAN,
+            value: uan_no,
+            title: 'UAN No.',
+            required: false
         },
         {
-            function:changeBaseSalary,
-            value:base_salary,
-            title:'Base Salary',
-            required:true
+            function: changeBaseSalary,
+            value: base_salary,
+            title: 'Base Salary',
+            required: true
         },
     ]
 
@@ -538,90 +541,91 @@ const [data,setData]=useState([])
             case 1:
                 return <AddEmployee_form1 formData={form1Functions} changeGender={setGender} genderValue={gender} />
             case 2:
-                return <AddEmployee_form2 formSelect={form2Selects} formInput={form2Input} />
+                return <AddEmployee_form2 spl_key={designation} formSelect={form2Selects} formInput={form2Input} spl={spl_form2_selects} />
             case 3:
-                return <AddEmployee_form3 formInput={form3Input}  changeModeOfPay={changeModeOfPay} mode_of_pay={mode_of_pay} changeFineMgmt={changeFineMgmt} fine_mgmt={fine_mgmt} newFile={newFile}  chanageEmpType={chanageEmpType} emp_type={emp_type} edit={true} data={data} photo={photo}/>
+                return <AddEmployee_form3 formInput={form3Input} changeModeOfPay={changeModeOfPay} mode_of_pay={mode_of_pay} changeFineMgmt={changeFineMgmt} fine_mgmt={fine_mgmt} newFile={newFile} chanageEmpType={chanageEmpType} emp_type={emp_type} edit={true} data={data} photo={photo} />
 
             default: return <h1>nothing</h1>
         }
     }
-const edit=()=>{
-    let formData={"name": name,
-    "father_name": father_name,
-    "aadhar_no": aadhar_no,
-    "pan_no": pan_no,
-    "local_address": local_address,
-    "permanent_address": permanent_address,
-    "emergency_no": emergency_mobile_no,
-    "phone": mobile_no,
-    "dob": dob,
-    "marital_status": marital_status,
-    "gender": gender,
-    "qualification": qualification,
-    "store_department_id": section,
-    "designation_id": designation,
-    "department_id": department,
-    "hiring_date_time": lead_date,
-    "lead_from": hiring_from,
-    "head_employee_id": head_employee,
-    "hired_by_employee_id": hiredBy,
-    "location": job_location,
-    "bank_name": bank_name,
-    "branch": branch,
-    "ifsc": ifsc,
-    "account_number": account_no,
-    "epf_no": epf,
-    "esi_no": esi,
-    "role_id": designation,
-    "uan_no": uan_no,
-    "fine_management": fine_mgmt === 'Yes' ? 1 : 0,
-    "min_wages_as_per_rule": min_wages,
-    "sub_type": mode_of_pay,
-    "type": emp_type,
-    "base_salary": base_salary,
-    "floor_id": floor,
-    "store_id": store,
-    "week_off":week_off,
-    "supervisor_id":superVisor,
-}
-if(download.length>0){
-    formData.photo=download[0]
-    
-}
-if(download.length>1){
-    formData.document=download.filter((data, index) => {
-        return index !== 0
-    })
-
-    
-}
-    axios.patch(url+'api/editEmployee/'+empId,{
-        
-       ...formData
-
-    },{headers}).then((response)=>{
-        if(response.status===200){
-            navigate('/employee_details')
+    const edit = () => {
+        let formData = {
+            "name": name,
+            "father_name": father_name,
+            "aadhar_no": aadhar_no,
+            "pan_no": pan_no,
+            "local_address": local_address,
+            "permanent_address": permanent_address,
+            "emergency_no": emergency_mobile_no,
+            "phone": mobile_no,
+            "dob": dob,
+            "marital_status": marital_status,
+            "gender": gender,
+            "qualification": qualification,
+            "store_department_id": section,
+            "designation_id": designation,
+            "department_id": department,
+            "hiring_date_time": lead_date,
+            "lead_from": hiring_from,
+            "head_employee_id": head_employee,
+            "hired_by_employee_id": hiredBy,
+            "location": job_location,
+            "bank_name": bank_name,
+            "branch": branch,
+            "ifsc": ifsc,
+            "account_number": account_no,
+            "epf_no": epf,
+            "esi_no": esi,
+            "role_id": designation,
+            "uan_no": uan_no,
+            "fine_management": fine_mgmt === 'Yes' ? 1 : 0,
+            "min_wages_as_per_rule": min_wages,
+            "sub_type": mode_of_pay,
+            "type": emp_type,
+            "base_salary": base_salary,
+            "floor_id": floor,
+            "store_id": store,
+            "week_off": week_off,
+            "supervisor_id": superVisor,
         }
-    })
-}
+        if (download.length > 0) {
+            formData.photo = download[0]
+
+        }
+        if (download.length > 1) {
+            formData.document = download.filter((data, index) => {
+                return index !== 0
+            })
+
+
+        }
+        axios.patch(url + 'api/editEmployee/' + empId, {
+
+            ...formData
+
+        }, { headers }).then((response) => {
+            if (response.status === 200) {
+                navigate('/employee_details')
+            }
+        })
+    }
 
     return (
         <React.Fragment>
             <Heading heading={parameter.id ? 'Edit Employee' : 'Add Employee'} />
             <ToastContainer></ToastContainer>
             <StepBar value={num} />
-           
-            <form className={classes.rendered_page} onSubmit={(event)=>incNum(event)} >
+
+            <form className={classes.rendered_page} onSubmit={(event) => incNum(event)} >
                 {renderPage(num)}
                 <div className={classes.btn_container}>
-      
-      <button  className={classes.cancel} onClick={(event)=> decNum(event)  }>back</button>
-      <button type={'submit'}  className={classes.accept} >Continue</button>
-    </div>
-            
+
+                    <button className={classes.cancel} onClick={(event) => decNum(event)}>back</button>
+                    <button type={'submit'} className={classes.accept} >Continue</button>
+                </div>
+
             </form>
-          
+
         </React.Fragment>
     )
 }

@@ -176,13 +176,13 @@ setStatus(leaveDetails[0].status)
         <AdditionalInfoContainer data={leave_info} />
         <div >
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Reasons & Remarks</h5>
-          <div>
+          <div style={{marginTop:'10px',color:'var(--bg)',fontWeight:'500'}}>
            {reason}
           </div>
         </div>
         <div >
           <h5 style={{marginTop:'20px',fontSize:'16px'}}>Status</h5>
-          <div>
+          <div style={{marginTop:'10px',color:'var(--bg)',fontWeight:'500'}}>
            {status}
           </div>
         </div>
@@ -210,7 +210,7 @@ setStatus(leaveDetails[0].status)
       </div> */}
 
       <br />
-      <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
+      <Link className='uni_link' to={'/emi_details_all_loans/'+employee_id}>View All</Link>
       <MainTable  headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
      
     </React.Fragment>

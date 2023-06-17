@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import classes from './EmployeeProfile.module.css'
 import DetailsDiv from '../../Components/DetailsDiv/DetailsDiv'
 import Heading from '../../Components/Heading/Heading'
@@ -14,15 +14,15 @@ import { Link } from 'react-router-dom'
 
 import Cookies from 'universal-cookie'
 import { Route, useParams } from 'react-router-dom'
-const url="http://localhost:9000/"
+const url = "http://localhost:9000/"
 import axios from 'axios'
 const documents_table_headings = [
-    {heading:'Document name'},
-    {heading:'Upload Date'},
-    {heading:''},
-    {heading:'Option'}
+    { heading: 'Document name' },
+    { heading: 'Upload Date' },
+    { heading: '' },
+    { heading: 'Option' }
 ]
-const documents_table_keys = ['type' , 'created_on' , '' , 'document' ]
+const documents_table_keys = ['type', 'created_on', '', 'document']
 const personal_details = [
     {
         title: 'Date Of Birth',
@@ -92,202 +92,201 @@ const advance_table_headings = [
     { heading: 'Approval' },
     { heading: 'Status' }
 ]
-const advance_table_keys = ['amount' , 'advance_status'  , 'payment_status' ]
+const advance_table_keys = ['amount', 'advance_status', 'payment_status']
 const loan_table_headings = [
     { heading: 'Loan Amount' },
     { heading: 'Tenure' },
     { heading: 'Start Month' }
-  ]
-  const loan_table_keys = ['amount', 'tenure', 'start_month',]
+]
+const loan_table_keys = ['amount', 'tenure', 'start_month',]
 
 const EmployeeProfile = () => {
     const cookies = new Cookies();
-    const monthArray=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
-    const [personalDetails,setPersonalDetails]=useState([])
-    const [localAddress,setLocalAddress]=useState('')
-    const [permanentAddress,setPermanentAddress]=useState('')
-    const[jobDetails,setJobDetails]=useState([])
-    const[documentsDetails,setDocumentsDetails]=useState([])
-    const[documentsData,setDocumentsData]=useState([])
-    const[advanceData,setAdvanceData]=useState([])
-    const[loanData,setLoanData]=useState([])
-    const[loanEMIData,setEMILoanData]=useState([])
-const [loanId,setLoanId]=useState('')
-const [IncrementData,setIncrementData]=useState([])
-const [salaryData,setSalaryData]=useState([])
-const restructureLoan=(month)=>{
-   
-    const token=localStorage.getItem('token')
-    const headers={"Authorization":"Bearer "+token}
-    axios.post("http://localhost:9000/api/restructureLoans",{
-        loan_id:loanId,
-        month:month
-    },{headers}).then(()=>{
+    const monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    const [personalDetails, setPersonalDetails] = useState([])
+    const [localAddress, setLocalAddress] = useState('')
+    const [permanentAddress, setPermanentAddress] = useState('')
+    const [jobDetails, setJobDetails] = useState([])
+    const [documentsDetails, setDocumentsDetails] = useState([])
+    const [documentsData, setDocumentsData] = useState([])
+    const [advanceData, setAdvanceData] = useState([])
+    const [loanData, setLoanData] = useState([])
+    const [loanEMIData, setEMILoanData] = useState([])
+    const [loanId, setLoanId] = useState('')
+    const [IncrementData, setIncrementData] = useState([])
+    const [salaryData, setSalaryData] = useState([])
+    const restructureLoan = (month) => {
 
-    })
+        const token = localStorage.getItem('token')
+        const headers = { "Authorization": "Bearer " + token }
+        axios.post("http://localhost:9000/api/restructureLoans", {
+            loan_id: loanId,
+            month: month
+        }, { headers }).then(() => {
 
-}
-const {id}=useParams()
-const [employee_id,setEmployeeId]=useState(id)
-useEffect(()=>{
-     const token = cookies.get('token')
- const headers={"Authorization":"Bearer "+token}
-    axios.get("http://localhost:9000/api/getEmployeeDetails?id="+id,{headers}).then((response)=>{
-      
-    axios.get("http://localhost:9000/api/getStoreIncharge?store_id="+response.data.employeesResult[0].store_id,{headers}).then((storeInchargeResult)=>{
-    setPersonalDetails([
-        {
-            title: 'Date Of Birth',
-            value: response.data.employeesResult[0]?.dob?.split("T")[0].split("-").reverse().join("-")
-        },
-        {
-            title: 'Fathers Name',
-            value: response.data.employeesResult[0]?.father_name
-        },
-        {
-            title: 'Qualification',
-            value: response.data.employeesResult[0]?.qualification
-        },
-        {
-            title: 'Gender',
-            value: response.data.employeesResult[0]?.gender
-        },
-        {
-            title: 'Floor',
-            value: response.data.employeesResult[0]?.floor_name
-        },
-        {
-            title: 'Marital Status',
-            value:  response.data.employeesResult[0]?.marital_status
-        }
-    
-    ])
-    setLocalAddress(response.data.employeesResult[0]?.local_address)
-    setPermanentAddress(response.data.employeesResult[0]?.permanent_address)
-    setJobDetails([
-        {
-            title: 'Department',
-            value: response.data.employeesResult[0]?.store_department_name
-        },
-        {
-            title: 'Designation',
-            value: response.data.employeesResult[0]?.role_name
-        },
-        {
-            title: 'Hired by',
-            value: response.data.headEmployeesResult[0].hired_by_employee_name
-        },
-        {
-            title: 'Head Employee',
-            value: response.data.headEmployeesResult[0].head_employee_name
-        },
-        {
-            title: 'Hiring Date',
-            value:  response.data.employeesResult[0]?.hiring_date_time.split("T")[0].split("-").reverse().join("-")
-        },
-        {
-            title: 'Consultancy',
-            value: response.data.employeesResult[0].lead_from
-        },
-        {
-            title: 'Job Location',
-            value: response.data.employeesResult[0].location
-        },
-        {
-            title: 'Supervisor Name',
-            value: storeInchargeResult.data[0].name
-        },
-        {
-            title: 'EPF No',
-            value: response.data.employeesResult[0].epf_no
-        },
-        {
-            title: 'ESI No',
-            value: response.data.employeesResult[0].esi_no
-        },{
-            title: 'UAN NO',
-            value: response.data.employeesResult[0].uan_no
-        }
-    ])
-    setDocumentsDetails([
-        {
-            title: 'Aadhar Card',
-            value: response.data.employeesResult[0]?.aadhar_no
-        },
-        {
-            title: 'Pan NO',
-            value: response.data.employeesResult[0]?.pan_no
-        },
-        {
-            title: 'Fine Management',
-            value: response.data.employeesResult[0].fine_management===1?'Yes':'No'
-        },   
-        {
-            title: 'Bank Name',
-            value: response.data.employeesResult[0].bank_name
-        }  ,   
-        {
-            title: 'Branch',
-            value: response.data.employeesResult[0].branch
-        } ,   
-        {
-            title: 'IFSC',
-            value: response.data.employeesResult[0].ifsc
-        } ,   
-        {
-            title: 'Account Number',
-            value: response.data.employeesResult[0].account_number
-        }  
-    ])
-    console.log(response.data.documentResult)
-    const data=response.data.documentResult
-    if(data.length>0&& data!==undefined&&data!==null)
-    {
-data.forEach((d)=>{
-    d.created_on=d.created_on.split("T")[0].split("-").reverse().join("-")
-    d.document=d.name
-})
-    
-   
-    setDocumentsData(data)
+        })
+
     }
-    const dataSecond=response.data.advanceResult
-    dataSecond.forEach((data)=>{
-        if(data.advance_status==='Approved'){
-            data.advance_status=data.status_date.split("T")[0].split("-").reverse().join("-")
-        }
-    })
-    setAdvanceData(dataSecond)
-    
-    setLoanData(response.data.loanResult)
-    let loanThirdData=response.data.loanResult
-    setLoanId(loanThirdData[0]?.id)
-    let array=[]
-//    loanThirdData.forEach((data)=>{
-// if(data.status==='Paid'){
-// data.restructure=false
-// }
-// else{
-// data.restructure=true
-// }
-//    })
-  
-    console.log(loanThirdData)
-    setEMILoanData(loanThirdData)
-  })
+    const { id } = useParams()
+    const [employee_id, setEmployeeId] = useState(id)
+    useEffect(() => {
+        const token = cookies.get('token')
+        const headers = { "Authorization": "Bearer " + token }
+        axios.get("http://localhost:9000/api/getEmployeeDetails?id=" + id, { headers }).then((response) => {
 
-})
+            axios.get("http://localhost:9000/api/getStoreIncharge?store_id=" + response.data.employeesResult[0].store_id, { headers }).then((storeInchargeResult) => {
+                setPersonalDetails([
+                    {
+                        title: 'Date Of Birth',
+                        value: response.data.employeesResult[0]?.dob?.split("T")[0].split("-").reverse().join("-")
+                    },
+                    {
+                        title: 'Fathers Name',
+                        value: response.data.employeesResult[0]?.father_name
+                    },
+                    {
+                        title: 'Qualification',
+                        value: response.data.employeesResult[0]?.qualification
+                    },
+                    {
+                        title: 'Gender',
+                        value: response.data.employeesResult[0]?.gender
+                    },
+                    {
+                        title: 'Floor',
+                        value: response.data.employeesResult[0]?.floor_name
+                    },
+                    {
+                        title: 'Marital Status',
+                        value: response.data.employeesResult[0]?.marital_status
+                    }
 
-axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response)=>{
-    setIncrementData(response.data)
-    })
-    axios.get(url+"api/getSalaryHistory?employee_id="+id,{headers}).then((response)=>{
-        setSalaryData(response.data)
-        }) 
-   },[])
+                ])
+                setLocalAddress(response.data.employeesResult[0]?.local_address)
+                setPermanentAddress(response.data.employeesResult[0]?.permanent_address)
+                setJobDetails([
+                    {
+                        title: 'Department',
+                        value: response.data.employeesResult[0]?.store_department_name
+                    },
+                    {
+                        title: 'Designation',
+                        value: response.data.employeesResult[0]?.role_name
+                    },
+                    {
+                        title: 'Hired by',
+                        value: response.data.headEmployeesResult[0].hired_by_employee_name
+                    },
+                    {
+                        title: 'Head Employee',
+                        value: response.data.headEmployeesResult[0].head_employee_name
+                    },
+                    {
+                        title: 'Hiring Date',
+                        value: response.data.employeesResult[0]?.hiring_date_time.split("T")[0].split("-").reverse().join("-")
+                    },
+                    {
+                        title: 'Consultancy',
+                        value: response.data.employeesResult[0].lead_from
+                    },
+                    {
+                        title: 'Job Location',
+                        value: response.data.employeesResult[0].location
+                    },
+                    {
+                        title: 'Supervisor Name',
+                        value: storeInchargeResult.data[0].name
+                    },
+                    {
+                        title: 'EPF No',
+                        value: response.data.employeesResult[0].epf_no
+                    },
+                    {
+                        title: 'ESI No',
+                        value: response.data.employeesResult[0].esi_no
+                    }, {
+                        title: 'UAN NO',
+                        value: response.data.employeesResult[0].uan_no
+                    }
+                ])
+                setDocumentsDetails([
+                    {
+                        title: 'Aadhar Card',
+                        value: response.data.employeesResult[0]?.aadhar_no
+                    },
+                    {
+                        title: 'Pan NO',
+                        value: response.data.employeesResult[0]?.pan_no
+                    },
+                    {
+                        title: 'Fine Management',
+                        value: response.data.employeesResult[0].fine_management === 1 ? 'Yes' : 'No'
+                    },
+                    {
+                        title: 'Bank Name',
+                        value: response.data.employeesResult[0].bank_name
+                    },
+                    {
+                        title: 'Branch',
+                        value: response.data.employeesResult[0].branch
+                    },
+                    {
+                        title: 'IFSC',
+                        value: response.data.employeesResult[0].ifsc
+                    },
+                    {
+                        title: 'Account Number',
+                        value: response.data.employeesResult[0].account_number
+                    }
+                ])
+                console.log(response.data.documentResult)
+                const data = response.data.documentResult
+                if (data.length > 0 && data !== undefined && data !== null) {
+                    data.forEach((d) => {
+                        d.created_on = d.created_on.split("T")[0].split("-").reverse().join("-")
+                        d.document = d.name
+                    })
+
+
+                    setDocumentsData(data)
+                }
+                const dataSecond = response.data.advanceResult
+                dataSecond.forEach((data) => {
+                    if (data.advance_status === 'Approved') {
+                        data.advance_status = data.status_date.split("T")[0].split("-").reverse().join("-")
+                    }
+                })
+                setAdvanceData(dataSecond)
+
+                setLoanData(response.data.loanResult)
+                let loanThirdData = response.data.loanResult
+                setLoanId(loanThirdData[0]?.id)
+                let array = []
+                //    loanThirdData.forEach((data)=>{
+                // if(data.status==='Paid'){
+                // data.restructure=false
+                // }
+                // else{
+                // data.restructure=true
+                // }
+                //    })
+
+                console.log(loanThirdData)
+                setEMILoanData(loanThirdData)
+            })
+
+        })
+
+        axios.get(url + "api/getSalaryIncrement?employee_id=" + id, { headers }).then((response) => {
+            setIncrementData(response.data)
+        })
+        axios.get(url + "api/getSalaryHistory?employee_id=" + id, { headers }).then((response) => {
+            setSalaryData(response.data)
+        })
+    }, [])
     return (
         <React.Fragment>
-            <Heading heading={'Employee Profile'} Btn_link={'/edit_employee'} Btn={'Employee'} isEdit={true} id={id}/>
+            <Heading heading={'Employee Profile'} Btn_link={'/edit_employee'} Btn={'Employee'} isEdit={true} id={id} />
             <div className={`${classes.container} uni_container`}>
                 <div className={classes.container_left}>
                     <EmployeeActualProfile />
@@ -301,7 +300,7 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
                         <div className={classes.w100_div}>
                             Local Address
                             <span>
-                              {localAddress}
+                                {localAddress}
                             </span>
                         </div>
                         <div className={classes.w100_div}>
@@ -330,13 +329,13 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
                 </div>
             </div>
             <h3 className='uni_heading'>Download Documents</h3>
-           
-            <MainTable headings={documents_table_headings} keys={documents_table_keys} data={documentsData}  />
+
+            <MainTable headings={documents_table_headings} keys={documents_table_keys} data={documentsData} />
             <br />
             <br />
             <h3 className='uni_heading'>Advance & Loan Emi</h3>
             <h4 className={classes.h4_heading}>Advance</h4>
-            <MainTable headings={advance_table_headings} keys={advance_table_keys} data={advanceData}  />
+            <MainTable headings={advance_table_headings} keys={advance_table_keys} data={advanceData} />
             <br />
             <br />
             <h4 className={classes.h4_heading}>Loan</h4>
@@ -350,14 +349,14 @@ axios.get(url+"api/getSalaryIncrement?employee_id="+id,{headers}).then((response
                 <div className={classes.container_heading}>Month</div>
                 <div>{monthArray[loanData[0]?.month]}</div>
             </div> */}
-                              
-            <Link to={'/emi_details_all_loans/'+employee_id}>View All</Link>
-      <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
+
+            <Link to={'/emi_details_all_loans/' + employee_id} className='uni_link'>View All</Link>
+            <MainTable restructureLoan={restructureLoan} headings={loan_table_headings} keys={loan_table_keys} data={loanData} height={true} Lnk2={true} link1={'/loan_emi_details'} />
             <br /><br />
             <IncrementHistory data={IncrementData} />
 
             <br /><br />
-            <SalaryHistory  data={salaryData} />
+            <SalaryHistory data={salaryData} />
         </React.Fragment>
     )
 }
