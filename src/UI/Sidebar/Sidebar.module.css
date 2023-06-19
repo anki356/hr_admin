@@ -28,12 +28,13 @@
 }
 
 .sidebar_header_top button {
-    background: none;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
+  background: none;
+  display: none;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
 }
 
 .navbar_logo button {
@@ -57,14 +58,7 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .navbar_logo button {
+  .sidebar_header_top button{
     display: block;
-    color: white;
-    font-weight: 600;
-    width: 30px;
-    font-size: 2rem;
-    background: none;
-    border: none;
-    text-decoration: none;
   }
 }
