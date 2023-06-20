@@ -27,16 +27,13 @@ const HierarchyTable = () => {
     const [admin, setAdmin] = useState([])
 
     // Locations
-    const [locations, setLocations] = useState([])
-    const [officedept, setOfficeDept] = useState([])
-    const [storeDept, setStoreDept] = useState([])
-    const [warehouseDept, setWarehouseDept] = useState([])
+    const [data, setData] = useState([])
 
     const cookies = new Cookies();
     const token = cookies.get('token')
 
-    const getLocations = async () => {
-        const response = await fetch(`${url}api/getLocations`, {
+    const getHierarchy = async () => {
+        const response = await fetch(`${url}api/getHierarchy`, {
             method: "GET",
             headers: {
                 "Authorization": "Bearer " + token
@@ -45,51 +42,19 @@ const HierarchyTable = () => {
 
         const result = await response.json();
         console.log('our loc', result);
-        setLocations(result)
+        setData(result)
     }
-    const updateLocation = (index) => {
-        switch (index) {
-            case 0:
-                return setOfficeDept(
-                    ['Account', 'Marketing', 'Maintainacne and Security', 'HR', 'Data Analytics', 'Customer Care', 'IT']
-                )
-
-            case 1:
-                return setStoreDept(
-                    ['Sales', 'Alteration', 'Goods Return', 'Secuity and Maintaince', 'Visiual Mercendises', 'Cashier']
-                )
-
-            case 2:
-                return setWarehouseDept(
-                    ['Dispatch', 'Goods Return', 'Data Inventory', 'Mercendising', 'Secuity and Maintaince']
-                )
-
-            default:
-                break;
-        }
-
-    }
-
-    // useEffect(() => {
-    //     const headers = { "Authorization": "Bearer " + token }
-    //     axios.get(url + "api/getEmployeesBasedOnRole?role_name='Super Admin'", { headers }).then((response) => {
-    //         setSuperAdmin(response.data)
-    //     })
-    //     axios.get(url + "api/getEmployeesBasedOnRole?role_name='Admin'", { headers }).then((response) => {
-    //         setAdmin(response.data)
-    //     })
-    // }, [])
 
     useEffect(() => {
-        getLocations();
+        getHierarchy();
 
     }, [])
 
     return (
         <div className={classes.hierarchy_table}>
             <Tree label={<div className={classes.ht_nodes}>
-                <Card data={super_admin[0]} role_name="Super Admin" cl={locations.length} /> <span>Super Admin</span></div>}>
-                {locations && locations.map((val, index) => {
+                <Card data={super_admin[0]} role_name="Super Admin" cl={data.length} /> <span>Super Admin</span></div>}>
+                {/* {locations && locations.map((val, index) => {
                     return <TreeNode label={<div className={classes.ht_nodes} onClick={() => updateLocation(index)}>
                         <Card data={val.name} role_name="locations" /> <span>{val.name}</span></div>}>
                         {index == 0 ?
@@ -114,7 +79,27 @@ const HierarchyTable = () => {
                             )) : ''
                         }
                     </TreeNode>
-                })}
+                })} */}
+                {
+                    data.map((element, index) => {
+                        return element?.employees?.map((ele, index) => (
+                            <TreeNode label={
+                                <div className={classes.ht_nodes}>
+                                    <Card data={ele.name} role_name={ele.name} /> <span>{element.role_name}</span>
+                                </div>}>
+                                {
+                                    element?.children?.map((val, index) => (
+                                        val?.employees?.map((val2, index) => (
+                                            <div className={classes.ht_nodes}>
+                                                <Card data={val2.name} role_name={val2.name} /> <span>{val.role_name}</span>
+                                            </div>
+                                        ))
+                                    ))
+                                }
+                            </TreeNode>
+                        ))
+                    })
+                }
 
             </Tree>
 
