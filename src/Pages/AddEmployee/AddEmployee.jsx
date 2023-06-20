@@ -86,8 +86,8 @@ const AddEmployee = () => {
     useEffect(() => {
         const EmpId = parameter?.id
         if (EmpId) {
-            setEmpId(EmpId)
-            return getEmpData(EmpId)
+        setEmpId(EmpId)
+        getEmpData(EmpId)
         }
     }, [parameter])
 
@@ -524,9 +524,6 @@ const AddEmployee = () => {
             required: true
         },
     ]
-
-
-
 
     const renderPage = (num) => {
         switch (num) {

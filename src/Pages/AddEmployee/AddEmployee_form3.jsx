@@ -56,13 +56,13 @@ const AddEmployee_form3 = (props) => {
 
       {/* <LabeledInput cls={'wd50'} img={false} title={'PAN No.'} id={'pan_no'} /> */}
 
-      <LabeledSelect required={true}  title={'Fine Management'} select_id='fine_management' data={[{ 'name': 'Yes' }, { 'name': 'No' }]} cls={true} selectedVal={(data) => props.changeFineMgmt(data)} value={props.fine_mgmt} />
+      <LabeledSelect required={true} title={'Fine Management'} select_id='fine_management' data={[{ 'name': 'Yes' }, { 'name': 'No' }]} cls={true} selectedVal={(data) => props.changeFineMgmt(data)} value={props.fine_mgmt} />
 
       {props.formInput.map((element, index) => (
         <LabeledInput required={element.required} key={index} cls={'wd50'} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title} />
       ))}
 
-      <LabeledSelect required={true}  title={'Employee Type'} select_id='emp_type' data={selectData} cls={true} selectedVal={props.chanageEmpType} value={props.emp_type} />
+      <LabeledSelect required={true} title={'Employee Type'} select_id='emp_type' data={selectData} cls={true} selectedVal={props.chanageEmpType} value={props.emp_type} />
       <LabeledSelect required={true} title={'Mode of Pay'} select_id='mode' data={selectData2} cls={true} selectedVal={props.changeModeOfPay} value={props.mode_of_pay} />
       {/* <div className={classes.af}>
         <h5>Attach File</h5>
@@ -72,10 +72,10 @@ const AddEmployee_form3 = (props) => {
       </div> */}
 
       <div className={classes.inp_con}>
-        {props.photo?<div>
+        {props.photo ? <div>
 
           <a href={url + props.photo}>Preview</a>
-        </div>:null}
+        </div> : null}
         {props.data.map((element, index) => {
           return (
             <div>
@@ -84,7 +84,7 @@ const AddEmployee_form3 = (props) => {
           )
         })}
         {arr.map((element) => {
-         return <div className={classes.file_div} key={element.id} >
+          return <div className={classes.file_div} key={element.id} >
             <h5 >Upload Additional Document {element.id}</h5>
             {element.id - 1 === 0 ?
               <label htmlFor="">Photo</label>
