@@ -14,7 +14,7 @@ const Card = (props) => {
             <img src={url+props?.data?.photo} alt="" />
             <h4>{props?.data?.employee_name}</h4>
             <p>{props.role_name}</p>
-            {/* <p>Location : Store 1 4th Floor</p> */}
+            {/* <p>Location : location 1 4th Floor</p> */}
             <div className={classes.hc_no_of_child}>
                 3 <img src={user} alt="" />
             </div>

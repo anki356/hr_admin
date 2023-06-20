@@ -29,7 +29,7 @@ const [TileData,setTileData]=useState([])
     employee_query:'',
     floor_name:"",
     role_name:"",
-    store_name:""
+    location_name:""
   })
   // Here is our data for tile in the page
   const [total,setTotal]=useState(0)
@@ -59,8 +59,8 @@ if(employeeFilter.employee_query!=''){
     queryString+="&floor_name="+employeeFilter.floor_name
   }
   
-  if(employeeFilter.store_name!==''){
-    queryString+="&store_name="+employeeFilter.store_name
+  if(employeeFilter.location_name!==''){
+    queryString+="&location_name="+employeeFilter.location_name
   }
 
     fetchSalary({url:queryString},listSalary)
@@ -78,8 +78,8 @@ if(employeeFilter.employee_query!=''){
         queryString+="&floor_name="+employeeFilter.floor_name
       }
       
-      if(employeeFilter.store_name!==''){
-        queryString+="&store_name="+employeeFilter.store_name
+      if(employeeFilter.location_name!==''){
+        queryString+="&location_name="+employeeFilter.location_name
       }
     
         fetchSalary({url:queryString},listTotal)
@@ -105,10 +105,10 @@ console.log(salary)
     'employee_name','empID','min_wages_as_per_rule','month_days','days_shown','basic_salary','hra','cash_incentive','esi','pf','net_payable_salary'
   ]
  
-  const selectByStore=(data)=>{
+  const selectBylocation=(data)=>{
    
     setEmployeeFilter((prevState)=>{
-    return {...prevState,store_name:data}
+    return {...prevState,location_name:data}
     })
     
   }
@@ -205,7 +205,7 @@ const selectEntries=(data)=>{
     <React.Fragment>
       <Heading heading={'Salary Summary'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor}  selectBylocation={selectBylocation}    />
       <Filter data={salary}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <div className={classes.whole_table_c}>
       <MainTable wd={'3000px'} data={salary} height={true} Lnk2={isView} headings={tableHeadings} keys={tableKeys} link1={'/salary_summary_details'} link2={false} />

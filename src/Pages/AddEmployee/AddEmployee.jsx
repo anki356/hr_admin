@@ -23,6 +23,8 @@ const AddEmployee = () => {
     const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
     const [photo, setPhoto] = useState(null)
     const [data, setData] = useState([])
+    const[headEmployeeData,setHeadEmployeeData]=useState([])
+    const [supervisorData,setSupervisorData]=useState([])
     const getEmpData = async (EmpId) => {
         try {
             const response = await fetch(`${url}api/getEmployeeDetails?id=${EmpId}`, {
@@ -52,13 +54,12 @@ const AddEmployee = () => {
             setDesignation(result?.employeesResult[0]?.role_id)
             setDepartment(result?.employeesResult[0]?.department_id)
             setSection(result?.employeesResult[0]?.store_department_id)
-            setStore(result?.employeesResult[0]?.store_id)
+            setlocation(result?.employeesResult[0]?.location_id)
             setFloor(result?.employeesResult[0]?.floor_id)
             setHiredBy(result?.employeesResult[0]?.hired_by_employee_id)
             setHeadEmployee(result?.employeesResult[0]?.head_employee_id)
             setSupervisor(result?.employeesResult[0]?.supervisor_id)
             setHiringFrom(result?.employeesResult[0]?.lead_from)
-            setJobLocation(result?.employeesResult[0]?.location)
             result.employeesResult[0].hiring_date_time = result?.employeesResult[0]?.hiring_date_time.split("T")[0]
             setLeadDate(result?.employeesResult[0]?.hiring_date_time)
             setESI(result?.employeesResult[0]?.esi_no)
@@ -108,14 +109,13 @@ const AddEmployee = () => {
     const [department, setDepartment] = useState(null)
     const [section, setSection] = useState(null)
     const [floor, setFloor] = useState(null)
-    const [store, setStore] = useState(null)
+    const [location, setlocation] = useState(null)
     const [week_off, setWeekOff] = useState(null)
     const [head_employee, setHeadEmployee] = useState(null)
     const [hiredBy, setHiredBy] = useState(null)
     const [hiring_from, setHiringFrom] = useState(null)
     const [lead_date, setLeadDate] = useState(null)
     const [superVisor, setSupervisor] = useState(null)
-    const [job_location, setJobLocation] = useState(null)
     const [esi, setESI] = useState(null)
     const [epf, setEpf] = useState(null)
     const [mode_of_pay, setModeOfPay] = useState(null)
@@ -164,7 +164,6 @@ const AddEmployee = () => {
                 "lead_from": hiring_from,
                 "head_employee_id": head_employee,
                 "hired_by_employee_id": hiredBy,
-                "location": job_location,
                 "bank_name": bank_name,
                 "branch": branch,
                 "ifsc": ifsc,
@@ -179,7 +178,7 @@ const AddEmployee = () => {
                 "type": emp_type,
                 "base_salary": base_salary,
                 "floor_id": floor,
-                "store_id": store,
+                "location_id": location,
                 "photo": download[0],
                 "supervisor_id": superVisor,
                 "week_off": week_off,
@@ -263,9 +262,7 @@ const AddEmployee = () => {
     function changeHiringFrom(data) {
         setHiringFrom(data)
     }
-    function changeJobLocation(data) {
-        setJobLocation(data)
-    }
+    
     function changeSupervisor(data) {
         setSupervisor(data)
     }
@@ -306,8 +303,8 @@ const AddEmployee = () => {
     function changeFloor(data) {
         setFloor(data)
     }
-    function changeStore(data) {
-        setStore(data)
+    function changelocation(data) {
+        setlocation(data)
     }
     function changeQualification(data) {
         setQualification(data)
@@ -406,21 +403,21 @@ const AddEmployee = () => {
             value: head_employee,
             title: 'Head Employee',
             num: 6,
-            required: true
+            required: false
         },
         {
             function: changeHiredBy,
             value: hiredBy,
             title: 'Hired By',
             num: 6,
-            required: true
+            required: false
         },
         {
             function: changeSupervisor,
             value: superVisor,
             title: 'Supervisor',
             num: 7,
-            required: true
+            required: false
         },
         {
             function: changeSection,
@@ -428,9 +425,15 @@ const AddEmployee = () => {
             title: 'Section',
             num: 5,
             required: false
-        }
+        },
+        {
+            function: changelocation,
+            value: location,
+            title: 'Location',
+            num: 4,
+            required: true
+        },
     ]
-
     const spl_form2_selects = [
         {
             function: changeFloor,
@@ -439,13 +442,7 @@ const AddEmployee = () => {
             num: 3,
             required: true
         },
-        {
-            function: changeStore,
-            value: store,
-            title: 'Store',
-            num: 4,
-            required: true
-        },
+        
     ]
 
     const form2Input = [
@@ -455,12 +452,7 @@ const AddEmployee = () => {
             title: 'Hiring From',
             required: true
         },
-        {
-            function: changeJobLocation,
-            value: job_location,
-            title: 'Job Location',
-            required: true
-        },
+       
         {
             function: changeLeadDate,
             value: lead_date,
@@ -538,7 +530,7 @@ const AddEmployee = () => {
             case 1:
                 return <AddEmployee_form1 formData={form1Functions} changeGender={setGender} genderValue={gender} />
             case 2:
-                return <AddEmployee_form2 spl_key={designation} formSelect={form2Selects} formInput={form2Input} spl={spl_form2_selects} />
+                return <AddEmployee_form2 supervisorData={supervisorData} head_employee_data={headEmployeeData} spl_key={designation} formSelect={form2Selects} formInput={form2Input} spl={spl_form2_selects} />
             case 3:
                 return <AddEmployee_form3 formInput={form3Input} changeModeOfPay={changeModeOfPay} mode_of_pay={mode_of_pay} changeFineMgmt={changeFineMgmt} fine_mgmt={fine_mgmt} newFile={newFile} chanageEmpType={chanageEmpType} emp_type={emp_type} edit={true} data={data} photo={photo} />
 
@@ -559,7 +551,7 @@ const AddEmployee = () => {
             "marital_status": marital_status,
             "gender": gender,
             "qualification": qualification,
-            "store_department_id": section,
+            "location_department_id": section,
             "designation_id": designation,
             "department_id": department,
             "hiring_date_time": lead_date,
@@ -581,7 +573,7 @@ const AddEmployee = () => {
             "type": emp_type,
             "base_salary": base_salary,
             "floor_id": floor,
-            "store_id": store,
+            "location_id": location,
             "week_off": week_off,
             "supervisor_id": superVisor,
         }
@@ -606,6 +598,22 @@ const AddEmployee = () => {
             }
         })
     }
+useEffect(()=>{
+    axios.get(url+"api/getParentRole?role_id="+designation,{headers}).then((parentRoleResult)=>{
+        axios.get(url + "api/getEmployeesBasedOnRole?role_name="+parentRoleResult.data[0].role_name, { headers }).then((response) => {
+            setHeadEmployeeData(response.data)
+            axios.get(url+"api/getParentRole?role_id="+parentRoleResult.data[0].id,{headers}).then((parentRoleResult)=>{
+           
+                axios.get(url + "api/getEmployeesBasedOnRole?role_name="+parentRoleResult.data[0].role_name, { headers }).then((response) => {
+                    setSupervisorData(response.data)
+                    axios.get(url + "api/getlocations", { headers }).then((response) => {
+                        setlocationData(response.data)
+                      })
+                })
+            })
+          }) 
+    })
+},[designation])
 
     return (
         <React.Fragment>

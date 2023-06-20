@@ -58,11 +58,11 @@ value:employeeData.employeesResult[0].floor_name
         value: employeeData.employeesResult[0].gender
 
       }, {
-        title: 'Store name',
-        value: employeeData.employeesResult[0].store_name
+        title: 'location name',
+        value: employeeData.employeesResult[0].location_name
       }, {
-        title: 'Store Department',
-        value: employeeData.employeesResult[0].store_department_name
+        title: 'location Department',
+        value: employeeData.employeesResult[0].location_department_name
       }])
       setEmpId(employeeData.employeesResult[0].empID)
 

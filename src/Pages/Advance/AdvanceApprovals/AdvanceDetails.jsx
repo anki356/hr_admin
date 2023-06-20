@@ -50,11 +50,11 @@ const AdvanceDetails = () => {
         value: employeeDetails.employeesResult[0].gender
 
       }, {
-        title: 'Store name',
-        value: employeeDetails.employeesResult[0].store_name
+        title: 'location name',
+        value: employeeDetails.employeesResult[0].location_name
       }, {
-        title: 'Store Department',
-        value: employeeDetails.employeesResult[0].store_department_name
+        title: 'location Department',
+        value: employeeDetails.employeesResult[0].location_department_name
       }])
     }
     fetchEmployeeDetails({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployeeDetails)

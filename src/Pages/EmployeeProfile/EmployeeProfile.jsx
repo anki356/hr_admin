@@ -134,7 +134,7 @@ const EmployeeProfile = () => {
         const headers = { "Authorization": "Bearer " + token }
         axios.get("http://localhost:9000/api/getEmployeeDetails?id=" + id, { headers }).then((response) => {
 
-            axios.get("http://localhost:9000/api/getStoreIncharge?store_id=" + response.data.employeesResult[0].store_id, { headers }).then((storeInchargeResult) => {
+            axios.get("http://localhost:9000/api/getlocationIncharge?location_id=" + response.data.employeesResult[0].location_id, { headers }).then((locationInchargeResult) => {
                 setPersonalDetails([
                     {
                         title: 'Date Of Birth',
@@ -167,7 +167,7 @@ const EmployeeProfile = () => {
                 setJobDetails([
                     {
                         title: 'Department',
-                        value: response.data.employeesResult[0]?.store_department_name
+                        value: response.data.employeesResult[0]?.location_department_name
                     },
                     {
                         title: 'Designation',
@@ -195,7 +195,7 @@ const EmployeeProfile = () => {
                     },
                     {
                         title: 'Supervisor Name',
-                        value: storeInchargeResult.data[0].name
+                        value: locationInchargeResult.data[0].name
                     },
                     {
                         title: 'EPF No',

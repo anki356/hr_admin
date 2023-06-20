@@ -31,14 +31,14 @@ const EmployeeTransfer = () => {
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
 
 useEffect(() => {
   let from_date = moment(date)
 //getTransfer
-if(employeeFilter.store_name!=''){
-  let getString = url + "api/getTransfer?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+if(employeeFilter.location_name!=''){
+  let getString = url + "api/getTransfer?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -59,7 +59,7 @@ if(employeeFilter.store_name!=''){
       setData(transfer)
     }
     fetchTransfer({ url: getString }, listTransfer)
-    getString = url + "api/getTransfer?store_name="+employeeFilter.store_name
+    getString = url + "api/getTransfer?location_name="+employeeFilter.location_name
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -84,10 +84,10 @@ if(employeeFilter.store_name!=''){
 
 
 }, [date, limit, offset, employeeFilter])
-const selectByStore = (data) => {
+const selectBylocation = (data) => {
 
   setEmployeeFilter((prevState) => {
-    return { ...prevState, store_name: data }
+    return { ...prevState, location_name: data }
   })
 
 }
@@ -132,13 +132,13 @@ const changeByDesignation = (data) => {
     {heading:'Floor To'},
     {heading:'Department From'},
     {heading:'Department To'},
-    {heading:'Store From'},
-    {heading:'Store To'},
+    {heading:'location From'},
+    {heading:'location To'},
     {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_from_name','floor_to_name','department_from_name','store_dep_name','stores_from_name','stores_to_name','status'
+    'employee_name','empID','floor_from_name','floor_to_name','department_from_name','location_dep_name','locations_from_name','locations_to_name','status'
   ]
 
   const [newval, setNewVal] = useState(false)
@@ -153,7 +153,7 @@ const changeByDesignation = (data) => {
     <React.Fragment>
       <EmployeeTransferModal value={newval} setval={setNewVal} Obj={obj} />
       <Heading heading={'Employee Transfer'} Btn_link={'/add_transfer'} Btn={'Transfer'} />
-      <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
+      <DropDownFilter selectByFloor={selectByFloor} selectBylocation={selectBylocation}  title1={'Floor'} title2={'Location'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <div className={classes.whole_table_c}>
       <MainTable func={changeModalState} Lnk3={true} link1={'/emp_transfer'} link2={'/emp_transfer_details'} link4={false} App_Btn={false} data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} wd={'2000px'} />

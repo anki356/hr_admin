@@ -55,7 +55,7 @@ return (
             </div>
             <div className={classes.modal_data}>
                 <div className={classes.modal_data_div}>Name <span>{props.Obj.name}</span></div>
-                <div className={classes.modal_data_div}>Floor <span>{props.Obj.floor_name}({props.Obj.store_department_name} section)</span></div>
+                <div className={classes.modal_data_div}>Floor <span>{props.Obj.floor_name}({props.Obj.location_department_name} section)</span></div>
                <LabeledSelect data={[{name:"Flat Pay"},{name:"Percentage"}]} selectedVal={setType} selectId={'mode_of_increment'} title={'Increment Type'} value={type} ></LabeledSelect>
                <div className={classes.modal_data_div}>Base Salary <span>{props.Obj.amount}</span></div>
                <LabeledInput  cls={'wd50'} img={false} title={'Amount'} value={increment} func2={(data)=>setIncrement(data)} type={'number'} id={'increment_amount'} />

@@ -58,9 +58,9 @@ const RoleDetails = () => {
           </div>
         </div>
         <div >
-          <h5 style={{marginTop:'20px',fontSize:'16px'}}>Store Name</h5>
+          <h5 style={{marginTop:'20px',fontSize:'16px'}}>location Name</h5>
           <div>
-           {data[0]?.store_name}
+           {data[0]?.location_name}
           </div>
         </div>
        

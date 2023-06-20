@@ -138,11 +138,11 @@ const OverallSalaryDetails = () => {
         value: employeeDetails.employeesResult[0].gender
 
       }, {
-        title: 'Store name',
-        value: employeeDetails.employeesResult[0].store_name
+        title: 'location name',
+        value: employeeDetails.employeesResult[0].location_name
       }, {
-        title: 'Store Department',
-        value: employeeDetails.employeesResult[0].store_department_name
+        title: 'location Department',
+        value: employeeDetails.employeesResult[0].location_department_name
       }])
     }
     const dayArray = ['Sunday', 'Monday', 'TuesDay', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
@@ -331,7 +331,7 @@ const OverallSalaryDetails = () => {
       <OSD_Charts emp_id={emp_id} />
       <br />
       <h3 className='uni_heading'>Salary History</h3>
-      {/* <DropDownFilter title1={'Floor'} title2={'Store'} /> */}
+      {/* <DropDownFilter title1={'Floor'} title2={'Location'} /> */}
       <MainTable headings={tableHeadings} keys={tableKeys} data={summaryData} height={true} />
       <button className={classes.salary_history_btn} onClick={download}>Salary Summary</button>
       <br />

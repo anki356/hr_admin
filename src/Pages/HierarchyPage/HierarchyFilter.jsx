@@ -19,7 +19,7 @@ const HierarchyFilter = () => {
                         <img src={downarrow} alt="" />
                     </button>
                     <div style={active===true ? {display:'block'} : {display:'none'}} className={classes.filter_list_1}>
-                        <div>Store</div>
+                        <div>location</div>
                         <div>Categories</div>
                         <div>Departments</div>
                         <div>Designation</div>

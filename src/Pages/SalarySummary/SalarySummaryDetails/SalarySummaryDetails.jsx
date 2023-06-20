@@ -190,11 +190,11 @@ useEffect(()=>{
               value: Salary[0].gender
       
             }, {
-              title: 'Store name',
-              value: Salary[0].store_name
+              title: 'location name',
+              value: Salary[0].location_name
             }, {
-              title: 'Store Department',
-              value: Salary[0].store_department_name
+              title: 'location Department',
+              value: Salary[0].location_department_name
             }])
             
     

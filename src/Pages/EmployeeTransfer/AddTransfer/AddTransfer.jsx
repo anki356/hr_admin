@@ -27,13 +27,13 @@ const AddTransfer = () => {
   const [notes, setNotes] = useState('')
   const [noData, setNoData] = useState(false)
   const [floors, setFloors] = useState([])
-  const [stores, setStores] = useState([])
+  const [locations, setlocations] = useState([])
   const [storeDepartments, setStoreDepartments] = useState([])
   const [selectedFloor, setSelectedFloor] = useState(null)
-  const [selectedStore, setSelectedStore] = useState(null)
+  const [selectedlocation, setSelectedlocation] = useState(null)
   const [selectedStoreDepartments, setSelectedStoreDepartments] = useState(null)
   const [floor_id_from, setFloorIdFrom] = useState('')
-  const [store_id_from, setStoreIdFrom] = useState('')
+  const [location_id_from, setlocationIdFrom] = useState('')
   const [store_department_id_from, setStoreDeptIdFrom] = useState('')
 
   const [searchtext, setSearchText] = useState('')
@@ -43,8 +43,8 @@ const AddTransfer = () => {
   const [subCategory, setSubCategory] = useState(null)
   const [amount, setAmount] = useState(null)
   const { sendRequest: fetchFloors } = useHttp()
-  const { sendRequest: fetchStores } = useHttp()
-  const { sendRequest: fetchStoreDepartments } = useHttp()
+  const { sendRequest: fetchlocations } = useHttp()
+  const { sendRequest: fetchstoreDepartments } = useHttp()
 
   const [employee_id, setEmployeeId] = useState(null)
   const url = "http://localhost:9000/"
@@ -81,8 +81,8 @@ const AddTransfer = () => {
             value: response.data.employeesResult[0].gender
 
           }, {
-            title: 'Store name',
-            value: response.data.employeesResult[0].store_name
+            title: 'location name',
+            value: response.data.employeesResult[0].location_name
           }, {
             title: 'Store Department',
             value: response.data.employeesResult[0].store_department_name
@@ -94,8 +94,8 @@ const AddTransfer = () => {
         setNoData(true)
       }
       setFloorIdFrom(response.data.employeesResult[0].floor_id)
-      setStoreIdFrom(response.data.employeesResult[0].store_id)
-      setStoreDeptIdFrom(response.data.employeesResult[0].store_department_id)
+      setlocationIdFrom(response.data.employeesResult[0].location_id)
+      setStoreDeptIdFrom(response.data.employeesResult[0].location_department_id)
 
     })
 
@@ -107,14 +107,14 @@ const AddTransfer = () => {
       setFloors(floors)
     }
     fetchFloors({ url: 'http://localhost:9000/api/getFloors' }, listFloors)
-    const listStores = (stores) => {
-      setStores(stores)
+    const listlocations = (locations) => {
+      setlocations(locations)
     }
-    fetchStores({ url: 'http://localhost:9000/api/getStores' }, listStores)
+    fetchlocations({ url: 'http://localhost:9000/api/getlocations' }, listlocations)
     const listStoreDepartments = (storeDepartments) => {
       setStoreDepartments(storeDepartments)
     }
-    fetchStoreDepartments({ url: 'http://localhost:9000/api/getStoreDep' }, listStoreDepartments)
+    fetchstoreDepartments({ url: 'http://localhost:9000/api/getlocationDep' }, listStoreDepartments)
 
   }, [])
   function add(e) {
@@ -126,14 +126,14 @@ const AddTransfer = () => {
 
     else {
 
-      axios.post(url + "api/addTransferWithStoreId", {
+      axios.post(url + "api/addTransferWithlocationId", {
         "employee_id": employee_id,
         "floor_id_to": selectedFloor,
         "floor_id_from": floor_id_from,
         "department_to": selectedStoreDepartments,
         "department_from": store_department_id_from,
-        "store_id_from": store_id_from,
-        "store_id_to": selectedStore
+        "location_id_from": location_id_from,
+        "location_id_to": selectedlocation
       }, { headers }).then((response) => {
         if (response) {
           navigate(-1)
@@ -163,8 +163,8 @@ const AddTransfer = () => {
             <SelectTag required={true} usingid={true} data={floors} title={'Floor'} selectedVal={setSelectedFloor} img={Img} />
           </div>
           <div className={classes.add_expense_seleecct_container}>
-            <label htmlFor="slt">Change Store</label>
-            <SelectTag required={true} usingid={true} data={stores} title={'Store'} selectedVal={setSelectedStore} img={Img} />
+            <label htmlFor="slt">Change location</label>
+            <SelectTag required={true} usingid={true} data={locations} title={'location'} selectedVal={setSelectedlocation} img={Img} />
           </div>
           <div className={classes.add_expense_seleecct_container}>
             <label htmlFor="slt"> Change Department</label>
