@@ -31,7 +31,7 @@ const LeaveManagement = () => {
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
 
   const { sendRequest: fetchLeaves } = useHttp()
@@ -81,7 +81,7 @@ const LeaveManagement = () => {
                       num: leavesPending - leavesPendingNum
                     },
                     {
-                      title: 'Out From Store',
+                      title: 'Out From location',
                       value: totalOut
                     }
                   ])
@@ -100,8 +100,8 @@ const LeaveManagement = () => {
     // }
     // const headers={"Authorization":"Bearer "+token}
     let from_date = moment(date)
-if(employeeFilter.store_name!=''){
-  let getString = url + "api/getLeaves?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+if(employeeFilter.location_name!=''){
+  let getString = url + "api/getLeaves?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -120,7 +120,7 @@ if(employeeFilter.store_name!=''){
       setData(leave)
     }
     fetchLeaves({ url: getString }, listLeave)
-    getString = url + "api/getLeaves?store_name="+employeeFilter.store_name
+    getString = url + "api/getLeaves?location_name="+employeeFilter.location_name
     if(employeeFilter.employee_query!=''){
       getString+="&employee_query="+employeeFilter.employee_query
   }
@@ -158,16 +158,17 @@ if(employeeFilter.store_name!=''){
     { heading: 'Floor' },
     { heading: 'Designation' },
     { heading: 'Department' },
+    {heading:'Location'},
     {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name', 'empID', 'floor_name', 'role_name', 'department_name','status'
+    'employee_name', 'empID', 'floor_name', 'role_name', 'department_name','location_name','status'
   ]
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
 
   }
@@ -220,7 +221,7 @@ if(employeeFilter.store_name!=''){
     <React.Fragment>
       <Heading heading={'Leave Management'} Btn_link={'/add_leave'} Btn={'Leave'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor} selectBylocation={selectBylocation} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk3={true} link2={'/leave_details'} link1={'/leave_approvals'} link4={false} />
       <AddLeaveModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  />

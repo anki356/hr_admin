@@ -24,12 +24,12 @@ const Roles = () => {
   // Table Headings, Data and Keys
   const tableHeadings = [
     { heading: 'Role' },
-    { heading: 'Store' },
+    { heading: 'location' },
     { heading: 'Floor' }
   ]
 
   const tableKeys = [
-    'name', 'store_name', 'floor_name'
+    'name', 'location_name', 'floor_name'
   ]
 
   return (

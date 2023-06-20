@@ -29,7 +29,7 @@ const EmployeeTransferModal = (props) => {
                 <div className={classes.modal_data_div}>Name <span>{props.Obj.name}</span></div>
                 <div className={classes.modal_data_div}>Id <span>{props.Obj.id}</span></div>
                 <div className={classes.modal_data_div}>Chnage Floor <span><input type="text" /></span></div>
-                <div className={classes.modal_data_div}>Chnage Store <span><input type="text" /></span></div>
+                <div className={classes.modal_data_div}>Chnage location <span><input type="text" /></span></div>
                 <div className={classes.modal_data_div}>Chnage Department <span><input type="text" /></span></div>
             </div>
             <div className={classes.modal_btn_container}>

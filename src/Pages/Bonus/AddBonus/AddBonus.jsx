@@ -63,11 +63,11 @@ const AddBonus = (props) => {
                         value: response.data.employeesResult[0].gender
 
                     }, {
-                        title: 'Store name',
-                        value: response.data.employeesResult[0].store_name
+                        title: 'location name',
+                        value: response.data.employeesResult[0].location_name
                     }, {
-                        title: 'Store Department',
-                        value: response.data.employeesResult[0].store_department_name
+                        title: 'location Department',
+                        value: response.data.employeesResult[0].location_department_name
                     }
                 ])
                 setNoData(false)

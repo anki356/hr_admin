@@ -24,7 +24,7 @@ const AttendenceApprovals = () => {
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
   const cookies = new Cookies();
   const { sendRequest: fetchPendingAttendance } = useHttp()
@@ -149,8 +149,8 @@ const AttendenceApprovals = () => {
     if (employeeFilter.floor_name != '') {
       getString += "&floor_name=" + employeeFilter.floor_name
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
+    if (employeeFilter.location_name != '') {
+      getString += "&location_name=" + employeeFilter.location_name
     }
 
     const listAttendance = (attendance) => {
@@ -167,8 +167,8 @@ const AttendenceApprovals = () => {
     if (employeeFilter.floor_name != '') {
       getString += "&floor_name=" + employeeFilter.floor_name
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
+    if (employeeFilter.location_name != '') {
+      getString += "&location_name=" + employeeFilter.location_name
     }
 
     const listTotal = (attendance) => {
@@ -199,12 +199,12 @@ const AttendenceApprovals = () => {
     { heading: 'Employee ID' },
     { heading: 'Attendence' },
     { heading: 'Floor' },
-    {heading:'Store'},
+    {heading:'location'},
     {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name', 'empID', 'status', 'floor_name','store_name','status'
+    'employee_name', 'empID', 'status', 'floor_name','location_name','status'
   ]
   const changeByEmployee = (data) => {
     setEmployeeFilter((prevState) => {
@@ -219,10 +219,10 @@ const AttendenceApprovals = () => {
 
   }
   // if(!loading){
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
 
   }
@@ -237,7 +237,7 @@ const AttendenceApprovals = () => {
     <React.Fragment>
       <Heading heading={'Attendance Approvals'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor} selectBylocation={selectBylocation} />
       <Filter data={data} isdate={true} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable data={data} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/attendence_approval'} link2={false} link4={false} />
       {/* <Entrypage selectEntries={selectEntries} selectPage={selectPage}/> */}

@@ -25,7 +25,7 @@ const LoanEmi = () => {
     employee_query:'',
     floor_name:"",
     role_name:"",
-    store_name:""
+    location_name:""
   })
   
   const [total,setTotal]=useState(0)
@@ -78,7 +78,7 @@ const LoanEmi = () => {
                
               },
               {
-                title: 'Out From Store',
+                title: 'Out From location',
                 value: totalOut
               }
             ])
@@ -93,8 +93,8 @@ const LoanEmi = () => {
   useEffect(()=>{
    
     let from_date=moment(date)
-    if(employeeFilter.store_name!=''){ 
-  let getString=url+"api/getLoans?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+    if(employeeFilter.location_name!=''){ 
+  let getString=url+"api/getLoans?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -113,7 +113,7 @@ const LoanEmi = () => {
         setData(loan)
       }
       fetchLoan({ url: getString }, listLoan) 
-      getString=url+"api/getLoans?store_name="+employeeFilter.store_name
+      getString=url+"api/getLoans?location_name="+employeeFilter.location_name
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
     }
@@ -156,7 +156,7 @@ const LoanEmi = () => {
   //     num: 3
   //   },
   //   {
-  //     title: 'Out From Store',
+  //     title: 'Out From location',
   //     value: 23,
   //     num: -12
   //   }
@@ -167,7 +167,7 @@ const LoanEmi = () => {
     {heading:'Employee Name'},
     {heading:'Employee ID'},
     {heading:'Floor'},
-    {heading:'Store'},
+    {heading:'Location'},
     {heading:'Amount'},
     {heading:'Tenure'},{
       heading:'Request Status'
@@ -175,16 +175,16 @@ const LoanEmi = () => {
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_name','store_name','amount' ,'tenure', 'status'
+    'employee_name','empID','floor_name','location_name','amount' ,'tenure', 'status'
   ]
   const [newval, setNewVal] = useState(false)
   const [obj,setObj] = useState({})
 
   
-  const selectByStore=(data)=>{
+  const selectBylocation=(data)=>{
    
     setEmployeeFilter((prevState)=>{
-    return {...prevState,store_name:data}
+    return {...prevState,location_name:data}
     })
     
   }
@@ -227,7 +227,7 @@ const selectEntries=(data)=>{
     <React.Fragment>
       <Heading heading={'Loan EMI'} Btn_link={'/add_loan'} Btn={'Loan'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor}  selectBylocation={selectBylocation}    />
       <Filter data={data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable link1={'/loan_approvals'} link4={false} link2={'/loan_details'} Lnk3={true}  App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
       {/* <AddLoanModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor}  /> */}

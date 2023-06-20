@@ -23,8 +23,8 @@ const SalarySlip = () => {
             ph: ''
         },
         {
-            title: 'Store',
-            id: 'store',
+            title: 'location',
+            id: 'location',
             ph: ''
         },
         {

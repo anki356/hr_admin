@@ -54,11 +54,11 @@ const View_Grade = () => {
                   value: Grade[0].gender
           
                 }, {
-                  title: 'Store name',
-                  value: Grade[0].store_name
+                  title: 'location name',
+                  value: Grade[0].location_name
                 }, {
-                  title: 'Store Department',
-                  value: Grade[0].store_department_name
+                  title: 'location Department',
+                  value: Grade[0].location_department_name
                 }
         ])
         

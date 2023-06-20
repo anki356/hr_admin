@@ -36,7 +36,7 @@ const EmployeeDetails = () => {
     employee_query:'',
     floor_name:"",
     role_name:"",
-    store_name:""
+    location_name:""
   })
   useEffect(()=>{
     const token = cookies.get('token')
@@ -66,7 +66,7 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
       value: responseTwo.data[0].count_id
     },
     {
-      title: 'Out From Store',
+      title: 'Out From location',
       value: responseThird.data[0].count_id
     } 
   ])
@@ -77,8 +77,8 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
   },[])
  
   useEffect(()=>{
-    if(employeeFilter.store_name!=''){
-      let getString=url+"api/getEmployees?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+    if(employeeFilter.location_name!=''){
+      let getString=url+"api/getEmployees?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
   }
@@ -97,7 +97,7 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
             setData(Employees)
           }
           fetchEmployees({ url: getString }, listEmployees) 
-          getString=url+"api/getEmployees?store_name="+employeeFilter.store_name
+          getString=url+"api/getEmployees?location_name="+employeeFilter.location_name
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
   }
@@ -151,16 +151,16 @@ axios.get(url+"api/getTotalEmployees",{headers}).then((response)=>{
     {heading:'Floor'},
     {heading:'Designation'},
     {heading:'Department'},
-    {heading:'Store'}
+    {heading:'location'}
   ]
 
   const tableKeys = [
-    'name','empID','floor_name','role_name' , 'store_department_name','store_name'
+    'name','empID','floor_name','role_name' , 'department_name','location_name'
   ]
-  const selectByStore=(data)=>{
+  const selectBylocation=(data)=>{
    
     setEmployeeFilter((prevState)=>{
-    return {...prevState,store_name:data}
+    return {...prevState,location_name:data}
     })
     
   }
@@ -182,7 +182,7 @@ const selectEntries=(data)=>{
     <React.Fragment>
       <Heading heading={'Employee Details'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter Btn={'Add Employee'} Lnk={'/add_employee'} title1={'Floor'} title2={'Store'}  selectByFloor={selectByFloor}  selectByStore={selectByStore}   />
+      <DropDownFilter Btn={'Add Employee'} Lnk={'/add_employee'} title1={'Floor'} title2={'Location'}  selectByFloor={selectByFloor}  selectBylocation={selectBylocation}   />
       <Filter data={Data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk2={true} link1={'/employee_profile'} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />

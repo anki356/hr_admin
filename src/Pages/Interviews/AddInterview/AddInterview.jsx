@@ -46,10 +46,10 @@ const AddInterview = () => {
     useEffect(() => {
         const headers = { "Authorization": "Bearer " + token }
 
-        axios.get(url + "api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='Store Incharge'", { headers }).then((response) => {
+        axios.get(url + "api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='location Incharge'", { headers }).then((response) => {
             setInterviewData(response.data)
         })
-        axios.get(url + "api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='Store Incharge'&role_name='Salesman'", { headers }).then((response) => {
+        axios.get(url + "api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='location Incharge'&role_name='Salesman'", { headers }).then((response) => {
             setEmployeeData(response.data)
         })
         axios.get(url + "api/getRoles", { headers }).then((response) => {

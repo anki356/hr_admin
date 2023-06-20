@@ -10,11 +10,11 @@ import { useNavigate, useParams } from 'react-router-dom'
 const AddRoles = () => {
 const[role_name,setRoleName]=useState(null)
 const[floor_name,setFloorName]=useState(null)
-const[store_name,setStoreName]=useState(null)
+const[location_name,setlocationName]=useState(null)
 const[password,setPassword]=useState(null)
 const[username,setUsername]=useState(null)
 const [floorOptions,setFloorOptions]=useState([])
-const [storesOptions,setStoreOptions]=useState([])
+const [locationsOptions,setlocationOptions]=useState([])
 const url = "http://localhost:9000/"
 const cookies = new Cookies();
 const token = cookies.get('token')
@@ -24,8 +24,8 @@ useEffect(()=>{
 axios.get(url+"api/getFloors",{headers}).then((response)=>{
 setFloorOptions(response.data)
 })
-axios.get(url+"api/getStores",{headers}).then((response)=>{
-    setStoreOptions(response.data)
+axios.get(url+"api/getlocations",{headers}).then((response)=>{
+    setlocationOptions(response.data)
     })
 },[])
     const inputs = [
@@ -60,8 +60,8 @@ axios.get(url+"api/getStores",{headers}).then((response)=>{
         e.preventDefault()
 axios.post(url+"api/addRole",{
 role_name:role_name,
-floor_id:floor_name,
-store_id:store_name,
+// floor_id:floor_name,
+// location_id:location_name,
 },{headers}).then((response)=>{
     if(response){
         if(username!==undefined&&username!==null&&username!==''&&password!==undefined&&password!==null&&password!==''){
@@ -76,11 +76,13 @@ store_id:store_name,
                 }
             })
         }
+        else{
+            navigate(-1)
+        }
     }
 })
     }
-    console.log(store_name)
-    console.log(floor_name)
+   
     function cancel(){
 navigate(-1)
     }
@@ -92,7 +94,7 @@ navigate(-1)
             {inputs.map((element,index)=>(
                 <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
             ))}
-            <div className={classes.store_div}>
+            {/* <div className={classes.location_div}>
                     <label htmlFor='floor'>Floor</label>
                     <select name="floor"  onChange={(e)=>setFloorName(e.target.value)} id="floor">
                     {floorOptions.map((val, index) => (
@@ -100,16 +102,16 @@ navigate(-1)
                     ))}
                        
                     </select>
-                </div>
-                <div className={classes.store_div}>
-                    <label htmlFor='Store'>Store</label>
-                    <select name="Store"  onChange={(e)=>setStoreName(e.target.value)} id="Store">
-                    {storesOptions.map((val, index) => (
-                        <option key={index} selected={store_name===val.id} value={val.id}>{val.name}</option>
+                </div> */}
+                {/* <div className={classes.location_div}>
+                    <label htmlFor='location'>location</label>
+                    <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
+                    {locationsOptions.map((val, index) => (
+                        <option key={index} selected={location_name===val.id} value={val.id}>{val.name}</option>
                     ))}
                        
                     </select>
-                </div>
+                </div> */}
         </div>
         <div className={classes.btn_container}>
       

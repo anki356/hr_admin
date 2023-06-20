@@ -60,7 +60,7 @@ if(response){
                 <div className={classes.modal_data_div}>Name <span>{props.Obj.name}</span></div>
                 {/* <div className={classes.modal_data_div}>Id <span>{props.Obj.id}</span></div>
                 <div className={classes.modal_data_div}>Floor <span>{props.Obj.floor}</span></div> */}
-                <div className={classes.modal_data_div}>Department<span>{props.Obj.store_department_name}</span></div>
+                <div className={classes.modal_data_div}>Department<span>{props.Obj.location_department_name}</span></div>
                 <div className={classes.modal_data_div}>Designation<span>{props.Obj.role_name}</span></div>
                 {/* <div className={classes.modal_data_div}>Designation<span><select name="type" id="type" value={type} onChange={(e)=>setType(e.target.value)}>
                     <Option selected={type==='Percentage'} value="Percentage">Percentage</Option>

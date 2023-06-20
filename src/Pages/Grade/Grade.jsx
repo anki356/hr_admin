@@ -26,7 +26,7 @@ const [date, setDate] = useState(new Date())
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
   
   useEffect(()=>{
@@ -67,7 +67,7 @@ setTileData( [
    
   },
   {
-    title: 'Out From Store',
+    title: 'Out From location',
     value: responseThird.data[0].count_id,
     
   }
@@ -114,8 +114,8 @@ setTileData( [
     if (employeeFilter.floor_name != '') {
       getString += "&floor_name=" + employeeFilter.floor_name
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
+    if (employeeFilter.location_name != '') {
+      getString += "&location_name=" + employeeFilter.location_name
     }
     axios.get(getString,{headers}).then((response)=>{
       response.data.forEach((data)=>{
@@ -135,18 +135,18 @@ setTileData( [
       if (employeeFilter.floor_name != '') {
         getString += "&floor_name=" + employeeFilter.floor_name
       }
-      if (employeeFilter.store_name != '') {
-        getString += "&store_name=" + employeeFilter.store_name
+      if (employeeFilter.location_name != '') {
+        getString += "&location_name=" + employeeFilter.location_name
       }
       axios.get(getString,{headers}).then((response)=>{
         setTotal(response.data.length)
       })
   
   }, [date, limit, offset, employeeFilter])
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
   
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
   
   }
@@ -187,7 +187,7 @@ setTileData( [
     <React.Fragment>
       <Heading heading={'Grade'} Btn_link={'/add_grade'} Btn={'Grade'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter selectByFloor={selectByFloor} selectByStore={selectByStore}  title1={'Floor'} title2={'Store'} />
+      <DropDownFilter selectByFloor={selectByFloor} selectBylocation={selectBylocation}  title1={'Floor'} title2={'Location'} />
       <Filter data={Data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <div className={classes.whole_table_c}
       >

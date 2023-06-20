@@ -27,7 +27,7 @@ const Interviews = () => {
     interviewer_name: '',
     floor_name: "",
     interviewee_name: "",
-    store_name: ""
+    location_name: ""
   })
   const cookies = new Cookies();
   const { sendRequest: fetchInterview } = useHttp()
@@ -36,7 +36,7 @@ const Interviews = () => {
     const token = cookies.get('token')
     const headers = { "Authorization": "Bearer " + token }
     let from_date = moment()
-    axios.get(url+"api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='Store Incharge'",{headers}).then((response)=>{
+    axios.get(url+"api/getEmployeesBasedOnRole?role_name='Floor Incharge'&role_name='location Incharge'",{headers}).then((response)=>{
 setInterviewData(response.data)
     })
     const listInterview = (interview) => {
@@ -124,8 +124,8 @@ setInterviewData(response.data)
     if (employeeFilter.floor_name != '') {
       getString += "&floor_name=" + employeeFilter.floor_name
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
+    if (employeeFilter.location_name != '') {
+      getString += "&location_name=" + employeeFilter.location_name
     }
 
     const listInterview = (interview) => {
@@ -148,8 +148,8 @@ setInterviewData(response.data)
     if (employeeFilter.floor_name != '') {
       getString += "&floor_name=" + employeeFilter.floor_name
     }
-    if (employeeFilter.store_name != '') {
-      getString += "&store_name=" + employeeFilter.store_name
+    if (employeeFilter.location_name != '') {
+      getString += "&location_name=" + employeeFilter.location_name
     }
 
     const listTotal = (interview) => {
@@ -159,10 +159,10 @@ setInterviewData(response.data)
     }
     fetchInterview({ url: getString }, listTotal)
   }, [date, limit, offset, employeeFilter])
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
 
   }

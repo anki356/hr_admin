@@ -18,7 +18,7 @@ const tableHeadings = [
   { heading: 'Employee Name' },
   { heading: 'Employee ID' },
   { heading: 'Floor' },
-  { heading: 'Store' },
+  { heading: 'Location' },
   { heading: 'Fine Date' },
   { heading: 'Fine' },
   {heading:'Request Status'}
@@ -26,7 +26,7 @@ const tableHeadings = [
 ]
 
 const tableKeys = [
-  'employee_name', 'empID', 'floor_name','store_name', 'date', 'amount','status'
+  'employee_name', 'empID', 'floor_name','location_name', 'date', 'amount','status'
 ]
 
 const FineManagement = () => {
@@ -45,7 +45,7 @@ const FineManagement = () => {
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
   const cookies = new Cookies();
   const token = cookies.get('token')
@@ -112,8 +112,8 @@ const FineManagement = () => {
   useEffect(() => {
     let from_date = moment(date)
 //getFine
-if(employeeFilter.store_name!=''){
-  let getString = url + "api/getFines?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+if(employeeFilter.location_name!=''){
+  let getString = url + "api/getFines?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -132,7 +132,7 @@ if(employeeFilter.store_name!=''){
       setData(attendance)
     }
     fetchPendingAttendance({ url: getString }, listAttendance)
-    getString = url + "api/getFines?store_name="+employeeFilter.store_name
+    getString = url + "api/getFines?location_name="+employeeFilter.location_name
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -169,10 +169,10 @@ if(employeeFilter.store_name!=''){
 
   }
   // if(!loading){
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
 
   }
@@ -211,7 +211,7 @@ if(employeeFilter.store_name!=''){
     <React.Fragment>
       <Heading heading={'Fine Management'} Btn_link={'/add_fine'} Btn={'Fine'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor} selectBylocation={selectBylocation} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk3={true} link1={'/fine_approvals'} link2={'/fine_details'} link4={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}/>
       <AddFineModal value={newval} setval={setNewVal} Obj={obj} SuperVisor={SuperVisor} reloadFunc={OverAllData} />

@@ -33,7 +33,7 @@ import Pagination from '../../Components/Pagination/Pagination'
 //     num: 3
 //   },
 //   {
-//     title: 'Out From Store',
+//     title: 'Out From location',
 //     value: 23,
 //     num: -12
 //   }
@@ -65,7 +65,7 @@ const Bonus = () => {
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
   const cookies = new Cookies();
   const { sendRequest: fetchBonus } = useHttp()
@@ -120,8 +120,8 @@ const Bonus = () => {
   useEffect(() => {
     let from_date = moment(date)
 //getBonus
-if(employeeFilter.store_name!=''){
-  let getString = url + "api/getBonus?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+if(employeeFilter.location_name!=''){
+  let getString = url + "api/getBonus?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -155,7 +155,7 @@ if(employeeFilter.store_name!=''){
       setData(Bonus.bonusResult)
     }
     fetchBonus({ url: getString }, listBonus)
-    getString = url + "api/getBonus?store_name="+employeeFilter.store_name
+    getString = url + "api/getBonus?location_name="+employeeFilter.location_name
   if(employeeFilter.employee_query!=''){
     getString+="&employee_query="+employeeFilter.employee_query
 }
@@ -198,10 +198,10 @@ if(employeeFilter.store_name!=''){
 
   }
   // if(!loading){
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
 
   }
@@ -246,7 +246,7 @@ if(employeeFilter.store_name!=''){
     <React.Fragment>
       <Heading heading={'Bonus'}  Btn_link={'/add_bonus'} Btn={'Bonus'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor} selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor} selectBylocation={selectBylocation} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk={false} link1={'false'}  App_Btn={false} data={data} height={true} Btn={false} headings={tableHeading} keys={tableKeys} t3={'Add Bonus'} link2='false' />
 <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />

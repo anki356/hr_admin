@@ -28,7 +28,7 @@ const ExpenseApprovals = () => {
     employee_query:'',
     floor_name:"",
     role_name:"",
-    store_name:"",
+    location_name:"",
     category_name:""
   })
   const cookies = new Cookies();
@@ -79,7 +79,7 @@ const ExpenseApprovals = () => {
                 num: totalEmpGrantedNum
               },
               {
-                title: 'Out From Store',
+                title: 'Out From location',
                 value: totalOuts
               }
             ])
@@ -101,8 +101,8 @@ const ExpenseApprovals = () => {
     // }
     // const headers={"Authorization":"Bearer "+token}
     let from_date=moment(date)
-    if(employeeFilter.store_name!=''){
-      let getString=url+"api/getExpenses?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+    if(employeeFilter.location_name!=''){
+      let getString=url+"api/getExpenses?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
   }
@@ -123,7 +123,7 @@ const ExpenseApprovals = () => {
           setData(expenses)
         }
         fetchExpenses({ url: getString }, listExpenses) 
-        getString=url+"api/getExpenses?store_name="+employeeFilter.store_name
+        getString=url+"api/getExpenses?location_name="+employeeFilter.location_name
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
   }
@@ -184,10 +184,10 @@ const ExpenseApprovals = () => {
     
   }
 // if(!loading){
-  const selectByStore=(data)=>{
+  const selectBylocation=(data)=>{
    
     setEmployeeFilter((prevState)=>{
-    return {...prevState,store_name:data}
+    return {...prevState,location_name:data}
     })
     
   }
@@ -213,18 +213,18 @@ const ExpenseApprovals = () => {
     {heading:'Expense Type'},
     {heading:'Request Date'},
     {heading:'Status'},
-    {heading:'Store'}
+    {heading:'location'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','amount','category_name','date','status','store_name'
+    'employee_name','empID','amount','category_name','date','status','location_name'
   ]
 
   return (
     <React.Fragment>
       <Heading Btn={'Expense'} Btn_link={'/add_expense'} heading={'Expense Approvals'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} d3={true} title3={'Expense Type'} selectByCategory={selectCategory} selectByFloor={selectByFloor}  selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Location'} d3={true} title3={'Expense Type'} selectByCategory={selectCategory} selectByFloor={selectByFloor}  selectBylocation={selectBylocation} />
       <Filter data={Data}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable data={Data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys} Lnk3={true} link2={'/expense_details'} link1={'/expense_approval'} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />

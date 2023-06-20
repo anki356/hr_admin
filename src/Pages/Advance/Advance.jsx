@@ -25,7 +25,7 @@ const Advance = () => {
     employee_query: '',
     floor_name: "",
     role_name: "",
-    store_name: ""
+    location_name: ""
   })
   
   const [total,setTotal]=useState(0)
@@ -82,7 +82,7 @@ const Advance = () => {
 
                   },
                   {
-                    title: 'Out From Store',
+                    title: 'Out From location',
                     value: totalOut
                   }
                 ])
@@ -101,8 +101,8 @@ const Advance = () => {
     // }
     // const headers={"Authorization":"Bearer "+token}
     //getAdvances
-    if(employeeFilter.store_name!=''){
-      let getString = url + "api/getAdvances?store_name="+employeeFilter.store_name+"&limit="+limit+"&offset="+offset
+    if(employeeFilter.location_name!=''){
+      let getString = url + "api/getAdvances?location_name="+employeeFilter.location_name+"&limit="+limit+"&offset="+offset
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
     }
@@ -122,7 +122,7 @@ const Advance = () => {
           setData(advance)
         }
         fetchAdvance({ url: getString }, listAdvance)
-        getString = url + "api/getAdvances?store_name="+employeeFilter.store_name
+        getString = url + "api/getAdvances?location_name="+employeeFilter.location_name
       if(employeeFilter.employee_query!=''){
         getString+="&employee_query="+employeeFilter.employee_query
     }
@@ -158,14 +158,14 @@ const Advance = () => {
     { heading: 'Employee Name' },
     { heading: 'Employee ID' },
     { heading: 'Floor' },
-    { heading: 'Store' },
+    { heading: 'Location' },
     { heading: 'Designation' },
     { heading: 'Advance' },
     {heading:'Request Status'}
   ]
 
   const tableKeys = [
-    'employee_name', 'empID', 'floor_name', 'store_name','role_name', 'amount','status'
+    'employee_name', 'empID', 'floor_name', 'location_name','role_name', 'amount','status'
   ]
   const [newval, setNewVal] = useState(false)
   const [obj, setObj] = useState({})
@@ -178,10 +178,10 @@ const Advance = () => {
     setNewVal(val)
     setObj(element)
   }
-  const selectByStore = (data) => {
+  const selectBylocation = (data) => {
 
     setEmployeeFilter((prevState) => {
-      return { ...prevState, store_name: data }
+      return { ...prevState, location_name: data }
     })
 
   }
@@ -226,8 +226,8 @@ const Advance = () => {
     <React.Fragment>
       <Heading heading={'Advance'}  Btn_link={'/add_advance'} Btn={'Advance'}  />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'}
-        selectByFloor={selectByFloor} selectByStore={selectByStore} />
+      <DropDownFilter title1={'Floor'} title2={'Location'}
+        selectByFloor={selectByFloor} selectBylocation={selectBylocation} />
       <Filter data={data} changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee} />
       <MainTable func={changeModalState} Lnk3={true} link1={'/advance_approvals'} link2={'/advance_details'} link4={false} App_Btn={false} data={data} height={true} Btn={false} headings={tableHeadings} keys={tableKeys}  />
 

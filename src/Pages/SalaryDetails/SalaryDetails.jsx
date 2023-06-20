@@ -29,15 +29,15 @@ const SalaryDetails = () => {
     employee_query:'',
     floor_name:"",
     role_name:"",
-    store_name:""
+    location_name:""
   })
   const [total,setTotal]=useState(0)
   // Here is our data for tile in the page
  
-  const selectByStore=(data)=>{
+  const selectBylocation=(data)=>{
    
     setEmployeeFilter((prevState)=>{
-    return {...prevState,store_name:data}
+    return {...prevState,location_name:data}
     })
     
   }
@@ -122,12 +122,13 @@ const selectEntries=(data)=>{
     {heading:'Employee Name'},
     {heading:'Employee ID'},
     {heading:'Floor'},
+    {heading:'Location'},
     {heading:'Monthly Salary'},
     {heading:'Status'}
   ]
 
   const tableKeys = [
-    'employee_name','empID','floor_name', 'min_wages_as_per_rule','status'
+    'employee_name','empID','floor_name','location_name', 'min_wages_as_per_rule','status'
   ]
 
   const [newval, setNewVal] = useState(false)
@@ -161,8 +162,8 @@ const selectEntries=(data)=>{
       queryString+="&floor_name="+employeeFilter.floor_name
     }
     
-    if(employeeFilter.store_name!==''){
-      queryString+="&store_name="+employeeFilter.store_name
+    if(employeeFilter.location_name!==''){
+      queryString+="&location_name="+employeeFilter.location_name
     }
   
       fetchSalary({url:queryString},listSalary)
@@ -177,8 +178,8 @@ const selectEntries=(data)=>{
       queryString+="&floor_name="+employeeFilter.floor_name
     }
     
-    if(employeeFilter.store_name!==''){
-      queryString+="&store_name="+employeeFilter.store_name
+    if(employeeFilter.location_name!==''){
+      queryString+="&location_name="+employeeFilter.location_name
     }
   
       fetchSalary({url:queryString},listTotal)
@@ -190,7 +191,7 @@ const selectEntries=(data)=>{
       <DownloadSalarySlip value={newval} setval={setNewVal} Obj={obj} />
       <Heading heading={'Salary Details'} />
       <TileContainer Data={TileData} />
-      <DropDownFilter title1={'Floor'} title2={'Store'} selectByFloor={selectByFloor}  selectByStore={selectByStore}    />
+      <DropDownFilter title1={'Floor'} title2={'Location'} selectByFloor={selectByFloor}  selectBylocation={selectBylocation}    />
       <Filter data={salary}  changeDate={changeDate} changeByDesignation={changeByDesignation} changeByEmployee={changeByEmployee}/>
       <MainTable func={changeModalState} data={salary} height={true} Lnk={true} headings={tableHeadings} keys={tableKeys} link1={'/salary_slip'} link2={'/salary_certificate'} t1={'Make salary slip'} t2={'Make certificate'} link3={'false'} t3={'Download salary slip'} link4={'/overall_salary_details'} t4={'View Salary Details'} App_Btn={true} />
       <Pagination selectEntries={selectEntries} selectPage={selectPage} offset={offset} limit={limit} total={total} />

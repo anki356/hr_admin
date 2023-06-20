@@ -90,7 +90,7 @@ function changeByEmployee(){
             id="Designation"
             >
               <option defaultValue="All Designation"></option>
-            {designationOptions&&designationOptions.map((value) => <option key={value.id} value={value.role_name} >{value.role_name}</option>)}
+            {designationOptions&&designationOptions.map((value) => <option key={value.id} value={value.name} >{value.name}</option>)}
             </select>
         <img src={vec} className={classes.img2} alt="" />
       </div>

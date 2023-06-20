@@ -28,7 +28,7 @@ const AttendenceCorrection = () => {
       num: -1
     },
     {
-      title: 'Out From Store',
+      title: 'Out From location',
       value: 23,
       num: 12
     }

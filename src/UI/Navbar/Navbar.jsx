@@ -6,18 +6,29 @@ import I2 from '../../assets/data.png'
 import Bell from '../../assets/noti.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import Cookies from 'universal-cookie'
+
 import NotificationBox from './NotificationBox/NotificationBox'
+import axios from 'axios'
+import Cookies from 'universal-cookie'
 
 const Navbar = (props) => {
-  const [notificationBox, setNotificationBox] = useState(false)
+  
+const url="http://localhost:9000/"
+const cookies = new Cookies()
 
+// Token validation 
+const token = cookies.get('token')
+const headers = { "Authorization": "Bearer " + token }
+  const [notificationBox, setNotificationBox] = useState(false)
+  const [notifications,setNotifications]=useState([])
+  useEffect(()=>{
+    axios.get(url+"api/getNotifications",{headers}).then((response)=>{
+        setNotifications(response.data)
+    })
+    },[])
   // Used for navigation
   const navigate = useNavigate()
-  const cookies = new Cookies()
-
-  // Token validation 
-  const token = cookies.get('token')
+ 
 
   const sidebarHandler = () => {
     props.onSideberBtn(true)
@@ -55,7 +66,7 @@ const Navbar = (props) => {
 
   return (
     <>
-    <NotificationBox visibility={notificationBox} overlayFunc={setNotificationBox} />
+    <NotificationBox visibility={notificationBox} overlayFunc={setNotificationBox} notifications={notifications} />
     <nav className={classes.navbar}>
       <div className={classes.nav_logo}>
         <img src={Img} alt="" />

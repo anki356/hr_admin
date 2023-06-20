@@ -26,7 +26,7 @@ const EmployeeTransferDetails = () => {
     const [employee_data, setEmployeeData] = useState([])
     const [transfer_info, setTransferInfo] = useState([])
     const [department_to, setDepartmentTo] = useState(null)
-    const [store_to, setStoreTo] = useState(null)
+    const [location_to, setlocationTo] = useState(null)
     const [floor_to, setFloorTo] = useState(null)
 
     useEffect(() => {
@@ -54,11 +54,11 @@ const EmployeeTransferDetails = () => {
                 value: employeeData.employeesResult[0].gender
 
             }, {
-                title: 'Store name',
-                value: employeeData.employeesResult[0].store_name
+                title: 'location name',
+                value: employeeData.employeesResult[0].location_name
             }, {
-                title: 'Store Department',
-                value: employeeData.employeesResult[0].store_department_name
+                title: 'location Department',
+                value: employeeData.employeesResult[0].location_department_name
             }])
             setEmpId(employeeData.employeesResult[0].empID)
 
@@ -70,18 +70,18 @@ const EmployeeTransferDetails = () => {
             },
             {
                 title: 'Change Department',
-                value: transfer[0].store_dep_name
+                value: transfer[0].location_dep_name
             },
             {
                 title: 'Previous Department',
                 value: transfer[0].department_from_name
             },
             {
-                title: 'Change Store',
-                value: transfer[0].stores_to_name
+                title: 'Change location',
+                value: transfer[0].locations_to_name
             }])
             setFloorTo(transfer[0].floor_id_to)
-            setStoreTo(transfer[0].store_id_to)
+            setlocationTo(transfer[0].location_id_to)
             setDepartmentTo(transfer[0].department_to)
         }
 
@@ -109,7 +109,7 @@ const EmployeeTransferDetails = () => {
             "employee_id": employee_id,
             "department_to": department_to,
             "floor_id_to": floor_to,
-            "store_id": store_to
+            "location_id": location_to
         }, { headers }).then((response) => {
             if (response) {
                 navigate(-1)
