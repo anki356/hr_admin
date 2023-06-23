@@ -39,34 +39,33 @@ axios.get(url+"api/getlocations",{headers}).then((response)=>{
             title: 'Role',
             id: 'role',
             ph: '',
-            value:role_name,
-            func:setRoleName,
-            required:true
+            value: role_name,
+            func: setRoleName,
+            required: true
         },
         {
             title: 'Password',
             id: 'password',
             ph: '',
-            value:password,
-            func:setPassword,
-            required:false
+            value: password,
+            func: setPassword,
+            required: false
         },
         {
             title: 'Username',
             id: 'username',
             ph: '',
-            value:username,
-            func:setUsername,
-            required:false
+            value: username,
+            func: setUsername,
+            required: false
         },
     ]
-    function edit(event){
-        event.preventDefault()
+    function edit(){
         const headers = { "Authorization": "Bearer " + token }
 axios.patch(url+"api/editRole/"+id,{
 role_name:role_name,
-floor_id:floor_id,
-location_id:location_id,
+// floor_id:floor_name,
+// location_id:location_name,
 username:username,
 password:password
 },{headers}).then((response)=>{
@@ -86,24 +85,24 @@ navigate(-1)
                 {inputs.map((element, index) => (
                     <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
                 ))}
-               <div className={classes.location_div}>
+               {/* <div className={classes.location_div}>
                     <label htmlFor='floor'>Floor</label>
-                    <select name="floor" value={floor_id} onChange={(e)=>setFloorId(e.target.value)} id="floor">
+                    <select name="floor"  onChange={(e)=>setFloorName(e.target.value)} id="floor">
                     {floorOptions.map((val, index) => (
-                        <option key={index} selected={floor_id===val.id} value={val.id}>{val.name}</option>
+                        <option key={index} selected={floor_name===val.id} value={val.id}>{val.name}</option>
                     ))}
                        
                     </select>
-                    </div>
+                </div>
                 <div className={classes.location_div}>
                     <label htmlFor='location'>location</label>
-                    <select name="location" required value={location_id} onChange={(e)=>setlocationId(e.target.value)} id="location">
+                    <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
                     {locationsOptions.map((val, index) => (
-                        <option key={index} selected={location_id===val.id} value={val.id}>{val.name}</option>
+                        <option key={index} selected={location_name===val.id} value={val.id}>{val.name}</option>
                     ))}
                        
                     </select>
-                </div> 
+                </div> */}
             </div>
             <div className={classes.btn_container}>
       
@@ -111,7 +110,7 @@ navigate(-1)
       <button type={'submit'}  className={classes.accept} >Edit Role</button>
     </div>
             </form>
-           
+
         </React.Fragment>
     )
 }

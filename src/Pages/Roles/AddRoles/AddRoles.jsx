@@ -7,55 +7,56 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 
 import { useNavigate, useParams } from 'react-router-dom'
+import SwitchButton from '../../../Components/SwitchButton/SwitchButton'
 const AddRoles = () => {
-const[role_name,setRoleName]=useState(null)
-const[floor_name,setFloorName]=useState(null)
-const[location_name,setlocationName]=useState(null)
-const[password,setPassword]=useState(null)
-const[username,setUsername]=useState(null)
-const [floorOptions,setFloorOptions]=useState([])
-const [locationsOptions,setlocationOptions]=useState([])
-const url = "http://localhost:9000/"
-const cookies = new Cookies();
-const token = cookies.get('token')
-const navigate = useNavigate()
-useEffect(()=>{
-    const headers = { "Authorization": "Bearer " + token }
-axios.get(url+"api/getFloors",{headers}).then((response)=>{
-setFloorOptions(response.data)
-})
-axios.get(url+"api/getlocations",{headers}).then((response)=>{
-    setlocationOptions(response.data)
-    })
-},[])
+    const [role_name, setRoleName] = useState(null)
+    const [floor_name, setFloorName] = useState(null)
+    const [store_name, setStoreName] = useState(null)
+    const [password, setPassword] = useState(null)
+    const [username, setUsername] = useState(null)
+    const [floorOptions, setFloorOptions] = useState([])
+    const [storesOptions, setStoreOptions] = useState([])
+    const url = "http://localhost:9000/"
+    const cookies = new Cookies();
+    const token = cookies.get('token')
+    const navigate = useNavigate()
+    useEffect(() => {
+        const headers = { "Authorization": "Bearer " + token }
+        axios.get(url + "api/getFloors", { headers }).then((response) => {
+            setFloorOptions(response.data)
+        })
+        axios.get(url + "api/getStores", { headers }).then((response) => {
+            setStoreOptions(response.data)
+        })
+    }, [])
     const inputs = [
         {
             title: 'Role',
             id: 'role',
             ph: '',
-            value:role_name,
-            func:setRoleName,
-            required:true
+            value: role_name,
+            func: setRoleName,
+            required: true
         },
         {
             title: 'Password',
             id: 'password',
             ph: '',
-            value:password,
-            func:setPassword,
-            required:false
+            value: password,
+            func: setPassword,
+            required: false
         },
         {
             title: 'Username',
             id: 'username',
             ph: '',
-            value:username,
-            func:setUsername,
-            required:false
+            value: username,
+            func: setUsername,
+            required: false
         },
-       
+
     ]
-    function add(e){
+    function add(e) {
         const headers = { "Authorization": "Bearer " + token }
         e.preventDefault()
 axios.post(url+"api/addRole",{
@@ -66,25 +67,23 @@ location_id:location_name,
     if(response){
         if(username!==undefined&&username!==null&&username!==''&&password!==undefined&&password!==null&&password!==''){
 
-            axios.post(url+"api/auth/register",{
-                role:role_name,
-                username:username,
-                password:password
-            },{headers}).then((responseOne)=>{
-                if(responseOne){
-                    navigate(-1)
+                    axios.post(url + "api/auth/register", {
+                        role: role_name,
+                        username: username,
+                        password: password
+                    }, { headers }).then((responseOne) => {
+                        if (responseOne) {
+                            navigate(-1)
+                        }
+                    })
                 }
-            })
-        }
-        else{
-            navigate(-1)
-        }
+            }
+        })
     }
-})
-    }
-   
-    function cancel(){
-navigate(-1)
+    console.log(store_name)
+    console.log(floor_name)
+    function cancel() {
+        navigate(-1)
     }
   return (
     <React.Fragment>
@@ -103,7 +102,7 @@ navigate(-1)
                        
                     </select>
                 </div> */}
-                <div className={classes.location_div}>
+                {/* <div className={classes.location_div}>
                     <label htmlFor='location'>location</label>
                     <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
                     {locationsOptions.map((val, index) => (
@@ -111,7 +110,7 @@ navigate(-1)
                     ))}
                        
                     </select>
-                </div>
+                </div> */}
         </div>
         <div className={classes.btn_container}>
       

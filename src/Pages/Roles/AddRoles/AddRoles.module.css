@@ -4,18 +4,33 @@
   justify-content: space-between;
 }
 
-.location_div {
+.switch_container {
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+.switch_container > h2 {
+  width: 100%;
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #96503f;
+}
+
+.store_div {
   display: flex;
   flex-direction: column;
   position: relative;
   width: 49%;
 }
-.location_div label {
+.store_div label {
   font-size: 14px;
   font-weight: 500;
   color: #96503f;
 }
-.location_div select {
+.store_div select {
   height: 47px;
   border-radius: var(--br);
   border: 1px solid #dcd8d8;
@@ -26,8 +41,8 @@
   font-weight: 400;
 }
 
-.location_div select:focus-visible,
-.location_div select:focus-visible {
+.store_div select:focus-visible,
+.store_div select:focus-visible {
   outline: 1px solid var(--bg);
 }
 .btn_container {
