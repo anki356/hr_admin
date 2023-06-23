@@ -29,7 +29,7 @@ const Emp_Transfer = () => {
     const [department_to, setDepartmentTo] = useState(null)
     const [location_to, setlocationTo] = useState(null)
     const [floor_to, setFloorTo] = useState(null)
-
+const[designation_to,setDesignationTo]=useState(null)
     useEffect(() => {
         const url = "http://localhost:9000/"
         // if(token===null){
@@ -78,12 +78,18 @@ const Emp_Transfer = () => {
                 value: transfer[0].department_from_name
             },
             {
-                title: 'Change location',
+                title: 'Change Location',
                 value: transfer[0].locations_to_name
-            }])
+            },
+            {
+                title: 'Change Designation',
+                value: transfer[0].designation_to_name
+            },
+        ])
             setFloorTo(transfer[0].floor_id_to)
             setlocationTo(transfer[0].location_id_to)
             setDepartmentTo(transfer[0].department_to)
+            setDesignationTo(transfer[0].designation_to)
         }
 
         fetchEmployee({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployee)
@@ -110,7 +116,8 @@ const Emp_Transfer = () => {
             "employee_id": employee_id,
             "department_to": department_to,
             "floor_id_to": floor_to,
-            "location_id": location_to
+            "location_id": location_to,
+            "designation_to":designation_to
         }, { headers }).then((response) => {
             if (response) {
                 navigate(-1)

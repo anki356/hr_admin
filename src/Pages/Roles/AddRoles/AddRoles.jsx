@@ -61,7 +61,7 @@ axios.get(url+"api/getlocations",{headers}).then((response)=>{
 axios.post(url+"api/addRole",{
 role_name:role_name,
 // floor_id:floor_name,
-// location_id:location_name,
+location_id:location_name,
 },{headers}).then((response)=>{
     if(response){
         if(username!==undefined&&username!==null&&username!==''&&password!==undefined&&password!==null&&password!==''){
@@ -103,7 +103,7 @@ navigate(-1)
                        
                     </select>
                 </div> */}
-                {/* <div className={classes.location_div}>
+                <div className={classes.location_div}>
                     <label htmlFor='location'>location</label>
                     <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
                     {locationsOptions.map((val, index) => (
@@ -111,7 +111,7 @@ navigate(-1)
                     ))}
                        
                     </select>
-                </div> */}
+                </div>
         </div>
         <div className={classes.btn_container}>
       

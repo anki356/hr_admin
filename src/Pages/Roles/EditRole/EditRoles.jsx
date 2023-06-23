@@ -8,8 +8,8 @@ import Cookies from 'universal-cookie'
 import { useNavigate, useParams } from 'react-router-dom'
 const EditRoles = () => {
 const[role_name,setRoleName]=useState(null)
-const[floor_name,setFloorName]=useState(null)
-const[location_name,setlocationName]=useState(null)
+const[floor_id,setFloorId]=useState(null)
+const[location_id,setlocationId]=useState(null)
 const[password,setPassword]=useState(null)
 const[username,setUsername]=useState(null)
 const [floorOptions,setFloorOptions]=useState([])
@@ -22,8 +22,8 @@ const {id}=useParams()
 useEffect(()=>{
     const headers = { "Authorization": "Bearer " + token }
     axios.get(url+"api/getRoleData?id="+id,{headers}).then((response)=>{
-        setFloorName(response.data[0].floor_name)
-        setlocationName(response.data[0].location_name)
+       setFloorId(response.data[0].floor_id)
+       setlocationId(response.data[0].location_id)
         setUsername(response.data[0].username)
         setRoleName(response.data[0].role_name)
         }) 
@@ -60,12 +60,13 @@ axios.get(url+"api/getlocations",{headers}).then((response)=>{
             required:false
         },
     ]
-    function edit(){
+    function edit(event){
+        event.preventDefault()
         const headers = { "Authorization": "Bearer " + token }
 axios.patch(url+"api/editRole/"+id,{
 role_name:role_name,
-// floor_id:floor_name,
-// location_id:location_name,
+floor_id:floor_id,
+location_id:location_id,
 username:username,
 password:password
 },{headers}).then((response)=>{
@@ -85,24 +86,24 @@ navigate(-1)
                 {inputs.map((element, index) => (
                     <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
                 ))}
-               {/* <div className={classes.location_div}>
+               <div className={classes.location_div}>
                     <label htmlFor='floor'>Floor</label>
-                    <select name="floor"  onChange={(e)=>setFloorName(e.target.value)} id="floor">
+                    <select name="floor" value={floor_id} onChange={(e)=>setFloorId(e.target.value)} id="floor">
                     {floorOptions.map((val, index) => (
-                        <option key={index} selected={floor_name===val.id} value={val.id}>{val.name}</option>
+                        <option key={index} selected={floor_id===val.id} value={val.id}>{val.name}</option>
                     ))}
                        
                     </select>
-                </div>
+                    </div>
                 <div className={classes.location_div}>
                     <label htmlFor='location'>location</label>
-                    <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
+                    <select name="location" required value={location_id} onChange={(e)=>setlocationId(e.target.value)} id="location">
                     {locationsOptions.map((val, index) => (
-                        <option key={index} selected={location_name===val.id} value={val.id}>{val.name}</option>
+                        <option key={index} selected={location_id===val.id} value={val.id}>{val.name}</option>
                     ))}
                        
                     </select>
-                </div> */}
+                </div> 
             </div>
             <div className={classes.btn_container}>
       

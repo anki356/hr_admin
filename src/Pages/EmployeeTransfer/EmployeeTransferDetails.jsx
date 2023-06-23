@@ -28,7 +28,7 @@ const EmployeeTransferDetails = () => {
     const [department_to, setDepartmentTo] = useState(null)
     const [location_to, setlocationTo] = useState(null)
     const [floor_to, setFloorTo] = useState(null)
-
+const[designation_to,setDesignationTo]=useState(null)
     useEffect(() => {
         const url = "http://localhost:9000/"
         // if(token===null){
@@ -79,10 +79,15 @@ const EmployeeTransferDetails = () => {
             {
                 title: 'Change location',
                 value: transfer[0].locations_to_name
-            }])
+            },
+        {
+                title: 'Change Designation',
+                value: transfer[0].designation_to_name
+            },])
             setFloorTo(transfer[0].floor_id_to)
             setlocationTo(transfer[0].location_id_to)
             setDepartmentTo(transfer[0].department_to)
+             setDesignationTo(transfer[0].designation_to)
         }
 
         fetchEmployee({ url: url + "api/getEmployeeDetails?id=" + employee_id }, listEmployee)

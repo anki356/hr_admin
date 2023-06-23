@@ -59,7 +59,7 @@ const AddEmployee_form3 = (props) => {
       <LabeledSelect required={true} title={'Fine Management'} select_id='fine_management' data={[{ 'name': 'Yes' }, { 'name': 'No' }]} cls={true} selectedVal={(data) => props.changeFineMgmt(data)} value={props.fine_mgmt} />
 
       {props.formInput.map((element, index) => (
-        <LabeledInput required={element.required} key={index} cls={'wd50'} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title} />
+        <LabeledInput disabled={element.disabled} required={element.required} key={index} cls={'wd50'} img={false} title={element.title} value={element.value} func2={(data) => element.function(data)} type={element.type ? element.type : 'text'} id={element.title} />
       ))}
 
       <LabeledSelect required={true} title={'Employee Type'} select_id='emp_type' data={selectData} cls={true} selectedVal={props.chanageEmpType} value={props.emp_type} />

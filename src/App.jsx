@@ -150,7 +150,7 @@ const App = () => {
               <Route exact path="/salary_summary_details/:id" element={<SalarySummaryDetails />} />
 
 
-              <Route exact path="/report" element={<Report />} />
+              {/* <Route exact path="/report" element={<Report />} /> */}
 
               <Route exact path="/bonus" element={<Bonus />} />
               <Route exact path="/bonus_approvals" element={<BonusApprovals />} />
