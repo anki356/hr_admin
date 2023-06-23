@@ -116,7 +116,7 @@ const App = () => {
               <Route exact path="/leave_management" element={<LeaveManagement />} />
               <Route exact path="/leave_approvals/:id/:employee_id" element={<LeaveApprovals />} />
               <Route exact path="/emi_details_all_loans/:employee_id" element={<EMIAll />} />
-
+   
               <Route exact path="/loan_emi" element={<LoanEmi />} />
               <Route exact path="/add_loan" element={<AddLoan />} />
               <Route exact path="/loan_approvals/:id/:employee_id" element={<LoanApprovals />} />
