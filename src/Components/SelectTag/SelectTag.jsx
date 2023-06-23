@@ -20,7 +20,7 @@ const [value,setValue]=useState('')
         <div className={classes.select_div}>
             <img src={props.img} className={classes.select_img} alt="" />
             {optionData ?
-                <select  required={props?.required} name='select'  className={classes.select} onChange={(e)=>valHandler(e)} id={props.select_id ? props.select_id :''}>
+                <select value={props.value}  required={props?.required} name='select'  className={classes.select} onChange={(e)=>valHandler(e)} id={props.select_id ? props.select_id :''}>
                     <option value={''}>{props.title}</option>
                     {!props.usingid ? optionData.map((val, index) => (
                         <option key={index} value={val.name}>{val.name}</option>

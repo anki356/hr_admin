@@ -59,13 +59,13 @@ const AddRoles = () => {
     function add(e) {
         const headers = { "Authorization": "Bearer " + token }
         e.preventDefault()
-        axios.post(url + "api/addRole", {
-            role_name: role_name,
-            floor_id: floor_name,
-            store_id: store_name,
-        }, { headers }).then((response) => {
-            if (response) {
-                if (username !== undefined && username !== null && username !== '' && password !== undefined && password !== null && password !== '') {
+axios.post(url+"api/addRole",{
+role_name:role_name,
+// floor_id:floor_name,
+location_id:location_name,
+},{headers}).then((response)=>{
+    if(response){
+        if(username!==undefined&&username!==null&&username!==''&&password!==undefined&&password!==null&&password!==''){
 
                     axios.post(url + "api/auth/register", {
                         role: role_name,
@@ -85,50 +85,42 @@ const AddRoles = () => {
     function cancel() {
         navigate(-1)
     }
-    return (
-        <React.Fragment>
-            <Heading heading='Add Role' />
-            <form onSubmit={add}>
-                <div className={classes.container}>
-                    {inputs.map((element, index) => (
-                        <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data) => element.func(data)} />
+  return (
+    <React.Fragment>
+        <Heading heading='Add Role' />
+        <form onSubmit={add}>
+        <div className={classes.container}>
+            {inputs.map((element,index)=>(
+                <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
+            ))}
+            {/* <div className={classes.location_div}>
+                    <label htmlFor='floor'>Floor</label>
+                    <select name="floor"  onChange={(e)=>setFloorName(e.target.value)} id="floor">
+                    {floorOptions.map((val, index) => (
+                        <option key={index} selected={floor_name===val.id} value={val.id}>{val.name}</option>
                     ))}
-                    <div className={classes.store_div}>
-                        <label htmlFor='floor'>Floor</label>
-                        <select name="floor" onChange={(e) => setFloorName(e.target.value)} id="floor">
-                            {floorOptions.map((val, index) => (
-                                <option key={index} selected={floor_name === val.id} value={val.id}>{val.name}</option>
-                            ))}
-
-                        </select>
-                    </div>
-                    <div className={classes.store_div}>
-                        <label htmlFor='Store'>Store</label>
-                        <select name="Store" onChange={(e) => setStoreName(e.target.value)} id="Store">
-                            {storesOptions.map((val, index) => (
-                                <option key={index} selected={store_name === val.id} value={val.id}>{val.name}</option>
-                            ))}
-
-                        </select>
-                    </div>
-                </div>
-                <div className={classes.switch_container}>
-                    <h2>Permissions</h2>
-                    <SwitchButton label={'Attendance'} />
-                    <SwitchButton label={'Timming Approval'} />
-                    <SwitchButton label={'Interview'} />
-                    <SwitchButton label={'Employee Detail'} />
-                    <SwitchButton label={'Salary'} />
-                    <SwitchButton label={'Fine Management'} />
-                </div>
-                <div className={classes.btn_container}>
-                    <button className={classes.cancel} onClick={(event) => cancel(event)}>Cancel</button>
-                    <button type={'submit'} className={classes.accept} >Add Role</button>
-                </div>
-            </form>
-
-        </React.Fragment>
-    )
+                       
+                    </select>
+                </div> */}
+                {/* <div className={classes.location_div}>
+                    <label htmlFor='location'>location</label>
+                    <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
+                    {locationsOptions.map((val, index) => (
+                        <option key={index} selected={location_name===val.id} value={val.id}>{val.name}</option>
+                    ))}
+                       
+                    </select>
+                </div> */}
+        </div>
+        <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Add Role</button>
+    </div>
+        </form>
+       
+    </React.Fragment>
+  )
 }
 
 export default AddRoles

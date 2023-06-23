@@ -90,9 +90,9 @@ const Sidebar = (props) => {
         <li>
           <NavLink onClick={() => { props.onSideberBtn() }} to={'/bonus'} className={classes.sidebar_a}><img src={Report} alt="" />Bonus</NavLink>
         </li>
-        <li>
+        {/* <li>
           <NavLink onClick={() => { props.onSideberBtn() }} to={'/report'} className={classes.sidebar_a}><img src={Report} alt="" />Report</NavLink>
-        </li>
+        </li> */}
         <li>
           <NavLink onClick={() => { props.onSideberBtn() }} to={'/hierarchy'} className={classes.sidebar_a}><img src={Report} alt="" />Hierarchy</NavLink>
         </li>

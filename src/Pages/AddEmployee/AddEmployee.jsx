@@ -23,7 +23,9 @@ const AddEmployee = () => {
     const headers = { "Authorization": "Bearer " + token, 'Content-Type': 'multipart/form-data' }
     const [photo, setPhoto] = useState(null)
     const [data, setData] = useState([])
+    const [roleData, setRoleData] = useState([])
     const[headEmployeeData,setHeadEmployeeData]=useState([])
+    const [bankdetailsDisabled,setBankDetailsDisabled]=useState(false)
     const [supervisorData,setSupervisorData]=useState([])
     const getEmpData = async (EmpId) => {
         try {
@@ -91,6 +93,7 @@ const AddEmployee = () => {
         }
     }, [parameter])
 
+    
 
     const navigate = useNavigate()
     const [num, setNum] = useState(1)
@@ -125,7 +128,7 @@ const AddEmployee = () => {
     const [branch, setBranch] = useState(null)
     const [ifsc, setIFSC] = useState(null)
     const [uan_no, setUAN] = useState(null)
-
+const[locationDisabled,setLocationDisabled]=useState(true)
     const [min_wages, setMinWages] = useState(null)
     const [base_salary, setBaseSalary] = useState(null)
     const [emp_type, setEmpType] = useState(null)
@@ -380,7 +383,8 @@ const AddEmployee = () => {
             value: department,
             title: 'Department',
             num: 2,
-            required: true
+            required: true,
+            disabled:false
 
         },
         {
@@ -388,7 +392,8 @@ const AddEmployee = () => {
             value: week_off,
             title: 'Week OFF',
             num: 8,
-            required: true
+            required: true,
+            disabled:false
 
         },
         {
@@ -396,42 +401,48 @@ const AddEmployee = () => {
             value: designation,
             title: 'Designation',
             num: 1,
-            required: true
+            required: true,
+            disabled:false
         },
         {
             function: changeHeadEmployee,
             value: head_employee,
             title: 'Head Employee',
             num: 6,
-            required: false
+            required: false,
+            disabled:false
         },
         {
             function: changeHiredBy,
             value: hiredBy,
             title: 'Hired By',
             num: 6,
-            required: false
+            required: false,
+            disabled:false
         },
         {
             function: changeSupervisor,
             value: superVisor,
             title: 'Supervisor',
             num: 7,
-            required: false
+            required: false,
+            disabled:false
         },
         {
             function: changeSection,
             value: section,
             title: 'Section',
             num: 5,
-            required: false
+            required: false,
+            disabled:false
         },
         {
             function: changelocation,
             value: location,
             title: 'Location',
             num: 4,
-            required: true
+            required: true,
+            disabled:locationDisabled
         },
     ]
     const spl_form2_selects = [
@@ -440,7 +451,8 @@ const AddEmployee = () => {
             value: floor,
             title: 'Floor',
             num: 3,
-            required: true
+            required: true,
+            disabled:false
         },
         
     ]
@@ -485,43 +497,50 @@ const AddEmployee = () => {
             function: changeBankName,
             value: bank_name,
             title: 'Bank Name',
-            required: true
+            required: false,
+            disabled:bankdetailsDisabled
         },
         {
             function: changeBranch,
             value: branch,
             title: 'Branch',
-            required: true
+            required: false,
+            disabled:bankdetailsDisabled
         },
         {
             function: changeIFSC,
             value: ifsc,
             title: 'IFSC',
-            required: true
+            required: false,
+            disabled:bankdetailsDisabled
         },
         {
             function: changeAcountNo,
             value: account_no,
             title: 'Account N0.',
-            required: true
+            required: false,
+            disabled:bankdetailsDisabled
         },
         {
             function: changeMInWages,
             value: min_wages,
             title: 'Min Wages',
-            required: true
+            required: true,
+            disabled:false
         },
         {
             function: changeUAN,
             value: uan_no,
             title: 'UAN No.',
-            required: false
+            required: false,
+            disabled:bankdetailsDisabled
         },
         {
             function: changeBaseSalary,
             value: base_salary,
             title: 'Base Salary',
-            required: true
+            required: true,
+            disabled:false
         },
     ]
 
@@ -530,7 +549,7 @@ const AddEmployee = () => {
             case 1:
                 return <AddEmployee_form1 formData={form1Functions} changeGender={setGender} genderValue={gender} />
             case 2:
-                return <AddEmployee_form2 supervisorData={supervisorData} head_employee_data={headEmployeeData} spl_key={designation} formSelect={form2Selects} formInput={form2Input} spl={spl_form2_selects} />
+                return <AddEmployee_form2 supervisorData={supervisorData} head_employee_data={headEmployeeData} spl_key={designation} formSelect={form2Selects} formInput={form2Input} spl={spl_form2_selects} role_data={roleData} />
             case 3:
                 return <AddEmployee_form3 formInput={form3Input} changeModeOfPay={changeModeOfPay} mode_of_pay={mode_of_pay} changeFineMgmt={changeFineMgmt} fine_mgmt={fine_mgmt} newFile={newFile} chanageEmpType={chanageEmpType} emp_type={emp_type} edit={true} data={data} photo={photo} />
 
@@ -551,14 +570,13 @@ const AddEmployee = () => {
             "marital_status": marital_status,
             "gender": gender,
             "qualification": qualification,
-            "location_department_id": section,
+            "store_department_id": section,
             "designation_id": designation,
             "department_id": department,
             "hiring_date_time": lead_date,
             "lead_from": hiring_from,
             "head_employee_id": head_employee,
             "hired_by_employee_id": hiredBy,
-            "location": job_location,
             "bank_name": bank_name,
             "branch": branch,
             "ifsc": ifsc,
@@ -599,22 +617,49 @@ const AddEmployee = () => {
         })
     }
 useEffect(()=>{
-    axios.get(url+"api/getParentRole?role_id="+designation,{headers}).then((parentRoleResult)=>{
-        axios.get(url + "api/getEmployeesBasedOnRole?role_name="+parentRoleResult.data[0].role_name, { headers }).then((response) => {
-            setHeadEmployeeData(response.data)
-            axios.get(url+"api/getParentRole?role_id="+parentRoleResult.data[0].id,{headers}).then((parentRoleResult)=>{
-           
-                axios.get(url + "api/getEmployeesBasedOnRole?role_name="+parentRoleResult.data[0].role_name, { headers }).then((response) => {
-                    setSupervisorData(response.data)
-                    axios.get(url + "api/getlocations", { headers }).then((response) => {
-                        setlocationData(response.data)
-                      })
-                })
+    if(designation!==null){
+        axios.get(url+"api/getRoleData?id="+designation,{headers}).then((roleResponseData)=>{
+            setlocation(roleResponseData?.data[0]?.location_id)
+         
+            axios.get(url+"api/getParentRole?role_id="+designation,{headers}).then((parentRoleResult)=>{
+                axios.get(url + "api/getEmployeesBasedOnRole?role_name="+parentRoleResult.data[0]?.role_name, { headers }).then((response) => {
+                    setHeadEmployeeData(response.data)
+                    axios.get(url+"api/getParentRole?role_id="+parentRoleResult.data[0].id,{headers}).then((superParentRoleResult)=>{
+                   console.log(superParentRoleResult)
+                        axios.get(url + "api/getEmployeesBasedOnRole?role_name="+superParentRoleResult?.data[0]?.role_name, { headers }).then((response) => {
+                            setSupervisorData(response.data)
+                           
+                          
+                        })
+                    })
+                  }) 
             })
-          }) 
-    })
+        })
+    }
+ 
+  
 },[designation])
-
+useEffect(()=>{
+    axios.get(url + "api/getRoles?department_id="+department, { headers }).then((response) => {
+        response.data = response.data.filter((data) => data.name !== 'Super Admin' && data.name !== 'Admin')
+        response.data = response.data.filter((data, index, self) => {
+          let indexOne = self.findIndex((dataOne) => dataOne.name === data.name)
+          console.log(indexOne)
+          if (indexOne === index) {
+            return data
+          }
+        })
+  
+        setRoleData(response.data)
+      })
+},[department])
+useEffect(()=>{
+if(mode_of_pay==='Cash'){
+    setBankDetailsDisabled(true)
+}else{
+    setBankDetailsDisabled(false)
+}
+},[mode_of_pay])
     return (
         <React.Fragment>
             <Heading heading={parameter.id ? 'Edit Employee' : 'Add Employee'} />

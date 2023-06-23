@@ -7,33 +7,33 @@ import axios from 'axios'
 import Cookies from 'universal-cookie'
 import { useNavigate, useParams } from 'react-router-dom'
 const EditRoles = () => {
-    const [role_name, setRoleName] = useState(null)
-    const [floor_name, setFloorName] = useState(null)
-    const [store_name, setStoreName] = useState(null)
-    const [password, setPassword] = useState(null)
-    const [username, setUsername] = useState(null)
-    const [floorOptions, setFloorOptions] = useState([])
-    const [storesOptions, setStoreOptions] = useState([])
-    const url = "http://localhost:9000/"
-    const cookies = new Cookies();
-    const token = cookies.get('token')
-    const navigate = useNavigate()
-    const { id } = useParams()
-    useEffect(() => {
-        const headers = { "Authorization": "Bearer " + token }
-        axios.get(url + "api/getRoleData?id=" + id, { headers }).then((response) => {
-            setFloorName(response.data[0].floor_name)
-            setStoreName(response.data[0].store_name)
-            setUsername(response.data[0].username)
-            setRoleName(response.data[0].role_name)
-        })
-        axios.get(url + "api/getFloors", { headers }).then((response) => {
-            setFloorOptions(response.data)
-        })
-        axios.get(url + "api/getStores", { headers }).then((response) => {
-            setStoreOptions(response.data)
-        })
-    }, [])
+const[role_name,setRoleName]=useState(null)
+const[floor_id,setFloorId]=useState(null)
+const[location_id,setlocationId]=useState(null)
+const[password,setPassword]=useState(null)
+const[username,setUsername]=useState(null)
+const [floorOptions,setFloorOptions]=useState([])
+const [locationsOptions,setlocationOptions]=useState([])
+const url = "http://localhost:9000/"
+const cookies = new Cookies();
+const token = cookies.get('token')
+const navigate = useNavigate()
+const {id}=useParams()
+useEffect(()=>{
+    const headers = { "Authorization": "Bearer " + token }
+    axios.get(url+"api/getRoleData?id="+id,{headers}).then((response)=>{
+       setFloorId(response.data[0].floor_id)
+       setlocationId(response.data[0].location_id)
+        setUsername(response.data[0].username)
+        setRoleName(response.data[0].role_name)
+        }) 
+axios.get(url+"api/getFloors",{headers}).then((response)=>{
+setFloorOptions(response.data)
+})
+axios.get(url+"api/getlocations",{headers}).then((response)=>{
+    setlocationOptions(response.data)
+    })
+},[])
     const inputs = [
         {
             title: 'Role',
@@ -60,66 +60,55 @@ const EditRoles = () => {
             required: false
         },
     ]
-    function edit() {
+    function edit(){
         const headers = { "Authorization": "Bearer " + token }
-        axios.patch(url + "api/editRole/" + id, {
-            role_name: role_name,
-            floor_id: floor_name,
-            store_id: store_name,
-            username: username,
-            password: password
-        }, { headers }).then((response) => {
-            if (response) {
-                navigate(-1)
-            }
-        })
+axios.patch(url+"api/editRole/"+id,{
+role_name:role_name,
+// floor_id:floor_name,
+// location_id:location_name,
+username:username,
+password:password
+},{headers}).then((response)=>{
+    if(response){
+   navigate(-1)
     }
-    console.log(store_name)
-    console.log(floor_name)
-    function cancel() {
-        navigate(-1)
+})}
+   
+    function cancel(){
+navigate(-1)
     }
     return (
         <React.Fragment>
             <Heading heading='Edit Roles' />
             <form onSubmit={edit}>
-                <div className={classes.container}>
-                    {inputs.map((element, index) => (
-                        <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data) => element.func(data)} />
+            <div className={classes.container}>
+                {inputs.map((element, index) => (
+                    <LabeledInput required={element.required} title={element.title} value={element.value} key={index} ph={element.ph} id={element.id} cls={true} img={false} func2={(data)=>element.func(data)}/>
+                ))}
+               {/* <div className={classes.location_div}>
+                    <label htmlFor='floor'>Floor</label>
+                    <select name="floor"  onChange={(e)=>setFloorName(e.target.value)} id="floor">
+                    {floorOptions.map((val, index) => (
+                        <option key={index} selected={floor_name===val.id} value={val.id}>{val.name}</option>
                     ))}
-                    <div className={classes.store_div}>
-                        <label htmlFor='floor'>Floor</label>
-                        <select name="floor" onChange={(e) => setFloorName(e.target.value)} id="floor">
-                            {floorOptions.map((val, index) => (
-                                <option key={index} selected={floor_name === val.id} value={val.id}>{val.name}</option>
-                            ))}
-
-                        </select>
-                    </div>
-                    <div className={classes.store_div}>
-                        <label htmlFor='Store'>Store</label>
-                        <select name="Store" onChange={(e) => setStoreName(e.target.value)} id="Store">
-                            {storesOptions.map((val, index) => (
-                                <option key={index} selected={store_name === val.id} value={val.id}>{val.name}</option>
-                            ))}
-
-                        </select>
-                    </div>
+                       
+                    </select>
                 </div>
-                <div className={classes.switch_container}>
-                    <h2>Permissions</h2>
-                    <SwitchButton label={'Attendance'} />
-                    <SwitchButton label={'Timming Approval'} />
-                    <SwitchButton label={'Interview'} />
-                    <SwitchButton label={'Employee Detail'} />
-                    <SwitchButton label={'Salary'} />
-                    <SwitchButton label={'Fine Management'} />
-                </div>
-                <div className={classes.btn_container}>
-
-                    <button className={classes.cancel} onClick={(event) => cancel(event)}>Cancel</button>
-                    <button type={'submit'} className={classes.accept} >Edit Role</button>
-                </div>
+                <div className={classes.location_div}>
+                    <label htmlFor='location'>location</label>
+                    <select name="location"  onChange={(e)=>setlocationName(e.target.value)} id="location">
+                    {locationsOptions.map((val, index) => (
+                        <option key={index} selected={location_name===val.id} value={val.id}>{val.name}</option>
+                    ))}
+                       
+                    </select>
+                </div> */}
+            </div>
+            <div className={classes.btn_container}>
+      
+      <button  className={classes.cancel} onClick={(event)=> cancel(event)  }>Cancel</button>
+      <button type={'submit'}  className={classes.accept} >Edit Role</button>
+    </div>
             </form>
 
         </React.Fragment>
